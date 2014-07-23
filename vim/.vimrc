@@ -1,4 +1,4 @@
-set nocompatible              " be iMproved, required
+tset nocompatible              " be iMproved, required
 filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
@@ -43,8 +43,9 @@ set ignorecase
 set smartcase
 set nohlsearch
 set relativenumber
- 
-colorscheme github 
+set guifont=Monospace\ 11 
+
+colorscheme github
  
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text, tab and indent related
@@ -103,5 +104,4 @@ filetype plugin indent on    " required
 " :PluginClean(!)      - confirm (or auto-approve) removal of unused plugins
 "
 " see :h vundle for more details or wiki for FAQ
-"
-
+""
