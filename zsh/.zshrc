@@ -7,6 +7,9 @@ export ZSH=$HOME/.oh-my-zsh
 # time that oh-my-zsh is loaded.
 ZSH_THEME="pranavsingh"
 
+# https://github.com/rupa/z
+. /Users/pranavsingh/z/z.sh 
+
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
@@ -48,6 +51,7 @@ ZSH_THEME="pranavsingh"
 plugins=(git rails ruby bundler coffee gem cap)
 
 source $ZSH/oh-my-zsh.sh
+source /Users/pranavsingh/GoodBot/heartbeat/.env
 
 # User configuration
 
@@ -58,11 +62,11 @@ export PATH="/home/pranav/.rvm/gems/ruby-1.9.3-p484/bin:/home/pranav/.rvm/gems/r
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='vim'
+else
+  export EDITOR='mvim'
+fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -76,6 +80,24 @@ export PATH="/home/pranav/.rvm/gems/ruby-1.9.3-p484/bin:/home/pranav/.rvm/gems/r
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
-# alias zshconfig="vim ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-# alias vim='gvim'
+alias zshconfig="vim ~/.zshrc"
+alias ohmyzsh="mate ~/.oh-my-zsh"
+alias vim='mvim'
+
+# Hub Alias
+eval "$(hub alias -s)"
+
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+
+issuetopr () {
+  git_branch=`git rev-parse --symbolic-full-name --abbrev-ref HEAD`
+  git_organization=`git config --get remote.origin.url | cut -d: -f2 | cut -d/ -f1`
+
+  hub pull-request -i $1 -h $git_organization:$git_branch
+}
+
+export WORKON_HOME=$HOME/.virtualenvs
+export PROJECT_HOME=$HOME/Devel
+export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3
+export VIRTUALENVWRAPPER_VIRTUALENV=/usr/local/bin/virtualenv
+source /usr/local/bin/virtualenvwrapper.sh
