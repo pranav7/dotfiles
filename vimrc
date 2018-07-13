@@ -156,7 +156,6 @@ if has("gui_macvim")
   noremap <D-7> :tabn 7<CR>
   noremap <D-8> :tabn 8<CR>
   noremap <D-9> :tabn 9<CR>
-  " Command-0 goes to the last tab
   noremap <D-0> :tablast<CR>
 endif
 
