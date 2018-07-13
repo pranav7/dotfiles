@@ -28,13 +28,9 @@ Plugin 'digitaltoad/vim-pug'
 Plugin 'slim-template/vim-slim'
 Plugin 'elixir-lang/vim-elixir'
 Plugin 'scrooloose/nerdcommenter'
-Plugin 'terryma/vim-multiple-cursors'
 Plugin 'thoughtbot/vim-rspec'
 Plugin 'ivalkeen/vim-ctrlp-tjump'
 Plugin 'isRuslan/vim-es6'
-Plugin 'itchyny/lightline.vim'
-Plugin 'git://git.wincent.com/command-t.git'
-Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -76,6 +72,9 @@ set lines=999 columns=9999
 
 " Use Silver Searcher instead of grep
 set grepprg=ag
+
+" Statusline
+set laststatus=2  " Always show status line.
 
 map <Leader>sn :e ~/.vim/snippets/ruby.snippets<CR>
 map <Leader>t :call RunCurrentSpecFile()<CR>
@@ -162,3 +161,18 @@ endif
 function UpdateHashSyntax()
   %s/:\([^ ]*\)\(\s*\)=>/\1:/g
 endfunction
+
+function! GitBranch()
+  return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
+endfunction
+
+function! GitStatusLine()
+  let l:branchname = GitBranch()
+  return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
+endfunction
+
+set statusline=
+set statusline+=%#LineNr#
+set statusline+=%{GitStatusLine()}
+set statusline+=\|
+set statusline+=\ %f
