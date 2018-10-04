@@ -7,8 +7,8 @@ export ZSH="/Users/pranavsingh/.oh-my-zsh"
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-# ZSH_THEME="robbyrussell"
-ZSH_THEME="pranav"
+ZSH_THEME="robbyrussell"
+# ZSH_THEME="pranav"
 
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/Devel
@@ -97,18 +97,34 @@ source $ZSH/oh-my-zsh.sh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
 
-save_vimrc() {
+pull_vimrc() {
+  cd $HOME/dotfiles &&
+    git pull origin master &&
+    cp $HOME/dotfiles/vim/vimrc $HOME/.vimrc &&
+    cd    
+}
+
+pull_zshrc() {
+  cd $HOME/dotfiles &&
+    git pull origin master &&
+    cp $HOME/dotfiles/zsh/zshrc $HOME/.zshrc &&
+    cd
+}
+
+push_vimrc() {
   cp $HOME/.vimrc $HOME/dotfiles/vim/vimrc
   cd $HOME/dotfiles &&
+    git pull origin master &&
     git add . &&
     git commit -m "Updating vimrc" &&
     git push origin master &&
     cd
 }
 
-save_zshrc() {
+push_zshrc() {
   cp $HOME/.zshrc $HOME/dotfiles/zsh/zshrc
   cd $HOME/dotfiles &&
+    git pull origin master &&
     git add . &&
     git commit -m "Updating zshrc" &&
     git push origin master &&
