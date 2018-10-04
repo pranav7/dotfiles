@@ -27,14 +27,16 @@ Plugin 'scrooloose/nerdcommenter'
 Plugin 'thoughtbot/vim-rspec'
 Plugin 'ivalkeen/vim-ctrlp-tjump'
 Plugin 'isRuslan/vim-es6'
+Plugin 'dracula/vim'
+Plugin 'pangloss/vim-javascript'
+Plugin 'maxmellon/vim-jsx-pretty'
+Plugin 'othree/es.next.syntax.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
 
-syntax on
-colorscheme onedark
-
+set t_Co=256
 set linespace=3
 set laststatus=2  " Always show status line.
 set cursorline
@@ -71,10 +73,12 @@ set wrap "Wrap lines
 set lines=999 columns=9999
 set et
 set sw=2
-
 set statusline=
 set statusline+=%#LineNr#
 set statusline+=\ %f
+
+syntax on
+colorscheme dracula
 
 map <Leader>sn :e ~/.vim/snippets/ruby.snippets<CR>
 map <Leader>t :call RunCurrentSpecFile()<CR>
@@ -89,7 +93,7 @@ nmap <leader>s<down>   :rightbelow new<cr>
 map <leader>pdb oimport pdb; pdb.set_trace()<esc>:w<cr>
 map <Leader>pry obinding.pry<esc>:w<cr>
 noremap <tab> <c-w><c-w>
-map <Leader>nhash :call UpdateHashSyntax()<CR>
+map <Leader>nh :call UpdateHashSyntax()<CR>
 
 map <C-h> :nohl<cr>
 imap <C-l> :<Space>
@@ -138,6 +142,9 @@ let g:rspec_runner = "os_x_iterm2"
 let g:indent_guides_auto_colors = 0
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#212d33   ctermbg=3
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#29353a   ctermbg=4
+
+" https://medium.com/@kadek/vim-es6-improved-syntax-highlighting-f108b9dbc0ec
+augroup filetype javascript syntax=javascript
 
 if has("gui_macvim")
   " Press Ctrl-Tab to switch between open tabs (like browser tabs) to
