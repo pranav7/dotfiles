@@ -14,8 +14,6 @@ Plugin 'tpope/vim-rails'
 Plugin 'vim-ruby/vim-ruby'
 Plugin 'tpope/vim-rake'
 Plugin 'scrooloose/nerdtree'
-Plugin 'mustache/vim-mustache-handlebars'
-Plugin 'kchmck/vim-coffee-script'
 Plugin 'tpope/vim-endwise'
 Plugin 'kien/ctrlp.vim'
 Plugin 'tpope/vim-abolish'
@@ -26,11 +24,10 @@ Plugin 'elixir-lang/vim-elixir'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'thoughtbot/vim-rspec'
 Plugin 'ivalkeen/vim-ctrlp-tjump'
-Plugin 'isRuslan/vim-es6'
 Plugin 'dracula/vim'
-Plugin 'pangloss/vim-javascript'
-Plugin 'maxmellon/vim-jsx-pretty'
-Plugin 'othree/es.next.syntax.vim'
+Plugin 'Raimondi/delimitMate'
+Plugin 'othree/yajs.vim'
+Plugin 'mxw/vim-jsx'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -77,7 +74,7 @@ set statusline=
 set statusline+=%#LineNr#
 set statusline+=\ %f
 
-syntax on
+syntax enable
 colorscheme dracula
 
 map <Leader>sn :e ~/.vim/snippets/ruby.snippets<CR>
