@@ -24,10 +24,11 @@ Plugin 'elixir-lang/vim-elixir'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'thoughtbot/vim-rspec'
 Plugin 'ivalkeen/vim-ctrlp-tjump'
-Plugin 'dracula/vim'
 Plugin 'Raimondi/delimitMate'
-Plugin 'othree/yajs.vim'
 Plugin 'mxw/vim-jsx'
+Plugin 'pangloss/vim-javascript'
+Plugin 'dracula/vim'
+Plugin 'sonph/onehalf', {'rtp': 'vim/'}
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -75,7 +76,9 @@ set statusline+=%#LineNr#
 set statusline+=\ %f
 
 syntax enable
-colorscheme dracula
+colorscheme mydracula
+" colorscheme onedark
+" colorscheme onehalfdark
 
 map <Leader>sn :e ~/.vim/snippets/ruby.snippets<CR>
 map <Leader>t :call RunCurrentSpecFile()<CR>
@@ -144,6 +147,11 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#29353a   ctermbg=4
 
 " https://medium.com/@kadek/vim-es6-improved-syntax-highlighting-f108b9dbc0ec
 augroup filetype javascript syntax=javascript
+augroup vim_rc_write
+  autocmd!
+  " Sourcing vimrc when written
+  autocmd BufWritePost ~/.vimrc :source $MYVIMRC
+augroup END
 
 if has("gui_macvim")
   " Press Ctrl-Tab to switch between open tabs (like browser tabs) to
