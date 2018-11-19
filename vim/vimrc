@@ -29,6 +29,8 @@ Plugin 'mxw/vim-jsx'
 Plugin 'pangloss/vim-javascript'
 Plugin 'dracula/vim'
 Plugin 'sonph/onehalf', {'rtp': 'vim/'}
+Plugin 'junegunn/fzf'
+Plugin 'junegunn/fzf.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -121,23 +123,25 @@ set foldmethod=indent
 " space open/closes folds
 nnoremap <space> za
 
+nnoremap <silent> t :FZF<cr>
+
 " CtrlP
-nnoremap <silent> t :CtrlP<cr>
-nnoremap <c-]> :CtrlPtjump<cr>
-vnoremap <c-]> :CtrlPtjumpVisual<cr>
-let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_by_filename = 1
-let g:ctrlp_max_files = 0
-let g:ctrlp_max_depth = 20000
-let g:ctrlp_match_window = 'bottom, order:btt, min:1, max:40, results:40'
-set wildignore+=*/db/migrate/**
-set wildignore+=*/vendor/**
-set wildignore+=*/node_modules/**
-set wildignore+=*/deps/**
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc
-set wildignore+=*/_build/**
-set wildignore+=*/public/**
-set wildignore+=*/venv/**
+" nnoremap <silent> t :CtrlP<cr>
+" nnoremap <c-]> :CtrlPtjump<cr>
+" vnoremap <c-]> :CtrlPtjumpVisual<cr>
+" let g:ctrlp_working_path_mode = 'ra'
+" let g:ctrlp_by_filename = 1
+" let g:ctrlp_max_files = 0
+" let g:ctrlp_max_depth = 20000
+" let g:ctrlp_match_window = 'bottom, order:btt, min:1, max:40, results:40'
+" set wildignore+=*/db/migrate/**
+" set wildignore+=*/vendor/**
+" set wildignore+=*/node_modules/**
+" set wildignore+=*/deps/**
+" set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc
+" set wildignore+=*/_build/**
+" set wildignore+=*/public/**
+" set wildignore+=*/venv/**
 
 let g:rspec_runner = "os_x_iterm2"
 
