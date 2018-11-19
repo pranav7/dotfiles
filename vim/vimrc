@@ -28,7 +28,6 @@ Plugin 'Raimondi/delimitMate'
 Plugin 'mxw/vim-jsx'
 Plugin 'pangloss/vim-javascript'
 Plugin 'dracula/vim'
-Plugin 'sonph/onehalf', {'rtp': 'vim/'}
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
 
@@ -78,9 +77,7 @@ set statusline+=%#LineNr#
 set statusline+=\ %f
 
 syntax enable
-colorscheme mydracula
-" colorscheme onedark
-" colorscheme onehalfdark
+colorscheme dracula
 
 map <Leader>sn :e ~/.vim/snippets/ruby.snippets<CR>
 map <Leader>t :call RunCurrentSpecFile()<CR>
@@ -124,6 +121,8 @@ set foldmethod=indent
 nnoremap <space> za
 
 nnoremap <silent> t :FZF<cr>
+nnoremap <silent> f :Ag<cr>
+noremap <leader>b :Ag <C-R><C-W><CR>
 
 " CtrlP
 " nnoremap <silent> t :CtrlP<cr>
