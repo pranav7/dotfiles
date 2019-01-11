@@ -31,6 +31,8 @@ Plugin 'dracula/vim'
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
 
+let g:deoplete#enable_at_startup = 1
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -61,7 +63,9 @@ set lazyredraw " Don't redraw screen when running macros.
 set showcmd " show incomplete commands
 set showmatch
 set smarttab
-set guifont=Menlo\ Regular:h12
+" set guifont=Menlo\ Regular:h12
+" set macligatures
+set guifont=Fira\ Code:h12
 " 1 tab == 2 spaces
 set shiftwidth=2
 set tabstop=2
@@ -72,18 +76,29 @@ set wrap "Wrap lines
 set lines=999 columns=9999
 set et
 set sw=2
+
+" set statusline=
+" set statusline+=%#LineNr#
+" set statusline+=\ %f
 set statusline=
 set statusline+=%#LineNr#
 set statusline+=\ %f
+set statusline+=%m\
+set statusline+=%=
+set statusline+=%#CursorColumn#
+set statusline+=\ %y
+set statusline+=\ %l:%c
+set statusline+=\ 
 
 syntax enable
 colorscheme dracula
 
-map <Leader>sn :e ~/.vim/snippets/ruby.snippets<CR>
+let g:rspec_runner = "os_x_iterm2"
 map <Leader>t :call RunCurrentSpecFile()<CR>
 map <Leader>s :call RunNearestSpec()<CR>
 map <Leader>l :call RunLastSpec()<CR>
 map <Leader>a :call RunAllSpecs()<CR>
+
 nmap <Leader>pi :source ~/.vimrc<cr>:PluginInstall<cr>
 nmap <leader>s<left>   :leftabove  vnew<cr>
 nmap <leader>s<right>  :rightbelow vnew<cr>
@@ -93,7 +108,6 @@ map <leader>pdb oimport pdb; pdb.set_trace()<esc>:w<cr>
 map <Leader>pry obinding.pry<esc>:w<cr>
 map <Leader>log oconsole.log('')<left><left>
 noremap <tab> <c-w><c-w>
-map <Leader>nh :call UpdateHashSyntax()<CR>
 
 map <C-h> :nohl<cr>
 imap <C-l> :<Space>
@@ -102,9 +116,9 @@ imap <C-s> <esc>:w<CR>
 map <C-x> <C-w>
 
 " NERDTree
-nmap <leader>n :NERDTreeToggle<CR>
+noremap <leader>n :NERDTreeToggle<CR>
 noremap <leader>f :NERDTreeFind<CR>
-let NERDTreeHighlightCursorline=1
+" let NERDTreeHighlightCursorline=1
 let NERDTreeIgnore = ['tmp', '.yardoc', 'pkg', '\.pyc$', '\~$']
 " NERCCommenter
 let g:NERDSpaceDelims = 2
@@ -124,29 +138,9 @@ nnoremap <silent> t :FZF<cr>
 nnoremap <silent> f :Ag<cr>
 noremap <leader>b :Ag <C-R><C-W><CR>
 
-" CtrlP
-" nnoremap <silent> t :CtrlP<cr>
-" nnoremap <c-]> :CtrlPtjump<cr>
-" vnoremap <c-]> :CtrlPtjumpVisual<cr>
-" let g:ctrlp_working_path_mode = 'ra'
-" let g:ctrlp_by_filename = 1
-" let g:ctrlp_max_files = 0
-" let g:ctrlp_max_depth = 20000
-" let g:ctrlp_match_window = 'bottom, order:btt, min:1, max:40, results:40'
-" set wildignore+=*/db/migrate/**
-" set wildignore+=*/vendor/**
-" set wildignore+=*/node_modules/**
-" set wildignore+=*/deps/**
-" set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc
-" set wildignore+=*/_build/**
-" set wildignore+=*/public/**
-" set wildignore+=*/venv/**
-
-let g:rspec_runner = "os_x_iterm2"
-
-let g:indent_guides_auto_colors = 0
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#212d33   ctermbg=3
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#29353a   ctermbg=4
+" let g:indent_guides_auto_colors = 0
+" autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#212d33   ctermbg=3
+" autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#29353a   ctermbg=4
 
 " https://medium.com/@kadek/vim-es6-improved-syntax-highlighting-f108b9dbc0ec
 augroup filetype javascript syntax=javascript
