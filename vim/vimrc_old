@@ -1,44 +1,119 @@
-call plug#begin('~/.local/share/nvim/plugged')
+set nocompatible              " be iMproved, required
+filetype off                  " required
 
-Plug 'vim-ruby/vim-ruby'
-Plug 'tpope/vim-rails'
-Plug 'pangloss/vim-javascript'
-Plug 'vim-airline/vim-airline'
-Plug 'tpope/vim-fugitive'
-Plug 'dracula/vim'
-Plug 'tpope/vim-endwise'
-Plug 'Yggdroot/indentLine'
-Plug 'Raimondi/delimitMate'
-Plug 'scrooloose/nerdtree'
-Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'
-Plug 'dracula/vim'
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+"
+Plugin 'VundleVim/Vundle.vim'
 
-call plug#end()
+" My Plugins
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-rails'
+Plugin 'vim-ruby/vim-ruby'
+Plugin 'tpope/vim-rake'
+Plugin 'scrooloose/nerdtree'
+Plugin 'tpope/vim-endwise'
+Plugin 'kien/ctrlp.vim'
+Plugin 'tpope/vim-abolish'
+Plugin 'Yggdroot/indentLine'
+Plugin 'digitaltoad/vim-pug'
+Plugin 'slim-template/vim-slim'
+Plugin 'elixir-lang/vim-elixir'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'thoughtbot/vim-rspec'
+Plugin 'ivalkeen/vim-ctrlp-tjump'
+Plugin 'Raimondi/delimitMate'
+Plugin 'mxw/vim-jsx'
+Plugin 'pangloss/vim-javascript'
+Plugin 'dracula/vim'
+Plugin 'junegunn/fzf'
+Plugin 'junegunn/fzf.vim'
 
-colorscheme dracula
+let g:deoplete#enable_at_startup = 1
 
-set foldenable
-set guifont=Fira\ Code:h12
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+set t_Co=256
+set linespace=3
+set laststatus=2  " Always show status line.
+set cursorline
+set modelines=0
+set clipboard=unnamed
+set ttyscroll=10
+set nowrap
+set number
+set expandtab
+set nowritebackup
+set noswapfile
+set nobackup
+set ignorecase
+set smartcase
+set hlsearch
+set incsearch
 set relativenumber
+set foldenable
+set wildmenu
+set autoread
+set autoindent " always set autoindenting on
+set lazyredraw " Don't redraw screen when running macros.
+set showcmd " show incomplete commands
+set showmatch
+set smarttab
+" set guifont=Menlo\ Regular:h12
+" set macligatures
+set guifont=Fira\ Code:h12
+" 1 tab == 2 spaces
 set shiftwidth=2
 set tabstop=2
+set encoding=utf-8
+set ai "Auto indent
+set si "Smart indent
+set wrap "Wrap lines
+set lines=999 columns=9999
+set et
+set sw=2
 
+" set statusline=
+" set statusline+=%#LineNr#
+" set statusline+=\ %f
+set statusline=
+set statusline+=%#LineNr#
+set statusline+=\ %f
+set statusline+=%m\
+set statusline+=%=
+set statusline+=%#CursorColumn#
+set statusline+=\ %y
+set statusline+=\ %l:%c
+set statusline+=\ 
+
+syntax enable
+colorscheme dracula
+
+let g:rspec_runner = "os_x_iterm2"
+map <Leader>t :call RunCurrentSpecFile()<CR>
+map <Leader>s :call RunNearestSpec()<CR>
+map <Leader>l :call RunLastSpec()<CR>
+map <Leader>a :call RunAllSpecs()<CR>
+
+nmap <Leader>pi :source ~/.vimrc<cr>:PluginInstall<cr>
 nmap <leader>s<left>   :leftabove  vnew<cr>
 nmap <leader>s<right>  :rightbelow vnew<cr>
 nmap <leader>s<up>     :leftabove  new<cr>
 nmap <leader>s<down>   :rightbelow new<cr>
-noremap <tab> <c-w><c-w>
-map <C-h> :nohl<cr>
-
 map <leader>pdb oimport pdb; pdb.set_trace()<esc>:w<cr>
 map <Leader>pry obinding.pry<esc>:w<cr>
 map <Leader>log oconsole.log('')<left><left>
+noremap <tab> <c-w><c-w>
 
-" fzf.vim
-nnoremap <silent> t :FZF<cr>
-nnoremap <silent> f :Ag<cr>
-noremap <leader>b :Ag <C-R><C-W><C
+map <C-h> :nohl<cr>
+imap <C-l> :<Space>
+map <C-s> <esc>:w<CR>
+imap <C-s> <esc>:w<CR>
+map <C-x> <C-w>
 
 " NERDTree
 noremap <leader>n :NERDTreeToggle<CR>
@@ -47,3 +122,53 @@ noremap <leader>f :NERDTreeFind<CR>
 let NERDTreeIgnore = ['tmp', '.yardoc', 'pkg', '\.pyc$', '\~$']
 " NERCCommenter
 let g:NERDSpaceDelims = 2
+
+nnoremap <C-S> :update<cr>
+inoremap <C-S> <Esc>:update<cr>gi
+nnoremap zz :update<cr>
+noremap <c-c> yy<cr>
+
+set foldlevelstart=10
+set foldnestmax=10
+set foldmethod=indent
+" space open/closes folds
+nnoremap <space> za
+
+nnoremap <silent> t :FZF<cr>
+nnoremap <silent> f :Ag<cr>
+noremap <leader>b :Ag <C-R><C-W><CR>
+
+" let g:indent_guides_auto_colors = 0
+" autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#212d33   ctermbg=3
+" autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#29353a   ctermbg=4
+
+" https://medium.com/@kadek/vim-es6-improved-syntax-highlighting-f108b9dbc0ec
+augroup filetype javascript syntax=javascript
+augroup vim_rc_write
+  autocmd!
+  " Sourcing vimrc when written
+  autocmd BufWritePost ~/.vimrc :source $MYVIMRC
+augroup END
+
+if has("gui_macvim")
+  " Press Ctrl-Tab to switch between open tabs (like browser tabs) to
+  " the right side. Ctrl-Shift-Tab goes the other way.
+  noremap <C-Tab> :tabnext<CR>
+  noremap <C-S-Tab> :tabprev<CR>
+
+  " Switch to specific tab numbers with Command-number
+  noremap <D-1> :tabn 1<CR>
+  noremap <D-2> :tabn 2<CR>
+  noremap <D-3> :tabn 3<CR>
+  noremap <D-4> :tabn 4<CR>
+  noremap <D-5> :tabn 5<CR>
+  noremap <D-6> :tabn 6<CR>
+  noremap <D-7> :tabn 7<CR>
+  noremap <D-8> :tabn 8<CR>
+  noremap <D-9> :tabn 9<CR>
+  noremap <D-0> :tablast<CR>
+endif
+
+function UpdateHashSyntax()
+  %s/:\([^ ]*\)\(\s*\)=>/\1:/g
+endfunction
