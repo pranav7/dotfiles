@@ -1,0 +1,49 @@
+call plug#begin('~/.local/share/nvim/plugged')
+
+Plug 'vim-ruby/vim-ruby'
+Plug 'tpope/vim-rails'
+Plug 'pangloss/vim-javascript'
+Plug 'vim-airline/vim-airline'
+Plug 'tpope/vim-fugitive'
+Plug 'dracula/vim'
+Plug 'tpope/vim-endwise'
+Plug 'Yggdroot/indentLine'
+Plug 'Raimondi/delimitMate'
+Plug 'scrooloose/nerdtree'
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'dracula/vim'
+
+call plug#end()
+
+colorscheme dracula
+
+set foldenable
+set guifont=Fira\ Code:h12
+set relativenumber
+set shiftwidth=2
+set tabstop=2
+
+nmap <leader>s<left>   :leftabove  vnew<cr>
+nmap <leader>s<right>  :rightbelow vnew<cr>
+nmap <leader>s<up>     :leftabove  new<cr>
+nmap <leader>s<down>   :rightbelow new<cr>
+noremap <tab> <c-w><c-w>
+map <C-h> :nohl<cr>
+
+map <leader>pdb oimport pdb; pdb.set_trace()<esc>:w<cr>
+map <Leader>pry obinding.pry<esc>:w<cr>
+map <Leader>log oconsole.log('')<left><left>
+
+" fzf.vim
+nnoremap <silent> t :FZF<cr>
+nnoremap <silent> f :Ag<cr>
+noremap <leader>b :Ag <C-R><C-W><C
+
+" NERDTree
+noremap <leader>n :NERDTreeToggle<CR>
+noremap <leader>f :NERDTreeFind<CR>
+" let NERDTreeHighlightCursorline=1
+let NERDTreeIgnore = ['tmp', '.yardoc', 'pkg', '\.pyc$', '\~$']
+" NERCCommenter
+let g:NERDSpaceDelims = 2
