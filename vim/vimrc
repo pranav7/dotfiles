@@ -1,18 +1,35 @@
 call plug#begin('~/.local/share/nvim/plugged')
 
+" Ruby on Rails/Ruby Plug 'vim-ruby/vim-ruby'
 Plug 'vim-ruby/vim-ruby'
 Plug 'tpope/vim-rails'
+
+" Javascript
 Plug 'pangloss/vim-javascript'
-Plug 'vim-airline/vim-airline'
+Plug 'mxw/vim-jsx'
+
+" Git Plugin
 Plug 'tpope/vim-fugitive'
+
+" File Finder
+Plug 'scrooloose/nerdtree'
+
+" Fuzz Finder
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+
+" Theme
 Plug 'dracula/vim'
+
+" Status Line
+Plug 'vim-airline/vim-airline'
+
+" Others
+Plug 'scrooloose/nerdcommenter'
 Plug 'tpope/vim-endwise'
 Plug 'Yggdroot/indentLine'
 Plug 'Raimondi/delimitMate'
-Plug 'scrooloose/nerdtree'
-Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'
-Plug 'dracula/vim'
+Plug 'slim-template/vim-slim'
 
 call plug#end()
 
@@ -23,6 +40,9 @@ set guifont=Fira\ Code:h12
 set relativenumber
 set shiftwidth=2
 set tabstop=2
+set autoread
+set wrap
+set mouse=a
 
 nmap <leader>s<left>   :leftabove  vnew<cr>
 nmap <leader>s<right>  :rightbelow vnew<cr>
@@ -47,3 +67,5 @@ noremap <leader>f :NERDTreeFind<CR>
 let NERDTreeIgnore = ['tmp', '.yardoc', 'pkg', '\.pyc$', '\~$']
 " NERCCommenter
 let g:NERDSpaceDelims = 2
+
+autocmd FileType javascript setlocal ts=2 sts=2 sw=2 expandtab
