@@ -3,40 +3,30 @@ call plug#begin('~/.local/share/nvim/plugged')
 " Ruby on Rails/Ruby Plug 'vim-ruby/vim-ruby'
 Plug 'vim-ruby/vim-ruby'
 Plug 'tpope/vim-rails'
-
-" Javascript
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
-
-" Git Plugin
+Plug 'mustache/vim-mustache-handlebars'
 Plug 'tpope/vim-fugitive'
-
-" File Finder
 Plug 'scrooloose/nerdtree'
-
-" Fuzz Finder
-Plug 'junegunn/fzf'
+Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
-
-" Theme
 Plug 'dracula/vim'
-
-" Status Line
 Plug 'vim-airline/vim-airline'
-
-" Others
 Plug 'scrooloose/nerdcommenter'
 Plug 'tpope/vim-endwise'
 Plug 'Yggdroot/indentLine'
 Plug 'Raimondi/delimitMate'
 Plug 'slim-template/vim-slim'
+Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+Plug 'w0rp/ale'
 
 call plug#end()
 
 colorscheme dracula
 
+let mapleader="]"
+set conceallevel=0
 set foldenable
-set guifont=Fira\ Code:h12
 set relativenumber
 set shiftwidth=2
 set tabstop=2
@@ -44,12 +34,20 @@ set autoread
 set wrap
 set mouse=a
 
+inoremap jj <ESC>
 nmap <leader>s<left>   :leftabove  vnew<cr>
 nmap <leader>s<right>  :rightbelow vnew<cr>
 nmap <leader>s<up>     :leftabove  new<cr>
 nmap <leader>s<down>   :rightbelow new<cr>
-noremap <tab> <c-w><c-w>
-map <C-h> :nohl<cr>
+
+nnoremap <C-j> <C-W><C-J>
+nnoremap <C-k> <C-W><C-K>
+nnoremap <C-l> <C-W><C-L>
+nnoremap <C-h> <C-W><C-H>
+
+" ctrl+c to toggle highlight.
+let hlstate=0
+nnoremap <c-c> :if (hlstate%2 == 0) \| nohlsearch \| else \| set hlsearch \| endif \| let hlstate=hlstate+1<cr>
 
 map <leader>pdb oimport pdb; pdb.set_trace()<esc>:w<cr>
 map <Leader>pry obinding.pry<esc>:w<cr>
@@ -69,3 +67,15 @@ let NERDTreeIgnore = ['tmp', '.yardoc', 'pkg', '\.pyc$', '\~$']
 let g:NERDSpaceDelims = 2
 
 autocmd FileType javascript setlocal ts=2 sts=2 sw=2 expandtab
+
+" Ale Config
+" Ref: https://www.notion.so/intercomrades/Editor-Setup-a77ca090fe48495c9bf82714963252c8
+let g:ale_linters = { 'javascript': ['eslint'] }
+let g:ale_fixers = {
+\   'javascript': ['prettier'],
+\   'css': ['prettier'],
+\}
+" Format on Save
+let g:ale_fix_on_save = 1
+" Respect local Prettier config files
+let g:ale_javascript_prettier_use_local_config = 1
