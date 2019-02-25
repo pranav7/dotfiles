@@ -11,8 +11,8 @@ export ZSH="/Users/pranavsingh/.oh-my-zsh"
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-# ZSH_THEME="robbyrussell"
-ZSH_THEME="pranav"
+ZSH_THEME="robbyrussell"
+# ZSH_THEME="pranav"
 
 # using ripgrep as it is bit faster
 # export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
@@ -136,7 +136,7 @@ push_zshrc() {
 }
 
 # Example aliases
-alias vim="mvim"
+alias vim="nvim"
 alias zshrc="vim ~/.zshrc"
 alias vimrc="vim ~/.vimrc"
 alias ohmyzsh="vim ~/.oh-my-zsh"
@@ -144,8 +144,15 @@ alias srczsh="source ~/.zshrc"
 alias pg_start="launchctl load ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist"
 alias pg_stop="launchctl unload ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist"
 alias gitlg="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
+alias lsf="find $(pwd)"
 
 # Sourcing rupa/z
 . $HOME/z/z.sh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export INTERCOM_USER=pranav.singh
+eval "$(rbenv init -)"
+export PATH=$HOME/.pilot/bin:$PATH
+eval $(pilot env)
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
