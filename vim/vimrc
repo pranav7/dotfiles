@@ -3,9 +3,13 @@ call plug#begin('~/.local/share/nvim/plugged')
 " Ruby on Rails/Ruby Plug 'vim-ruby/vim-ruby'
 Plug 'vim-ruby/vim-ruby'
 Plug 'tpope/vim-rails'
+
+" Javascript
+Plug '1995eaton/vim-better-javascript-completion', { 'for': 'javascript' }
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
-Plug 'mustache/vim-mustache-handlebars'
+Plug 'joukevandermaas/vim-ember-hbs'
+
 Plug 'tpope/vim-fugitive'
 Plug 'scrooloose/nerdtree'
 Plug '/usr/local/opt/fzf'
@@ -19,20 +23,39 @@ Plug 'Raimondi/delimitMate'
 Plug 'slim-template/vim-slim'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 Plug 'w0rp/ale'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'othree/html5.vim'
+Plug 'cakebaker/scss-syntax.vim'
+Plug 'airblade/vim-gitgutter'
+Plug 'ap/vim-css-color'
 
 call plug#end()
 
 colorscheme dracula
 
 let mapleader="]"
-set conceallevel=0
 set foldenable
 set relativenumber
-set shiftwidth=2
-set tabstop=2
+set sw=2
+set ts=2
+set sts=2
+set expandtab
 set autoread
 set wrap
 set mouse=a
+set conceallevel=0
+let g:indentLine_setConceal = 0
+
+noremap <Leader>t :tabnew<cr>
+nmap <C-t><up> :tabr<cr>
+nmap <C-t><down> :tabl<cr>
+nmap <C-t><left> :tabp<cr>
+nmap <C-t><right> :tabn<cr>
+
+noremap <Leader>y "*y
+noremap <Leader>p "*p
+noremap <Leader>Y "+y
+noremap <Leader>P "+p
 
 inoremap jj <ESC>
 nmap <leader>s<left>   :leftabove  vnew<cr>
@@ -66,7 +89,9 @@ let NERDTreeIgnore = ['tmp', '.yardoc', 'pkg', '\.pyc$', '\~$']
 " NERCCommenter
 let g:NERDSpaceDelims = 2
 
+autocmd FileType scss setlocal ts=2 sts=2 sw=2 expandtab
 autocmd FileType javascript setlocal ts=2 sts=2 sw=2 expandtab
+autocmd FileType html.handlebars setlocal ts=2 sw=2 sts=2 expandtab
 
 " Ale Config
 " Ref: https://www.notion.so/intercomrades/Editor-Setup-a77ca090fe48495c9bf82714963252c8
@@ -79,3 +104,8 @@ let g:ale_fixers = {
 let g:ale_fix_on_save = 1
 " Respect local Prettier config files
 let g:ale_javascript_prettier_use_local_config = 1
+let g:ale_sign_column_always = 1
+let g:ale_sign_error = '=>'
+
+" Use deoplete.
+let g:deoplete#enable_at_startup = 1
