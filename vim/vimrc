@@ -4,6 +4,10 @@ call plug#begin('~/.local/share/nvim/plugged')
 Plug 'vim-ruby/vim-ruby'
 Plug 'tpope/vim-rails'
 
+" Tmux Integration
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'christoomey/vim-tmux-runner'
+
 " Javascript
 Plug '1995eaton/vim-better-javascript-completion', { 'for': 'javascript' }
 Plug 'pangloss/vim-javascript'
@@ -23,17 +27,19 @@ Plug 'Raimondi/delimitMate'
 Plug 'slim-template/vim-slim'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 Plug 'w0rp/ale'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'othree/html5.vim'
 Plug 'cakebaker/scss-syntax.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'ap/vim-css-color'
 
+Plug 'thoughtbot/vim-rspec'
+Plug 'jgdavey/tslime.vim'
+
 call plug#end()
 
 colorscheme dracula
 
-let mapleader="]"
+let mapleader=" "
 set foldenable
 set relativenumber
 set sw=2
@@ -44,42 +50,87 @@ set autoread
 set wrap
 set mouse=a
 set conceallevel=0
+set t_Co=256
+
 let g:indentLine_setConceal = 0
+let g:indentLine_color_term = 237
+let g:indentLine_bgcolor_term = 237
 
-noremap <Leader>t :tabnew<cr>
-nmap <C-t><up> :tabr<cr>
-nmap <C-t><down> :tabl<cr>
-nmap <C-t><left> :tabp<cr>
-nmap <C-t><right> :tabn<cr>
+let g:indentLine_color_tty_light = 7 " (default: 4)
+let g:indentLine_color_dark = 1 " (default: 2)
 
+" Escaping
+inoremap jj <ESC>
+
+" Tabs
+noremap <C-t> :tabnew<cr>
+map <A-Right> gt
+map <A-Left> gT
+nnoremap <leader>1 1gt
+nnoremap <leader>2 2gt
+nnoremap <leader>3 3gt
+nnoremap <leader>4 4gt
+nnoremap <leader>5 5gt
+nnoremap <leader>6 6gt
+nnoremap <leader>7 7gt
+nnoremap <leader>8 8gt
+nnoremap <leader>9 9gt
+
+" Buffers
+nnoremap <leader>bn :bnext<cr>
+nnoremap <leader>bp :bprevious<cr>
+
+" Copying
 noremap <Leader>y "*y
 noremap <Leader>p "*p
 noremap <Leader>Y "+y
 noremap <Leader>P "+p
 
-inoremap jj <ESC>
+" Splits
 nmap <leader>s<left>   :leftabove  vnew<cr>
 nmap <leader>s<right>  :rightbelow vnew<cr>
 nmap <leader>s<up>     :leftabove  new<cr>
 nmap <leader>s<down>   :rightbelow new<cr>
 
+" Navigate Splits
 nnoremap <C-j> <C-W><C-J>
 nnoremap <C-k> <C-W><C-K>
 nnoremap <C-l> <C-W><C-L>
 nnoremap <C-h> <C-W><C-H>
 
+" Shortcut to exit vim CTRL+e
+nnoremap <C-e> :x<cr>
+
+" Source vimrc
+noremap <leader>vr :source ~/.vimrc<CR>
+
+nnoremap <leader>v- :VtrOpenRunner { "orientation": "v" }<cr>
+nnoremap <leader>v\ :VtrOpenRunner { "orientation": "h" }<cr>
+nnoremap <leader>vk :VtrKillRunner<cr>
+nnoremap <leader>va :VtrAttachToPane<cr>
+nnoremap <leader>vf :VtrFocusRunner<cr>
+nnoremap <leader>vsc :VtrSendCommandToRunner<space>
+nnoremap <leader>vsl :VtrSendLinesToRunner<cr>
+nnoremap <leader>sd :VtrSendCtrlD<cr>
+
+" RSpec.vim mappings
+let g:rspec_command = "call VtrSendCommand('rspec {spec}')"
+map <Leader>t :call RunCurrentSpecFile()<CR>
+map <Leader>s :call RunNearestSpec()<CR>
+map <Leader>l :call RunLastSpec()<CR>
+map <Leader>a :call RunAllSpecs()<CR>
+
 " ctrl+c to toggle highlight.
 let hlstate=0
 nnoremap <c-c> :if (hlstate%2 == 0) \| nohlsearch \| else \| set hlsearch \| endif \| let hlstate=hlstate+1<cr>
 
-map <leader>pdb oimport pdb; pdb.set_trace()<esc>:w<cr>
+map <Leader>pdb oimport pdb; pdb.set_trace()<esc>:w<cr>
 map <Leader>pry obinding.pry<esc>:w<cr>
-map <Leader>log oconsole.log('')<left><left>
+map <Leader>log oconsole.log('');<left><left><left>
 
 " fzf.vim
 nnoremap <silent> t :FZF<cr>
 nnoremap <silent> f :Ag<cr>
-noremap <leader>b :Ag <C-R><C-W><C
 
 " NERDTree
 noremap <leader>n :NERDTreeToggle<CR>
@@ -89,6 +140,13 @@ let NERDTreeIgnore = ['tmp', '.yardoc', 'pkg', '\.pyc$', '\~$']
 " NERCCommenter
 let g:NERDSpaceDelims = 2
 
+" automatically rebalance windows on vim resize
+autocmd VimResized * :wincmd =
+
+" zoom a vim pane, <C-w>= to re-balance
+nnoremap <leader>- :wincmd _<cr>:wincmd \|<cr>
+nnoremap <leader>= :wincmd =<cr>
+
 autocmd FileType scss setlocal ts=2 sts=2 sw=2 expandtab
 autocmd FileType javascript setlocal ts=2 sts=2 sw=2 expandtab
 autocmd FileType html.handlebars setlocal ts=2 sw=2 sts=2 expandtab
@@ -96,10 +154,8 @@ autocmd FileType html.handlebars setlocal ts=2 sw=2 sts=2 expandtab
 " Ale Config
 " Ref: https://www.notion.so/intercomrades/Editor-Setup-a77ca090fe48495c9bf82714963252c8
 let g:ale_linters = { 'javascript': ['eslint'] }
-let g:ale_fixers = {
-\   'javascript': ['prettier'],
-\   'css': ['prettier'],
-\}
+let g:ale_fixers = ['prettier']
+
 " Format on Save
 let g:ale_fix_on_save = 1
 " Respect local Prettier config files
@@ -107,5 +163,6 @@ let g:ale_javascript_prettier_use_local_config = 1
 let g:ale_sign_column_always = 1
 let g:ale_sign_error = '=>'
 
-" Use deoplete.
-let g:deoplete#enable_at_startup = 1
+" Airline
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
