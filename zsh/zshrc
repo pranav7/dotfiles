@@ -7,12 +7,13 @@ export NVM_DIR="$HOME/.nvm"
 
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/pranavsingh/.oh-my-zsh"
+export FIGMA_ACCESS_TOKEN="9582-74256e0d-df33-40ff-a8e1-a65cc2da300b"
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="robbyrussell"
-# ZSH_THEME="pranav"
+# ZSH_THEME="robbyrussell"
+ZSH_THEME="pranav"
 
 # using ripgrep as it is bit faster
 # export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
@@ -71,7 +72,6 @@ export FZF_DEFAULT_OPTS='--height 60% --reverse --border'
 plugins=(
   rails
   git
-  zsh-syntax-highlighting
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -102,20 +102,61 @@ source $ZSH/oh-my-zsh.sh
 # For a full list of active aliases, run `alias`.
 
 pull_vimrc() {
+  echo "-----------------------------------------"
+  echo "Pulling vimrc from pranav7/dotfiles"
+  echo "-----------------------------------------"
+
+  cwd=$(pwd)
   cd $HOME/dotfiles &&
     git pull origin master &&
     cp $HOME/dotfiles/vim/vimrc $HOME/.vimrc &&
     cd    
+  
+  $cwd
+  echo "-----------------------------------------"
+  echo "Done!"
+  echo "-----------------------------------------"
 }
 
 pull_zshrc() {
+  echo "-----------------------------------------"
+  echo "Pulling zshrc from pranav7/dotfiles"
+  echo "-----------------------------------------"
+
+  cwd=$(pwd)
   cd $HOME/dotfiles &&
     git pull origin master &&
     cp $HOME/dotfiles/zsh/zshrc $HOME/.zshrc &&
     cd
+
+  $cwd
+  echo "-----------------------------------------"
+  echo "Done!"
+  echo "-----------------------------------------"
+}
+
+pull_tmux() {
+  echo "-----------------------------------------"
+  echo "Pulling tmux.conf from pranav7/dotfiles"
+  echo "-----------------------------------------"
+
+  cwd=$(pwd)
+  cd $HOME/dotfiles &&
+    git pull origin master &&
+    cp $HOME/dotfiles/tmux/tmux.conf $HOME/.tmux.conf &&
+
+  $cwd
+  echo "-----------------------------------------"
+  echo "Done!"
+  echo "-----------------------------------------"
 }
 
 push_vimrc() {
+  echo "-----------------------------------------"
+  echo "Commiting ~/.vimrc to pranav7/dotfiles"
+  echo "-----------------------------------------"
+
+  cwd=$(pwd)
   cp $HOME/.vimrc $HOME/dotfiles/vim/vimrc
   cd $HOME/dotfiles &&
     git pull origin master &&
@@ -123,9 +164,19 @@ push_vimrc() {
     git commit -m "Updating vimrc" &&
     git push origin master &&
     cd
+
+  $cwd
+  echo "-----------------------------------------"
+  echo "Done!"
+  echo "-----------------------------------------"
 }
 
 push_zshrc() {
+  echo "-----------------------------------------"
+  echo "Commiting ~/.zshrc to pranav7/dotfiles"
+  echo "-----------------------------------------"
+
+  cwd=$(pwd)
   cp $HOME/.zshrc $HOME/dotfiles/zsh/zshrc
   cd $HOME/dotfiles &&
     git pull origin master &&
@@ -133,18 +184,50 @@ push_zshrc() {
     git commit -m "Updating zshrc" &&
     git push origin master &&
     cd
+
+  $cwd
+  echo "-----------------------------------------"
+  echo "Done!"
+  echo "-----------------------------------------"
+}
+
+push_tmux() {
+  echo "-----------------------------------------"
+  echo "Commiting .tmux.conf to pranav7/dotfiles"
+  echo "-----------------------------------------"
+  cwd=$(pwd)
+
+  cp $HOME/.tmux.conf $HOME/dotfiles/tmux/tmux.conf
+  cd $HOME/dotfiles &&
+    git pull origin master &&
+    git add . &&
+    git commit -m "Updating tmux conf" &&
+    git push origin master
+
+  $cwd
+  echo "-----------------------------------------"
+  echo "Done!"
+  echo "-----------------------------------------"
 }
 
 # Example aliases
+alias vi="nvim"
 alias vim="nvim"
+alias tmuxconf="vim ~/.tmux.conf"
 alias zshrc="vim ~/.zshrc"
 alias vimrc="vim ~/.vimrc"
 alias ohmyzsh="vim ~/.oh-my-zsh"
 alias srczsh="source ~/.zshrc"
 alias pg_start="launchctl load ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist"
 alias pg_stop="launchctl unload ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist"
+alias redis_start="launchctl load ~/Library/LaunchAgents/homebrew.mxcl.redis.plist"
+alias redis_stop="launchctl unload ~/Library/LaunchAgents/homebrew.mxcl.redis.plist"
 alias gitlg="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
 alias lsf="find $(pwd)"
+alias tmux="TERM=xterm-256color tmux"
+alias psf="ps aux | fzf-tmux"
+alias git="hub"
+alias gcomp="git compare"
 
 # Sourcing rupa/z
 . $HOME/z/z.sh
@@ -156,3 +239,124 @@ export PATH=$HOME/.pilot/bin:$PATH
 eval $(pilot env)
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+source /Users/pranavsingh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+fkill() {
+    local pid 
+    if [ "$UID" != "0" ]; then
+        pid=$(ps -f -u $UID | sed 1d | fzf -m | awk '{print $2}')
+    else
+        pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
+    fi  
+
+    if [ "x$pid" != "x" ]
+    then
+        echo $pid | xargs kill -${1:-9}
+    fi
+}
+
+# fbr - checkout git branch
+fgd() {
+  local branches branch
+  branches=$(git status) &&
+  branch=$(echo "$branches" | fzf +m)
+}
+
+# fbr - checkout git branch (including remote branches), sorted by most recent commit, limit 30 last branches
+fbr() {
+  local branches branch
+  branches=$(git for-each-ref --count=30 --sort=-committerdate refs/heads/ --format="%(refname:short)") &&
+  branch=$(echo "$branches" |
+           fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
+  git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+}
+
+# fco - checkout git branch/tag
+fco() {
+  local tags branches target
+  tags=$(
+    git tag | awk '{print "\x1b[31;1mtag\x1b[m\t" $1}') || return
+  branches=$(
+    git branch --all | grep -v HEAD             |
+    sed "s/.* //"    | sed "s#remotes/[^/]*/##" |
+    sort -u          | awk '{print "\x1b[34;1mbranch\x1b[m\t" $1}') || return
+  target=$(
+    (echo "$tags"; echo "$branches") |
+    fzf-tmux -l30 -- --no-hscroll --ansi +m -d "\t" -n 2) || return
+  git checkout $(echo "$target" | awk '{print $2}')
+}
+
+# fco_preview - checkout git branch/tag, with a preview showing the commits between the tag/branch and HEAD
+fco_preview() {
+  local tags branches target
+  tags=$(
+git tag | awk '{print "\x1b[31;1mtag\x1b[m\t" $1}') || return
+  branches=$(
+git branch --all | grep -v HEAD |
+sed "s/.* //" | sed "s#remotes/[^/]*/##" |
+sort -u | awk '{print "\x1b[34;1mbranch\x1b[m\t" $1}') || return
+  target=$(
+(echo "$tags"; echo "$branches") |
+    fzf --no-hscroll --no-multi --delimiter="\t" -n 2 \
+        --ansi --preview="git log -200 --pretty=format:%s $(echo {+2..} |  sed 's/$/../' )" ) || return
+  git checkout $(echo "$target" | awk '{print $2}')
+}
+
+# fcoc - checkout git commit
+fcoc() {
+  local commits commit
+  commits=$(git log --pretty=oneline --abbrev-commit --reverse) &&
+  commit=$(echo "$commits" | fzf --tac +s +m -e) &&
+  git checkout $(echo "$commit" | sed "s/ .*//")
+}
+
+fshow()
+{
+  git log --graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"  | \
+   fzf --ansi --no-sort --reverse --tiebreak=index --preview \
+   'f() { set -- $(echo -- "$@" | grep -o "[a-f0-9]\{7\}"); [ $# -eq 0 ] || git show --color=always $1 | diff-so-fancy ; }; f {}' \
+   --bind "j:down,k:up,alt-j:preview-down,alt-k:preview-up,ctrl-f:preview-page-down,ctrl-b:preview-page-up,q:abort,ctrl-m:execute:
+                (grep -o '[a-f0-9]\{7\}' | head -1 |
+                xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
+                {}
+FZF-EOF" --preview-window=right:60%
+}
+
+alias glNoGraph='git log --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr% C(auto)%an" "$@"'
+_gitLogLineToHash="echo {} | grep -o '[a-f0-9]\{7\}' | head -1"
+_viewGitLogLine="$_gitLogLineToHash | xargs -I % sh -c 'git show --color=always % | diff-so-fancy'"
+
+# fcoc_preview - checkout git commit with previews
+fcoc_preview() {
+  local commit
+  commit=$( glNoGraph |
+    fzf --no-sort --reverse --tiebreak=index --no-multi \
+        --ansi --preview="$_viewGitLogLine" ) &&
+  git checkout $(echo "$commit" | sed "s/ .*//")
+}
+
+# fshow_preview - git commit browser with previews
+fshow_preview() {
+    glNoGraph |
+        fzf --no-sort --reverse --tiebreak=index --no-multi \
+            --ansi --preview="$_viewGitLogLine" \
+                --header "enter to view, alt-y to copy hash" \
+                --bind "enter:execute:$_viewGitLogLine   | less -R" \
+                --bind "alt-y:execute:$_gitLogLineToHash | xclip"
+}
+
+is_in_git_repo() {
+  git rev-parse HEAD > /dev/null 2>&1
+}
+
+fgst() {
+  # "Nothing to see here, move along"
+  is_in_git_repo || return
+
+  local cmd="${FZF_CTRL_T_COMMAND:-"command git status -s"}"
+
+  eval "$cmd" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS $FZF_CTRL_T_OPTS" fzf -m "$@" | while read -r item; do
+    echo git diff | "$item" | awk '{print $2}'
+  done
+  echo
+}
