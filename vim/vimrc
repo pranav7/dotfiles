@@ -53,11 +53,16 @@ set conceallevel=0
 set t_Co=256
 
 let g:indentLine_setConceal = 0
-let g:indentLine_color_term = 237
-let g:indentLine_bgcolor_term = 237
+let g:indentLine_color_term = 235
+let g:indentLine_bgcolor_term = 235
 
 let g:indentLine_color_tty_light = 7 " (default: 4)
 let g:indentLine_color_dark = 1 " (default: 2)
+
+highlight Normal guibg=#f84f32 gui=NONE ctermbg=234 cterm=NONE
+
+" Suspend the session
+nnoremap bg :sus<CR>
 
 " Escaping
 inoremap jj <ESC>
@@ -130,7 +135,7 @@ map <Leader>log oconsole.log('');<left><left><left>
 
 " fzf.vim
 nnoremap <silent> t :FZF<cr>
-nnoremap <silent> f :Ag<cr>
+nnoremap <silent> f :Rg<cr>
 
 " NERDTree
 noremap <leader>n :NERDTreeToggle<CR>
