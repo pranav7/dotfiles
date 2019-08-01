@@ -19,7 +19,6 @@ Plug 'scrooloose/nerdtree'
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'dracula/vim'
-Plug 'vim-airline/vim-airline'
 Plug 'scrooloose/nerdcommenter'
 Plug 'tpope/vim-endwise'
 Plug 'Yggdroot/indentLine'
@@ -109,6 +108,7 @@ nnoremap <C-e> :x<cr>
 " Source vimrc
 noremap <leader>vr :source ~/.vimrc<CR>
 
+" Tmux Runners
 nnoremap <leader>v- :VtrOpenRunner { "orientation": "v" }<cr>
 nnoremap <leader>v\ :VtrOpenRunner { "orientation": "h" }<cr>
 nnoremap <leader>vk :VtrKillRunner<cr>
@@ -119,7 +119,7 @@ nnoremap <leader>vsl :VtrSendLinesToRunner<cr>
 nnoremap <leader>sd :VtrSendCtrlD<cr>
 
 " RSpec.vim mappings
-let g:rspec_command = "call VtrSendCommand('rspec {spec}')"
+let g:rspec_command = "call VtrSendCommand('bundle exec rspec {spec}')"
 map <Leader>t :call RunCurrentSpecFile()<CR>
 map <Leader>s :call RunNearestSpec()<CR>
 map <Leader>l :call RunLastSpec()<CR>
@@ -159,7 +159,10 @@ autocmd FileType html.handlebars setlocal ts=2 sw=2 sts=2 expandtab
 " Ale Config
 " Ref: https://www.notion.so/intercomrades/Editor-Setup-a77ca090fe48495c9bf82714963252c8
 let g:ale_linters = { 'javascript': ['eslint'] }
-let g:ale_fixers = ['prettier']
+let g:ale_fixers = {
+\   'javascript': ['prettier'],
+\   'css': ['prettier'],
+\}
 
 " Format on Save
 let g:ale_fix_on_save = 1
@@ -167,7 +170,3 @@ let g:ale_fix_on_save = 1
 let g:ale_javascript_prettier_use_local_config = 1
 let g:ale_sign_column_always = 1
 let g:ale_sign_error = '=>'
-
-" Airline
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
