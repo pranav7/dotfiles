@@ -7,7 +7,7 @@ export NVM_DIR="$HOME/.nvm"
 
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/pranavsingh/.oh-my-zsh"
-export FIGMA_ACCESS_TOKEN="9582-74256e0d-df33-40ff-a8e1-a65cc2da300b"
+export BUNDLER_EDITOR=nvim
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -210,25 +210,6 @@ push_tmux() {
   echo "-----------------------------------------"
 }
 
-# Example aliases
-alias vi="nvim"
-alias vim="nvim"
-alias tmuxconf="vim ~/.tmux.conf"
-alias zshrc="vim ~/.zshrc"
-alias vimrc="vim ~/.vimrc"
-alias ohmyzsh="vim ~/.oh-my-zsh"
-alias srczsh="source ~/.zshrc"
-alias pg_start="launchctl load ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist"
-alias pg_stop="launchctl unload ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist"
-alias redis_start="launchctl load ~/Library/LaunchAgents/homebrew.mxcl.redis.plist"
-alias redis_stop="launchctl unload ~/Library/LaunchAgents/homebrew.mxcl.redis.plist"
-alias gitlg="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
-alias lsf="find $(pwd)"
-alias tmux="TERM=xterm-256color tmux"
-alias psf="ps aux | fzf-tmux"
-alias git="hub"
-alias gcomp="git compare"
-
 # Sourcing rupa/z
 . $HOME/z/z.sh
 
@@ -360,3 +341,22 @@ fgst() {
   done
   echo
 }
+
+alias vi="nvim"
+alias vim="nvim"
+alias tmuxconf="vim ~/.tmux.conf"
+alias zshrc="vim ~/.zshrc"
+alias vimrc="vim ~/.vimrc"
+alias ohmyzsh="vim ~/.oh-my-zsh"
+alias srczsh="source ~/.zshrc"
+alias pg_start="launchctl load ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist"
+alias pg_stop="launchctl unload ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist"
+alias redis_start="launchctl load ~/Library/LaunchAgents/homebrew.mxcl.redis.plist"
+alias redis_stop="launchctl unload ~/Library/LaunchAgents/homebrew.mxcl.redis.plist"
+alias gitlg="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
+alias lsf="find $(pwd)"
+alias tmux="TERM=xterm-256color tmux"
+alias psf="ps aux | fzf-tmux"
+alias git="hub"
+alias gcomp="git compare"
+alias userver="script/update && script/server"
