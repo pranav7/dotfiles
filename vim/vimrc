@@ -34,6 +34,9 @@ Plug 'ap/vim-css-color'
 Plug 'thoughtbot/vim-rspec'
 Plug 'jgdavey/tslime.vim'
 
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
 call plug#end()
 
 colorscheme dracula
@@ -50,15 +53,6 @@ set wrap
 set mouse=a
 set conceallevel=0
 set t_Co=256
-
-let g:indentLine_setConceal = 0
-let g:indentLine_color_term = 235
-let g:indentLine_bgcolor_term = 235
-
-let g:indentLine_color_tty_light = 7 " (default: 4)
-let g:indentLine_color_dark = 1 " (default: 2)
-
-highlight Normal guibg=#f84f32 gui=NONE ctermbg=234 cterm=NONE
 
 " Suspend the session
 nnoremap bg :sus<CR>
