@@ -18,7 +18,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'scrooloose/nerdtree'
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
-Plug 'dracula/vim'
+Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'scrooloose/nerdcommenter'
 Plug 'tpope/vim-endwise'
 Plug 'Yggdroot/indentLine'
@@ -30,6 +30,7 @@ Plug 'othree/html5.vim'
 Plug 'cakebaker/scss-syntax.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'ap/vim-css-color'
+Plug 'joshdick/onedark.vim'
 
 Plug 'thoughtbot/vim-rspec'
 Plug 'jgdavey/tslime.vim'
@@ -39,10 +40,13 @@ Plug 'vim-airline/vim-airline-themes'
 
 call plug#end()
 
-colorscheme dracula
+syntax on
+color dracula
 
 let mapleader=" "
-set foldenable
+
+set nofoldenable
+
 set relativenumber
 set sw=2
 set ts=2
@@ -53,6 +57,14 @@ set wrap
 set mouse=a
 set conceallevel=0
 set t_Co=256
+set nu rnu
+
+set nofoldenable
+set foldlevelstart=10
+set foldnestmax=10
+set foldmethod=indent
+" space open/closes folds
+nnoremap <C-f> za
 
 " Suspend the session
 nnoremap bg :sus<CR>
