@@ -43,6 +43,8 @@ call plug#end()
 syntax on
 color dracula
 
+hi Normal guibg=NONE ctermbg=NONE
+
 let mapleader=" "
 
 set nofoldenable
