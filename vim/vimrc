@@ -89,8 +89,8 @@ nnoremap <leader>8 8gt
 nnoremap <leader>9 9gt
 
 " Buffers
-nnoremap <leader>bn :bnext<cr>
-nnoremap <leader>bp :bprevious<cr>
+nnoremap bn :bnext<cr>
+nnoremap bp :bprevious<cr>
 
 " Copying
 noremap <Leader>y "*y
