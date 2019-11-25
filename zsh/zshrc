@@ -1,11 +1,9 @@
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
+# export TERM="xterm-new"
+export TERM="xterm-256color"
 export ZSH="/Users/pranavsingh/.oh-my-zsh"
 export BUNDLER_EDITOR=nvim
 
@@ -222,6 +220,10 @@ eval $(pilot env)
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 source /Users/pranavsingh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
+branch() {
+  git checkout -b p7/$1
+}
+
 fkill() {
     local pid 
     if [ "$UID" != "0" ]; then
@@ -342,6 +344,10 @@ fgst() {
   echo
 }
 
+remove_local_branches() {
+  git branch -vv | grep 'origin/.*: gone]' | awk '{print $1}' | xargs git branch -d
+}
+
 alias vi="nvim"
 alias vim="nvim"
 alias tmuxconf="vim ~/.tmux.conf"
@@ -360,3 +366,4 @@ alias psf="ps aux | fzf-tmux"
 alias git="hub"
 alias gcomp="git compare"
 alias userver="script/update && script/server"
+alias ctags="`brew --prefix`/bin/ctags"
