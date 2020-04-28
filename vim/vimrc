@@ -38,6 +38,10 @@ Plug 'jgdavey/tslime.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
+Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+
+Plug 'rainglow/vim'
+
 call plug#end()
 
 syntax on
@@ -76,8 +80,8 @@ inoremap jj <ESC>
 
 " Tabs
 noremap <C-t> :tabnew<cr>
-map <A-Right> gt
-map <A-Left> gT
+noremap <C-]> gt
+noremap <C-[> gT
 nnoremap <leader>1 1gt
 nnoremap <leader>2 2gt
 nnoremap <leader>3 3gt
@@ -124,7 +128,7 @@ nnoremap <leader>vsl :VtrSendLinesToRunner<cr>
 nnoremap <leader>sd :VtrSendCtrlD<cr>
 
 " RSpec.vim mappings
-let g:rspec_command = "call VtrSendCommand('bundle exec rspec {spec} --format=documentation')"
+let g:rspec_command = "call VtrSendCommand('bundle exec rspec {spec}')"
 map <Leader>t :call RunCurrentSpecFile()<CR>
 map <Leader>s :call RunNearestSpec()<CR>
 map <Leader>l :call RunLastSpec()<CR>
