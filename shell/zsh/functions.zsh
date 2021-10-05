@@ -82,9 +82,7 @@ git_status_color () {
 # Print a label for the current git branch if it isn't main or master.
 git_branch () {
   local gitBranch="$(git_check)"
-  if [[ $gitBranch && ! $gitBranch =~ (main|master) && $COLUMNS -gt 79 ]]; then
-    echo -en "%F{#616161}⌥%f %F{"$(git_status_color)"}$gitBranch%f"
-  fi
+  echo -en "%F{#616161}⌥%f %F{"$(git_status_color)"}$gitBranch%f"
 }
 
 # Print a dot indicating the current git status.
