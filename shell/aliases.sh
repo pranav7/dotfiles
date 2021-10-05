@@ -15,7 +15,6 @@ alias tmux="TERM=xterm-256color tmux"
 alias psf="ps aux | fzf-tmux"
 alias gcomp="git compare"
 alias userver="script/update && script/server"
-alias ctags="`brew --prefix`/bin/ctags"
 alias workspace="hammer workspace"
 alias main="git checkout main"
 alias prettyjson='python -m json.tool'
