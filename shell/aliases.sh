@@ -1,7 +1,7 @@
 #!/bin/false
 
-alias vi="nvim"
-alias vim="nvim"
+# alias vi="nvim"
+# alias vim="nvim"
 alias tmuxconf="vim ~/.tmux.conf"
 alias zshrc="vim ~/.zshrc"
 alias vimrc="vim ~/.vimrc"
