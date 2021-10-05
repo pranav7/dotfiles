@@ -1,7 +1,5 @@
 #!/bin/false
 
-# alias vi="nvim"
-# alias vim="nvim"
 alias tmuxconf="vim ~/.tmux.conf"
 alias zshrc="vim ~/.zshrc"
 alias vimrc="vim ~/.vimrc"
@@ -15,7 +13,6 @@ alias gitlg="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Crese
 alias lsf="find $(pwd)"
 alias tmux="TERM=xterm-256color tmux"
 alias psf="ps aux | fzf-tmux"
-# alias git="hub"
 alias gcomp="git compare"
 alias userver="script/update && script/server"
 alias ctags="`brew --prefix`/bin/ctags"
