@@ -10,8 +10,6 @@ source $HOME/z/z.sh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 source ~/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-# export TERM="xterm-256color"
-export TERM="xterm-new"
 export BUNDLER_EDITOR=nvim
 
 # export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'

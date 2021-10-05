@@ -12,3 +12,4 @@ compinit -i
 promptinit
 
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
