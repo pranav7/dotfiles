@@ -8,6 +8,11 @@ remove_local_branches() {
   git branch -vv | grep 'origin/.*: gone]' | awk '{print $1}' | xargs git branch -d
 }
 
+restart() {
+  cdr=$(basename $PWD)
+  pilot restart $cdr
+}
+
 # Source a file only if it exists.
 # Use for files that might not be on all machines (work-specific).
 safe_source () {

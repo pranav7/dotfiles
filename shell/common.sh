@@ -10,6 +10,7 @@ source $HOME/.profile
 source $ZSH/oh-my-zsh.sh
 source $HOME/z/z.sh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+source ~/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Path to your oh-my-zsh installation.
 # export TERM="xterm-256color"
