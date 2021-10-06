@@ -15,3 +15,5 @@ export BUNDLER_EDITOR=nvim
 # export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 export FZF_DEFAULT_OPTS='--height 60% --reverse --border'
+
+eval "$(rbenv init - zsh)"
