@@ -5,6 +5,7 @@ source ~/dotfiles/shell/aliases.sh
 source ~/dotfiles/shell/nvm.sh
 
 safe_source ~/dotfiles/shell/intercom.sh
+safe_source ~/dotfiles/shell/local.sh
 
 source $HOME/z/z.sh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
