@@ -6,11 +6,11 @@
 source ~/dotfiles/shell/common.sh
 source ~/dotfiles/shell/zsh/functions.zsh
 source ~/dotfiles/shell/zsh/prompt.zsh
-source ~/dotfiles/shell/zsh/git.zsh
+# source ~/dotfiles/shell/zsh/git.zsh
 
 autoload -Uz compinit promptinit
 compinit -i
 promptinit
 
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
