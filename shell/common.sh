@@ -19,3 +19,11 @@ export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 export FZF_DEFAULT_OPTS='--height 60% --reverse --border'
 
 eval "$(rbenv init - zsh)"
+
+export ZSH=$HOME/.oh-my-zsh
+source $ZSH/oh-my-zsh.sh
+
+plugins=(
+  git
+  bundler
+)
