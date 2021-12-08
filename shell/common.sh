@@ -28,4 +28,6 @@ source $ZSH/oh-my-zsh.sh
 plugins=(
   git
   bundler
+  fzf-tab
+  fzf
 )
