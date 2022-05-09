@@ -31,3 +31,4 @@ symlink_to_home ~/dotfiles/shell/zsh/.zshrc
 ### editors
 
 # symlink_to_home ~/dotfiles/editor/.editorconfig
+symlink_to_home ~/dotfiles/vim/.vimrc

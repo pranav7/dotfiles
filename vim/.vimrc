@@ -25,7 +25,6 @@ Plug 'Yggdroot/indentLine'
 Plug 'Raimondi/delimitMate'
 Plug 'slim-template/vim-slim'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
-Plug 'w0rp/ale'
 Plug 'othree/html5.vim'
 Plug 'cakebaker/scss-syntax.vim'
 Plug 'airblade/vim-gitgutter'
