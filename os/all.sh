@@ -32,3 +32,8 @@ symlink_to_home ~/dotfiles/shell/zsh/.zshrc
 
 # symlink_to_home ~/dotfiles/editor/.editorconfig
 symlink_to_home ~/dotfiles/vim/.vimrc
+
+### tmux
+
+symlink_to_home ~/dotfiles/tmux/.tmux.conf
+make_executable ~/dotfiles/bin/tat

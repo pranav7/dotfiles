@@ -74,3 +74,14 @@ symlink_to_home () {
     ln -sf "$file" "$HOME/$(basename "$file")"
   fi
 }
+
+# Given a file path, make it executable
+make_executable () {
+  declare file=$1
+
+  # Only take action if the input file exists
+  if [[ -f $file ]]; then
+    echo "Making $(basename "$file") executable"
+    chmod +x "$file"
+  fi
+}
