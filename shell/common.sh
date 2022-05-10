@@ -12,6 +12,7 @@ source $HOME/z/z.sh
 
 export TERM="xterm-256color"
 export BUNDLER_EDITOR=nvim
+export EDITOR=nvim
 export GIT_EDITOR=nvim
 export ZSH=$HOME/.oh-my-zsh
 
