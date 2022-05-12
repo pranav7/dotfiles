@@ -16,7 +16,7 @@ Plug 'joukevandermaas/vim-ember-hbs'
 
 Plug 'tpope/vim-fugitive'
 Plug 'scrooloose/nerdtree'
-Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'scrooloose/nerdcommenter'
@@ -102,6 +102,11 @@ noremap <Leader>Y "+y
 noremap <Leader>P "+p
 
 " Splits
+set splitbelow
+set splitright
+nmap <leader>s\ :leftabove vnew<cr>
+nmap <leader>s- :rightbelow new<cr>
+
 nmap <leader>s<left>   :leftabove  vnew<cr>
 nmap <leader>s<right>  :rightbelow vnew<cr>
 nmap <leader>s<up>     :leftabove  new<cr>

@@ -7,9 +7,11 @@ source ~/dotfiles/shell/common.sh
 source ~/dotfiles/shell/zsh/functions.zsh
 source ~/dotfiles/shell/zsh/prompt.zsh
 
-autoload -Uz compinit promptinit
-compinit -i
-promptinit
+# The following lines were added by compinstall
+zstyle :compinstall filename '/Users/pranavsingh/.zshrc'
 
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall
+
 eval "$(/opt/homebrew/bin/brew shellenv)"

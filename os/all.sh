@@ -37,3 +37,8 @@ symlink_to_home ~/dotfiles/vim/.vimrc
 
 symlink_to_home ~/dotfiles/tmux/.tmux.conf
 make_executable ~/dotfiles/bin/tat
+
+### other setup
+
+echo "Enabling VSCode to key presses"
+defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false
