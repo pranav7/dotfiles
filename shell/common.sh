@@ -15,6 +15,7 @@ export BUNDLER_EDITOR=nvim
 export EDITOR=nvim
 export GIT_EDITOR=nvim
 export ZSH=$HOME/.oh-my-zsh
+export HOMEBREW_GITHUB_API_TOKEN=$(cat ~/.intercom_github_api_token | tr -d '\n')
 
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 export FZF_DEFAULT_OPTS='--height 60% --reverse --border'

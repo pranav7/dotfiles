@@ -29,15 +29,12 @@ Plug 'othree/html5.vim'
 Plug 'cakebaker/scss-syntax.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'ap/vim-css-color'
-Plug 'joshdick/onedark.vim'
 
 Plug 'thoughtbot/vim-rspec'
 Plug 'jgdavey/tslime.vim'
 
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-
-Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 
 Plug 'rainglow/vim'
 
@@ -148,7 +145,7 @@ map <Leader>log oconsole.log('');<left><left><left>
 
 " fzf.vim
 nnoremap <silent> t :FZF<cr>
-nnoremap <silent> f :Rg<cr>
+nnoremap <silent> f :Ag<cr>
 
 " NERDTree
 noremap <leader>n :NERDTreeToggle<CR>
