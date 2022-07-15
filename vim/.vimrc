@@ -41,7 +41,17 @@ Plug 'rainglow/vim'
 call plug#end()
 
 syntax on
-color dracula
+
+if has("gui_running")
+  set guifont=JetBrains\ Mono\ NL:h12
+  colorscheme jellybeans
+  set bs=2
+  set ai
+  set ruler
+  :hi Normal ctermbg=black
+else
+  color dracula
+endif
 
 hi Normal guibg=NONE ctermbg=NONE
 
@@ -60,6 +70,8 @@ set mouse=a
 set conceallevel=0
 set t_Co=256
 set nu rnu
+set hlsearch
+set background=dark
 
 set nofoldenable
 set foldlevelstart=10
