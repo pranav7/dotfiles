@@ -4,7 +4,6 @@ source ~/dotfiles/shell/functions.sh
 source ~/dotfiles/shell/aliases.sh
 source ~/dotfiles/shell/nvm.sh
 
-safe_source ~/dotfiles/shell/intercom.sh
 safe_source ~/dotfiles/shell/local.sh
 
 source $HOME/z/z.sh
@@ -15,16 +14,15 @@ export BUNDLER_EDITOR=nvim
 export EDITOR=nvim
 export GIT_EDITOR=nvim
 export ZSH=$HOME/.oh-my-zsh
-export HOMEBREW_GITHUB_API_TOKEN=$(cat ~/.intercom_github_api_token | tr -d '\n')
 
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 export FZF_DEFAULT_OPTS='--height 60% --reverse --border'
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-eval "$(rbenv init - zsh)"
+# eval "$(rbenv init - zsh)"
 
 source $HOME/z/z.sh
-source $HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# source $HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $ZSH/oh-my-zsh.sh
 
 plugins=(
