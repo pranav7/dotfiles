@@ -19,4 +19,4 @@ alias main="git checkout main"
 alias prettyjson='python -m json.tool'
 alias assume-role='function(){eval $(hammer assume-role $@);}'
 alias be='bundle exec'
-alias vim='nvim'
+# alias vim='nvim'

@@ -1,7 +1,8 @@
 #!/bin/false
 
 branch() {
-  git checkout -b p7/$1
+  current_date=$(date +'%d.%m.%y')
+  git checkout -b p7/$current_date/$1
 }
 
 remove_local_branches() {

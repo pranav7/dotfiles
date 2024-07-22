@@ -8,7 +8,7 @@ source ~/dotfiles/shell/zsh/functions.zsh
 source ~/dotfiles/shell/zsh/prompt.zsh
 
 # The following lines were added by compinstall
-zstyle :compinstall filename '/Users/pranavsingh/.zshrc'
+zstyle :compinstallfilename '/Users/pranavsingh/.zshrc'
 
 autoload -Uz compinit
 compinit
