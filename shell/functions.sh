@@ -10,7 +10,7 @@ remove_local_branches() {
 }
 
 function commit() {
-  # Allow a model to be specified as an argument, default to llama3.2
+  # Allow a model to be specified as an argument, default to gemma2:2b
   local model="${1:-gemma2:2b}"
 
   # Check if any files are staged
@@ -34,15 +34,45 @@ function commit() {
   # Use ollama to generate a commit message based on the diff
   echo "🤖 Generating commit message using model: $model"
   local commit_msg=$(ollama run "$model" "
-  Create a SINGLE line (50 characters or less) commit message that describes the following changes:
+  Create a commit message for the following changes:
+
+  Here are the changes:
   $(cat "$diff_file")
-  IMPORTANT: Your entire response should be ONLY the commit message. No explanations or additional text, just the message." 2>/dev/null | head -n 1)
+  
+  Important points:
+  - Your response should ONLY be the commit message without any additional explanations
+  - Commit message should be 50 characters or less
+  - Should not have prefix or suffix, like feat, colons, or double quotes
+  - Use backticks if needed to highlight codeblocks
+  - Concise commit message, 50 characters or less" 2>/dev/null)
 
   # Cleanup temporary file
   rm "$diff_file"
 
   # Display the generated message
-  echo "🤖 Generated commit message: \"$commit_msg\""
+  echo "🤖 Generated commit message:"
+  echo "$commit_msg"
+
+  # Prompt user to confirm or edit the message
+  read -p "Use this message? (y/e/n) [y=yes, e=edit, n=no]: " confirm
+
+  if [[ "$confirm" == "e" ]]; then
+    # Create a temporary file with the generated message
+    local msg_file=$(mktemp)
+    echo "$commit_msg" > "$msg_file"
+
+    # Open the editor to allow editing
+    ${EDITOR:-vim} "$msg_file"
+
+    # Read the edited message
+    commit_msg=$(cat "$msg_file")
+    rm "$msg_file"
+
+    echo "✏️ Using edited message."
+  elif [[ "$confirm" != "y" && "$confirm" != "" ]]; then
+    echo "❌ Commit aborted."
+    return 1
+  fi
 
   # Perform the actual commit
   echo "✔️ Committing with this message..."
