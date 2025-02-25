@@ -9,45 +9,50 @@ remove_local_branches() {
   git branch -vv | grep 'origin/.*: gone]' | awk '{print $1}' | xargs git branch -d
 }
 
-function autogc() {
+function commit() {
   # Allow a model to be specified as an argument, default to llama3.2
-  local model="${1:-llama3.2}"
+  local model="${1:-gemma2:2b}"
+
+  # Check if any files are staged
+  if [ -z "$(git diff --cached --name-only)" ]; then
+    echo "No files staged. Staging all changes..."
+    git add .
+  fi
 
   # Create a temporary file for the git diff
   local diff_file=$(mktemp)
-
   # Get the git diff and save it to the temporary file
-  git --no-pager diff HEAD --raw -p > "$diff_file"
+  git --no-pager diff --cached --raw -p > "$diff_file"
 
   # Check if there are changes to commit
   if [ ! -s "$diff_file" ]; then
-    echo "No changes to commit."
+    echo "☝️ No changes to commit."
     rm "$diff_file"
     return 1
   fi
 
   # Use ollama to generate a commit message based on the diff
-  echo "Generating commit message using model: $model"
+  echo "🤖 Generating commit message using model: $model"
   local commit_msg=$(ollama run "$model" "
-  You are a git commit message generator.
-  Create a SINGLE line (50 characters or less) commit message that describes these changes:
-
+  Create a SINGLE line (50 characters or less) commit message that describes the following changes:
   $(cat "$diff_file")
-
-  IMPORTANT: Your entire response should be ONLY the commit message. No explanations or additional text." 2>/dev/null | head -n 1)
+  IMPORTANT: Your entire response should be ONLY the commit message. No explanations or additional text, just the message." 2>/dev/null | head -n 1)
 
   # Cleanup temporary file
   rm "$diff_file"
 
   # Display the generated message
-  echo "Generated commit message: \"$commit_msg\""
+  echo "🤖 Generated commit message: \"$commit_msg\""
 
   # Perform the actual commit
-  echo "Committing with this message..."
-  git commit -am "$commit_msg"
+  echo "✔️ Committing with this message..."
+  git commit -m "$commit_msg"
 
   # Confirm the commit was made
-  echo "Commit completed."
+  echo "✔️ Commit created."
+  echo "Pushing changes"
+  ggpush
+  echo "✅ Finished commiting and pushing changes"
 }
 
 # Source a file only if it exists.
