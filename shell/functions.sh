@@ -11,7 +11,7 @@ remove_local_branches() {
 
 function autogc() {
   # Allow a model to be specified as an argument, default to llama3.2
-  local model="${1:-deepseek-r1}"
+  local model="${1:-llama3.2}"
 
   # Create a temporary file for the git diff
   local diff_file=$(mktemp)
