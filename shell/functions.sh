@@ -9,9 +9,27 @@ remove_local_branches() {
   git branch -vv | grep 'origin/.*: gone]' | awk '{print $1}' | xargs git branch -d
 }
 
-restart() {
-  cdr=$(basename $PWD)
-  pilot restart $cdr
+function llamagc() {
+    # Create a temporary file for the git diff
+    local diff_file=$(mktemp)
+
+    # Get the git diff and save it to the temporary file
+    git --no-pager diff HEAD --raw -p > "$diff_file"
+
+    # Use ollama to generate a commit message based on the diff
+    local commit_msg=$(ollama run llama3.2 "Generate a single, concise line that describes these git changes (be brief and specific): $(cat "$diff_file")" 2>/dev/null | head -n 1)
+
+    # Cleanup temporary file
+    rm "$diff_file"
+
+    # If we got a message, commit with it; otherwise, abort
+    if [ -n "$commit_msg" ]; then
+        echo "Committing with message: $commit_msg"
+        echo "$commit_msg" | git commit -a --file -
+    else
+        echo "Failed to generate commit message. Aborting commit."
+        return 1
+    fi
 }
 
 # Source a file only if it exists.
@@ -49,31 +67,6 @@ cecho () {
   color=${colors[$color]}
 
   echo -e "\x01${color}\x02${message}\x01\e[m\x02"
-}
-
-# Print text as a header
-print_header () {
-  declare header=${1:-""}
-
-  echo
-  echo "┃"
-  echo "┃ $header"
-  echo "┃"
-  echo
-
-  sleep .33
-}
-
-# Given a file path, symlink the file to the home directory
-symlink_to_home () {
-  declare file=$1
-
-  # Only take action if the input file exists
-  if [[ -f $file ]]; then
-    # Symlink the file to the home directory
-    echo "Linking $(basename "$file")"
-    ln -sf "$file" "$HOME/$(basename "$file")"
-  fi
 }
 
 # Given a file path, make it executable
