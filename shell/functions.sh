@@ -36,15 +36,14 @@ function commit() {
   local commit_msg=$(ollama run "$model" "
   Create a commit message for the following changes:
 
+  - First line: A short summary (50 chars or less)
+  - Then a blank line
+  - Then a more detailed explanation if needed
+
   Here are the changes:
   $(cat "$diff_file")
-  
-  Important points:
-  - Your response should ONLY be the commit message without any additional explanations
-  - Commit message should be 50 characters or less
-  - Should not have prefix or suffix, like feat, colons, or double quotes
-  - Use backticks if needed to highlight codeblocks
-  - Concise commit message, 50 characters or less" 2>/dev/null)
+
+  IMPORTANT: Your response should be ONLY the commit message without any additional explanations." 2>/dev/null)
 
   # Cleanup temporary file
   rm "$diff_file"
@@ -54,7 +53,9 @@ function commit() {
   echo "$commit_msg"
 
   # Prompt user to confirm or edit the message
-  read -p "Use this message? (y/e/n) [y=yes, e=edit, n=no]: " confirm
+  local confirm=""
+  echo -n "Use this message? (y/e/n) [y=yes, e=edit, n=no]: "
+  read confirm
 
   if [[ "$confirm" == "e" ]]; then
     # Create a temporary file with the generated message
@@ -81,7 +82,7 @@ function commit() {
   # Confirm the commit was made
   echo "✔️ Commit created."
   echo "Pushing changes"
-  ggpush
+  git push origin $(git symbolic-ref --short HEAD)
   echo "✅ Finished commiting and pushing changes"
 }
 
