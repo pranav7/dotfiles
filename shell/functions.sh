@@ -10,38 +10,38 @@ remove_local_branches() {
 }
 
 function llamagc() {
-    # Create a temporary file for the git diff
-    local diff_file=$(mktemp)
+  local diff_file=$(mktemp)
 
-    # Get the git diff and save it to the temporary file
-    git --no-pager diff HEAD --raw -p > "$diff_file"
+  git --no-pager diff HEAD --raw -p > "$diff_file"
 
-    # Check if there are changes to commit
-    if [ ! -s "$diff_file" ]; then
-        echo "No changes to commit."
-        rm "$diff_file"
-        return 1
-    fi
+  if [ ! -s "$diff_file" ]; then
+      echo "No changes to commit."
+      rm "$diff_file"
+      return 1
+  fi
 
-    # Use ollama to generate a commit message based on the diff
-    echo "Generating commit message based on changes..."
-    local commit_msg=$(ollama run llama3.2 "
-    You are a git commit message generator.
-    Create a SINGLE line (50 characters or less) commit message that describes these changes:
+  # Use ollama to generate a commit message based on the diff
+  echo "Generating commit message based on changes..."
+  local commit_msg=$(ollama run llama3.2 "
+  You are a git commit message generator.
+  Create a SINGLE line (50 characters or less) commit message that describes these changes:
 
-    $(cat "$diff_file")
+  $(cat "$diff_file")
 
-    IMPORTANT: Your entire response should be ONLY the commit message. No explanations or additional text." 2>/dev/null | head -n 1)
+  IMPORTANT: Your entire response should be ONLY the commit message. No explanations or additional text." 2>/dev/null | head -n 1)
 
-    # Cleanup temporary file
-    rm "$diff_file"
+  # Cleanup temporary file
+  rm "$diff_file"
 
-    # Display the generated message
-    echo "Generated commit message: \"$commit_msg\""
+  # Display the generated message
+  echo "Generated commit message: \"$commit_msg\""
 
-    # Show what the command would be
-    echo "To commit with this message, run:"
-    echo "git commit -am \"$commit_msg\""
+  # Perform the actual commit
+  echo "Committing with this message..."
+  git commit -am "$commit_msg"
+
+  # Confirm the commit was made
+  echo "Commit completed."
 }
 
 # Source a file only if it exists.
