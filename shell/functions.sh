@@ -9,7 +9,7 @@ remove_local_branches() {
   git branch -vv | grep 'origin/.*: gone]' | awk '{print $1}' | xargs git branch -d
 }
 
-function llamagc() {
+function autogc() {
   local diff_file=$(mktemp)
 
   git --no-pager diff HEAD --raw -p > "$diff_file"
