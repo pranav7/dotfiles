@@ -10,19 +10,25 @@ remove_local_branches() {
 }
 
 function autogc() {
+  # Allow a model to be specified as an argument, default to llama3.2
+  local model="${1:-deepseek-r1}"
+
+  # Create a temporary file for the git diff
   local diff_file=$(mktemp)
 
+  # Get the git diff and save it to the temporary file
   git --no-pager diff HEAD --raw -p > "$diff_file"
 
+  # Check if there are changes to commit
   if [ ! -s "$diff_file" ]; then
-      echo "No changes to commit."
-      rm "$diff_file"
-      return 1
+    echo "No changes to commit."
+    rm "$diff_file"
+    return 1
   fi
 
   # Use ollama to generate a commit message based on the diff
-  echo "Generating commit message based on changes..."
-  local commit_msg=$(ollama run llama3.2 "
+  echo "Generating commit message using model: $model"
+  local commit_msg=$(ollama run "$model" "
   You are a git commit message generator.
   Create a SINGLE line (50 characters or less) commit message that describes these changes:
 

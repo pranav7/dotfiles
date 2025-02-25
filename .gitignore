@@ -4,3 +4,4 @@ shell/local.sh
 .aider.input.history
 .aider.tags.cache.v3/
 *.swp
+*.DS_STORE
