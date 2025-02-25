@@ -11,7 +11,8 @@ remove_local_branches() {
 
 function commit() {
   # Allow a model to be specified as an argument, default to gemma2:2b
-  local model="${1:-gemma2:2b}"
+  # local model="${1:-gemma2:2b}"
+  local model="${1:-llama3.2}"
 
   # Check if any files are staged
   if [ -z "$(git diff --cached --name-only)" ]; then
@@ -52,30 +53,6 @@ function commit() {
   echo "🤖 Generated commit message:"
   echo "$commit_msg"
 
-  # Prompt user to confirm or edit the message
-  local confirm=""
-  echo -n "Use this message? (y/e/n) [y=yes, e=edit, n=no]: "
-  read confirm
-
-  if [[ "$confirm" == "e" ]]; then
-    # Create a temporary file with the generated message
-    local msg_file=$(mktemp)
-    echo "$commit_msg" > "$msg_file"
-
-    # Open the editor to allow editing
-    ${EDITOR:-vim} "$msg_file"
-
-    # Read the edited message
-    commit_msg=$(cat "$msg_file")
-    rm "$msg_file"
-
-    echo "✏️ Using edited message."
-  elif [[ "$confirm" != "y" && "$confirm" != "" ]]; then
-    echo "❌ Commit aborted."
-    return 1
-  fi
-
-  # Perform the actual commit
   echo "✔️ Committing with this message..."
   git commit -m "$commit_msg"
 
