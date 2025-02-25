@@ -16,20 +16,32 @@ function llamagc() {
     # Get the git diff and save it to the temporary file
     git --no-pager diff HEAD --raw -p > "$diff_file"
 
+    # Check if there are changes to commit
+    if [ ! -s "$diff_file" ]; then
+        echo "No changes to commit."
+        rm "$diff_file"
+        return 1
+    fi
+
     # Use ollama to generate a commit message based on the diff
-    local commit_msg=$(ollama run llama3.2 "Generate a single, concise line that describes these git changes (be brief and specific): $(cat "$diff_file")" 2>/dev/null | head -n 1)
+    echo "Generating commit message based on changes..."
+    local commit_msg=$(ollama run llama3.2 "
+    You are a git commit message generator.
+    Create a SINGLE line (50 characters or less) commit message that describes these changes:
+
+    $(cat "$diff_file")
+
+    IMPORTANT: Your entire response should be ONLY the commit message. No explanations or additional text." 2>/dev/null | head -n 1)
 
     # Cleanup temporary file
     rm "$diff_file"
 
-    # If we got a message, commit with it; otherwise, abort
-    if [ -n "$commit_msg" ]; then
-        echo "Committing with message: $commit_msg"
-        echo "$commit_msg" | git commit -a --file -
-    else
-        echo "Failed to generate commit message. Aborting commit."
-        return 1
-    fi
+    # Display the generated message
+    echo "Generated commit message: \"$commit_msg\""
+
+    # Show what the command would be
+    echo "To commit with this message, run:"
+    echo "git commit -am \"$commit_msg\""
 }
 
 # Source a file only if it exists.

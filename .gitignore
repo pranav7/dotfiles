@@ -3,3 +3,4 @@ shell/local.sh
 .aider.chat.history.md
 .aider.input.history
 .aider.tags.cache.v3/
+*.swp
