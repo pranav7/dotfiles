@@ -16,7 +16,9 @@ function commit() {
 
   # Check if any files are staged
   if [ -z "$(git diff --cached --name-only)" ]; then
-    echo "No files staged. Staging all changes..."
+    echo "⤫ No files staged"
+    echo "✓ Staging all files ..."
+
     git add .
   fi
 
@@ -27,13 +29,13 @@ function commit() {
 
   # Check if there are changes to commit
   if [ ! -s "$diff_file" ]; then
-    echo "☝️ No changes to commit."
+    echo "❌ No changes to commit."
     rm "$diff_file"
     return 1
   fi
 
   # Use ollama to generate a commit message based on the diff
-  echo "🤖 Generating commit message using model: $model"
+  echo "✓ Generating commit message using model: $model"
   local commit_msg=$(ollama run "$model" "
   Create a commit message for the following changes:
 
@@ -51,16 +53,18 @@ function commit() {
   rm "$diff_file"
 
   # Display the generated message
-  echo "🤖 Generated commit message:"
+  echo "✓ Commit message generated:"
   echo "$commit_msg"
 
-  echo "✔️ Committing with this message..."
+  echo "✓ Creatting ommitting ..."
   git commit -m "$commit_msg"
 
+  local branch=$(git symbolic-ref --short HEAD)
   # Confirm the commit was made
-  echo "✔️ Commit created."
-  echo "Pushing changes"
-  git push origin $(git symbolic-ref --short HEAD)
+  echo "✓ Commit created"
+  echo "⬆️ Pushing changes to $branch"
+
+  git push origin $branch
   echo "✅ Finished commiting and pushing changes"
 }
 
