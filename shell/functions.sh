@@ -42,7 +42,7 @@ function commit() {
   Here are the changes:
   $(cat "$diff_file")
 
-  Keep the following instructions in mind:
+  IMPORTANT: Follow these instructions when creating the commit message
   - Your response should be ONLY the commit message without any additional explanations
   - Keep the commit message short, and concise, ideally less than 50 characters
   - Do not use single or double quotes for the commit message, simply output the commit message
