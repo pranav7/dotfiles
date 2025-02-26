@@ -37,14 +37,15 @@ function commit() {
   local commit_msg=$(ollama run "$model" "
   Create a commit message for the following changes:
 
-  - First line: A short summary (50 chars or less)
-  - Then a blank line
-  - Then a more detailed explanation if needed
-
   Here are the changes:
   $(cat "$diff_file")
 
-  IMPORTANT: Your response should be ONLY the commit message without any additional explanations." 2>/dev/null)
+  Keep the following instructions in mind:
+  - Your response should be ONLY the commit message without any additional explanations
+  - Keep the commit message short, and concise, ideally less than 50 characters
+  - Do not use single or double quotes for the commit message, simply output the commit message
+  - Do not use prefixes like 'feat', 'feature', 'changes' 
+  " 2>/dev/null)
 
   # Cleanup temporary file
   rm "$diff_file"
