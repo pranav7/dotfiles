@@ -58,18 +58,18 @@ function commit() {
   echo "$commit_msg"
 
   echo "✓ Creating commit ..."
-  echo "---------------------------------"
+  echo "---------------------------------\n"
   git commit -m "$commit_msg"
 
   local branch=$(git symbolic-ref --short HEAD)
   # Confirm the commit was made
   echo "✓ Commit created"
-  echo "⬆️ Pushing changes to $branch \n\n"
-  echo "---------------------------------"
+  echo "⬆️ Pushing changes to $branch"
+  echo "---------------------------------\n"
 
   git push origin $branch
 
-  echo "---------------------------------"
+  echo "\n---------------------------------"
   echo "✅ Finished commiting and pushing changes"
 }
 
