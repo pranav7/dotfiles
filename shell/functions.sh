@@ -53,10 +53,7 @@ function commit() {
   # Cleanup temporary file
   rm "$diff_file"
 
-  # Display the generated message
-  echo "✓ Commit message generated:"
-  echo "$commit_msg"
-
+  echo "✓ Commit message generated: $commit_msg"
   echo "✓ Creating commit ..."
   echo "---------------------------------\n"
   git commit -m "$commit_msg"
