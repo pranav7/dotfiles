@@ -60,8 +60,7 @@ function commit() {
 
   local branch=$(git symbolic-ref --short HEAD)
   # Confirm the commit was made
-  echo "\n"
-  echo "✓ Commit created"
+  echo "\n✓ Commit created"
   echo "⬆️ Pushing changes to $branch"
   echo "---------------------------------\n"
 
