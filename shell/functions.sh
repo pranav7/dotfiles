@@ -60,6 +60,7 @@ function commit() {
 
   local branch=$(git symbolic-ref --short HEAD)
   # Confirm the commit was made
+  echo "\n"
   echo "✓ Commit created"
   echo "⬆️ Pushing changes to $branch"
   echo "---------------------------------\n"
@@ -67,7 +68,7 @@ function commit() {
   git push origin $branch
 
   echo "\n---------------------------------"
-  echo "✅ All done!"
+  echo "✅ All done"
 }
 
 # Source a file only if it exists.
