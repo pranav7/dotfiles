@@ -47,14 +47,14 @@ function commit() {
   - Keep the commit message short, and concise, ideally less than 50 characters
   - Do not use single or double quotes for the commit message, simply output the commit message
   - Do not use prefixes like 'feat', 'feature', 'changes' 
-  - Do not use punctuations
+  - Do not use any punctuations
   " 2>/dev/null)
 
   # Cleanup temporary file
   rm "$diff_file"
 
   echo "✓ Commit message generated: $commit_msg"
-  echo "✓ Creating commit ..."
+  echo "✓ Creating commit"
   echo "---------------------------------\n"
   git commit -m "$commit_msg"
 
@@ -67,7 +67,7 @@ function commit() {
   git push origin $branch
 
   echo "\n---------------------------------"
-  echo "✅ Finished commiting and pushing changes"
+  echo "✅ All done!"
 }
 
 # Source a file only if it exists.
