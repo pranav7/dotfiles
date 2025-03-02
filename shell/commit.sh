@@ -5,6 +5,7 @@ function commit() {
   local commit_msg=""
   local debug=false
   local has_explicit_message=false
+  local positional_args=()
 
   # Process arguments
   while [[ $# -gt 0 ]]; do
@@ -35,21 +36,25 @@ function commit() {
       -*)
         # Unknown flag
         echo "Error: Unknown flag $1"
-        echo "Usage: commit [--debug] [--model MODEL_NAME] [--message|-m \"COMMIT_MESSAGE\"] [MODEL_NAME] [\"COMMIT_MESSAGE\"]"
+        echo "Usage: commit [--debug] [--model MODEL_NAME] [--message|-m \"COMMIT_MESSAGE\"] [\"COMMIT_MESSAGE\"]"
         return 1
         ;;
       *)
-        if [ "$has_explicit_message" = false ]; then
-          commit_msg="$1"
-          has_explicit_message=true
-          shift
-        else
-          echo "Error: Multiple commit messages provided"
-          return 1
-        fi
+        # Store positional arguments for later processing
+        positional_args+=("$1")
+        shift
         ;;
     esac
   done
+
+  # Process positional arguments if any
+  if [[ ${#positional_args[@]} -gt 0 && "$has_explicit_message" = false ]]; then
+    commit_msg="${positional_args[0]}"
+    has_explicit_message=true
+  elif [[ ${#positional_args[@]} -gt 1 ]]; then
+    echo "Error: Multiple commit messages provided"
+    return 1
+  fi
 
   # Check if any files are staged
   if [ -z "$(git diff --cached --name-only)" ]; then
