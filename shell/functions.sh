@@ -9,67 +9,6 @@ remove_local_branches() {
   git branch -vv | grep 'origin/.*: gone]' | awk '{print $1}' | xargs git branch -d
 }
 
-function commit() {
-  # Allow a model to be specified as an argument, default to gemma2:2b
-  # local model="${1:-gemma2:2b}"
-  local model="${1:-llama3.2}"
-
-  # Check if any files are staged
-  if [ -z "$(git diff --cached --name-only)" ]; then
-    echo "⤫ No files staged"
-    echo "✓ Staging all files ..."
-
-    git add .
-  fi
-
-  # Create a temporary file for the git diff
-  local diff_file=$(mktemp)
-  # Get the git diff and save it to the temporary file
-  git --no-pager diff --cached --raw -p > "$diff_file"
-
-  # Check if there are changes to commit
-  if [ ! -s "$diff_file" ]; then
-    echo "❌ No changes to commit."
-    rm "$diff_file"
-    return 1
-  fi
-
-  # Use ollama to generate a commit message based on the diff
-  echo "✓ Generating commit message using model: $model"
-  local commit_msg=$(ollama run "$model" "
-  Create a commit message for the following changes:
-
-  Here are the changes:
-  $(cat "$diff_file")
-
-  IMPORTANT: Follow these instructions when creating the commit message
-  - Your response should be ONLY the commit message without any additional explanations
-  - Keep the commit message short, and concise, ideally less than 50 characters
-  - Do not use single or double quotes for the commit message, simply output the commit message
-  - Do not use prefixes like 'feat', 'feature', 'changes' 
-  - Do not use any punctuations
-  " 2>/dev/null)
-
-  # Cleanup temporary file
-  rm "$diff_file"
-
-  echo "✓ Commit message generated: $commit_msg"
-  echo "✓ Creating commit"
-  echo "---------------------------------\n"
-  git commit -m "$commit_msg"
-
-  local branch=$(git symbolic-ref --short HEAD)
-  # Confirm the commit was made
-  echo "\n✓ Commit created"
-  echo "⬆️ Pushing changes to $branch"
-  echo "---------------------------------\n"
-
-  git push origin $branch
-
-  echo "\n---------------------------------"
-  echo "✅ All done"
-}
-
 # Source a file only if it exists.
 # Use for files that might not be on all machines (work-specific).
 safe_source () {

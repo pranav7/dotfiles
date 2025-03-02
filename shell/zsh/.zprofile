@@ -4,7 +4,6 @@
 # by both login and interactive shells, unlike .zshrc.
 
 source ~/dotfiles/shell/common.sh
-source ~/dotfiles/shell/zsh/functions.zsh
 source ~/dotfiles/shell/zsh/prompt.zsh
 
 # The following lines were added by compinstall

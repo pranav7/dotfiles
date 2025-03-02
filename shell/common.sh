@@ -3,6 +3,7 @@
 source ~/dotfiles/shell/functions.sh
 source ~/dotfiles/shell/aliases.sh
 source ~/dotfiles/shell/nvm.sh
+source ~/dotfiles/shell/commit.sh
 
 safe_source ~/dotfiles/shell/local.sh
 
