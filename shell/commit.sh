@@ -53,16 +53,6 @@ function commit() {
     esac
   done
 
-  # Debug information
-  if [ "$debug" = true ]; then
-    echo "Debug: Using model: $model"
-    if [ -n "$commit_msg" ]; then
-      echo "Debug: Using provided commit message: $commit_msg"
-    else
-      echo "Debug: Will generate commit message using $model"
-    fi
-  fi
-
   # Check if any files are staged
   if [ -z "$(git diff --cached --name-only)" ]; then
     echo "⤫ No files staged"
