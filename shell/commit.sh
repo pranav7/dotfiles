@@ -53,6 +53,16 @@ function commit() {
     esac
   done
 
+  # Debug information
+  if [ "$debug" = true ]; then
+    echo "Debug: Using model: $model"
+    if [ -n "$commit_msg" ]; then
+      echo "Debug: Using provided commit message: $commit_msg"
+    else
+      echo "Debug: Will generate commit message using $model"
+    fi
+  fi
+
   # Check if any files are staged
   if [ -z "$(git diff --cached --name-only)" ]; then
     echo "⤫ No files staged"
@@ -64,7 +74,7 @@ function commit() {
   # Create a temporary file for the git diff
   local diff_file=$(mktemp)
   # Get the git diff and save it to the temporary file
-  git --no-pager diff --raw -p > "$diff_file"
+  git --no-pager diff --cached > "$diff_file"
 
   # Check if there are changes to commit
   if [ ! -s "$diff_file" ]; then
