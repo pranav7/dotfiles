@@ -32,11 +32,6 @@ function commit() {
           return 1
         fi
         ;;
-      llama3*|gemma*|mistral*|claude*)
-        # For backward compatibility
-        model="$1"
-        shift
-        ;;
       -*)
         # Unknown flag
         echo "Error: Unknown flag $1"
@@ -69,7 +64,7 @@ function commit() {
   # Create a temporary file for the git diff
   local diff_file=$(mktemp)
   # Get the git diff and save it to the temporary file
-  git --no-pager diff --cached --raw -p > "$diff_file"
+  git --no-pager diff --raw -p > "$diff_file"
 
   # Check if there are changes to commit
   if [ ! -s "$diff_file" ]; then
