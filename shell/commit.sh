@@ -4,6 +4,7 @@ function commit() {
   local model="llama3.2"
   local commit_msg=""
   local debug=false
+  local has_explicit_message=false
 
   # Process arguments
   while [[ $# -gt 0 ]]; do
@@ -21,14 +22,37 @@ function commit() {
           return 1
         fi
         ;;
+      --message|-m)
+        if [[ $# -gt 1 ]]; then
+          commit_msg="$2"
+          has_explicit_message=true
+          shift 2
+        else
+          echo "Error: --message requires a commit message"
+          return 1
+        fi
+        ;;
       llama3*|gemma*|mistral*|claude*)
         # For backward compatibility
         model="$1"
         shift
         ;;
+      -*)
+        # Unknown flag
+        echo "Error: Unknown flag $1"
+        echo "Usage: commit [--debug] [--model MODEL_NAME] [--message|-m \"COMMIT_MESSAGE\"] [MODEL_NAME] [\"COMMIT_MESSAGE\"]"
+        return 1
+        ;;
       *)
         # If not a recognized option or model, treat as commit message
-        commit_msg="$1"
+        # Only if we haven't already set a message with --message/-m
+        if [ "$has_explicit_message" = false ]; then
+          commit_msg="$1"
+          has_explicit_message=true
+        else
+          echo "Error: Multiple commit messages provided"
+          return 1
+        fi
         shift
         ;;
     esac
