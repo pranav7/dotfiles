@@ -39,13 +39,13 @@ function commit() {
         return 1
         ;;
       *)
-        # If not a recognized option or model, treat as commit message
-        # Only if we haven't already set a message with --message/-m
-        if [ "$has_explicit_message" = false ]; then
+        # Only treat arguments without leading dash as commit message
+        if [[ "$1" != -* && "$has_explicit_message" = false ]]; then
           commit_msg="$1"
           has_explicit_message=true
         else
-          echo "Error: Multiple commit messages provided"
+          echo "Error: Unknown or invalid argument $1"
+          echo "Usage: commit [--debug] [--model MODEL_NAME] [--message|-m \"COMMIT_MESSAGE\"] [\"COMMIT_MESSAGE\"]"
           return 1
         fi
         shift
