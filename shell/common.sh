@@ -19,11 +19,6 @@ export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 export FZF_DEFAULT_OPTS='--height 60% --reverse --border'
 
-# Initialize asdf
-. "$HOME/.asdf/asdf.sh"
-# Set up asdf completions for zsh
-fpath=(${ASDF_DATA_DIR:-$HOME/.asdf}/completions $fpath)
-
 # Define plugins before sourcing oh-my-zsh
 plugins=(
   git
