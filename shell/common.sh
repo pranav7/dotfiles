@@ -4,6 +4,7 @@ source ~/dotfiles/shell/functions.sh
 source ~/dotfiles/shell/aliases.sh
 source ~/dotfiles/shell/nvm.sh
 source ~/dotfiles/shell/commit.sh
+source ~/dotfiles/shell/zsh/functions.zsh
 
 safe_source ~/dotfiles/shell/local.sh
 
@@ -17,15 +18,29 @@ export ZSH_THEME="af-magic"
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 export FZF_DEFAULT_OPTS='--height 60% --reverse --border'
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-source $ZSH/oh-my-zsh.sh
-source $HOME/z/z.sh
-source $HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# Initialize asdf
+. "$HOME/.asdf/asdf.sh"
+# Set up asdf completions for zsh
+fpath=(${ASDF_DATA_DIR:-$HOME/.asdf}/completions $fpath)
 
+# Define plugins before sourcing oh-my-zsh
 plugins=(
   git
   bundler
   fzf
-  asdf
 )
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+source $ZSH/oh-my-zsh.sh
+source $HOME/z/z.sh
+
+# Set Homebrew prefix based on architecture
+if [[ $(uname -m) == 'arm64' ]]; then
+  export HOMEBREW_PREFIX="/opt/homebrew"
+else
+  export HOMEBREW_PREFIX="/usr/local"
+fi
+
+source $HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

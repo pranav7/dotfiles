@@ -4,7 +4,6 @@
 # from there to make sure our options are always loaded.
 
 source ~/.zprofile
-source ~/dotfiles/shell/zsh/completions.zsh
 
 export PATH="/opt/homebrew/Caskroom/clickhouse/latest/bin:$PATH"
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$HOME/dotfiles/bin:$PATH"
