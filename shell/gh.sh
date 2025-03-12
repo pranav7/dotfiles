@@ -1,7 +1,7 @@
 #!/bin/false
 
 function commit() {
-  local model="llama3.2"
+  local model="gemma3:1b"
   local commit_msg=""
   local debug=false
   local has_explicit_message=false
@@ -58,7 +58,7 @@ function commit() {
 
   # Check if any files are staged
   if [ -z "$(git diff --cached --name-only)" ]; then
-    echo "⤫ No files staged"
+    echo "⚠️ No files staged"
     echo "✓ Staging all files ..."
 
     git add .
@@ -71,7 +71,7 @@ function commit() {
 
   # Check if there are changes to commit
   if [ ! -s "$diff_file" ]; then
-    echo "❌ No changes to commit."
+    echo "⚠️ No changes to commit."
     rm "$diff_file"
     return 1
   fi
@@ -226,7 +226,7 @@ function pr() {
     elif git show-ref --verify --quiet refs/heads/master; then
       base="master"
     else
-      echo "❌ Error: Could not detect default branch (main or master)."
+      echo "⚠️ Error: Could not detect default branch (main or master)."
       echo "Please specify a base branch with --base."
       return 1
     fi
@@ -238,14 +238,14 @@ function pr() {
 
   # Safety check: Prevent creating PRs from master/main branch
   if [[ "$head" == "master" || "$head" == "main" ]]; then
-    echo "❌ Error: Cannot create a PR from the $head branch."
+    echo "⚠️ Error: Cannot create a PR from the $head branch."
     echo "Please checkout a feature branch first."
     return 1
   fi
 
   # Safety check: Prevent creating PRs with the same source and target branch
   if [[ "$head" == "$base" ]]; then
-    echo "❌ Error: Source branch ($head) and target branch ($base) cannot be the same."
+    echo "⚠️ Error: Source branch ($head) and target branch ($base) cannot be the same."
     echo "Please specify a different base branch with --base."
     return 1
   fi
@@ -269,7 +269,7 @@ function pr() {
 
     # Check if there are changes
     if [ ! -s "$diff_file" ]; then
-      echo "❌ No changes detected between $base and $head."
+      echo "⚠️ No changes detected between $base and $head."
       rm "$diff_file"
       return 1
     fi
@@ -319,7 +319,7 @@ function pr() {
     local first_commit=$(git log --reverse --format="%H" "$merge_base..$head" | head -n 1)
 
     if [ -z "$first_commit" ]; then
-      echo "❌ No commits found in this branch. Cannot create PR."
+      echo "🅧 No commits found in this branch. Cannot create PR."
       return 1
     fi
 

@@ -3,10 +3,10 @@
 # .zshrc is only read by interactive (non-login) shells, but we copy the config
 # from there to make sure our options are always loaded.
 
+export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
 export PATH="/opt/homebrew/Caskroom/clickhouse/latest/bin:$PATH"
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$HOME/dotfiles/bin:$PATH"
 
-export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
 fpath=(${ASDF_DATA_DIR:-$HOME/.asdf}/completions $fpath)
 
 export NVM_DIR="$HOME/.nvm"
