@@ -82,19 +82,18 @@ function commit() {
 
     # Create the prompt
     local prompt="
-    You are a helpful assistant that looks at git diffs and creates commit messages.
+    You are a helpful assistant that looks at git diffs and creates a commit message.
 
-    Follow these instructions when creating the commit message
-    - Your response should be ONLY the commit message WITHOUT any additional explanations
-    - Keep the commit message short, and concise, ideally less than 50 characters
-    - Do not use single or double quotes for the commit message, simply output the commit message
+    - Make sure your response is ONLY the commit message WITHOUT any additional explanations
+    - Keep the commit message short, and concise and less than 50 characters
+    - Do not use quotes for the commit message, simply output the commit message
     - Do not use prefixes like 'feat', 'feature', 'changes'
     - Do not use any punctuations
     - Do not use backticks for code blocks
     - Do not use any other formatting
     - Do not use any other characters
 
-    Following these instructions, please create a git commit message for the following changes:
+    create a commit message for the following changes strictly following the above instructions:
     $(cat "$diff_file")
     "
 
