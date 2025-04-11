@@ -24,3 +24,4 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 . "/Users/pranav/.deno/env"
 
 source ~/.zprofile
+alias claude="/Users/pranav/.claude/local/claude"
