@@ -42,3 +42,8 @@ make_executable ~/dotfiles/bin/tat
 
 echo "Enabling VSCode to key presses"
 defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false
+
+### Ghostty config
+
+echo "Creating Ghostty config"
+ln -s "$HOME/dotfiles/ghostty/config" "$HOME/Library/Application Support/com.mitchellh.ghostty/config"

@@ -1,0 +1,45 @@
+# NOTE:
+# docs:
+# ghostty +show-config --default --docs | nvim
+# examples:
+# https://github.com/search?q=path%3Aghostty%2Fconfig&type=code
+
+# ghostty +list-fonts
+
+font-size = 11
+
+# monospace
+font-family = "Cascadia Code NF Regular SemiBold"
+font-family-bold = "Cascadia Code NF Bold"
+
+# italics
+font-family-italic = "Cascadia Code NF Italic SemiBold Italic"
+font-family-bold-italic = "Cascadia Code NF Italic Bold Italic"
+
+window-title-font-family = "Cascadia Code NF Regular SemiBold"
+
+alpha-blending = linear-corrected
+
+macos-titlebar-style = tabs
+macos-titlebar-proxy-icon = hidden
+macos-option-as-alt = true
+
+mouse-hide-while-typing = true
+
+window-inherit-working-directory = false
+working-directory = home
+
+# keymaps
+keybind = global:cmd+`=toggle_quick_terminal
+keybind = shift+cmd+left_bracket=previous_tab
+keybind = shift+cmd+right_bracket=next_tab
+keybind = shift+cmd+,=move_tab:-1
+keybind = shift+cmd+.=move_tab:+1
+
+keybind = ctrl+h=goto_split:left
+keybind = ctrl+l=goto_split:right
+keybind = ctrl+j=goto_split:down
+keybind = ctrl+k=goto_split:up
+
+# theme
+theme = catppuccin-mocha
