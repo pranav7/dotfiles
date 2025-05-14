@@ -1,7 +1,7 @@
 #!/bin/false
 
 function commit() {
-  local model="llama3.2:latest"
+  local model="llama3.2"
   local commit_msg=""
   local debug=false
   local has_explicit_message=false
@@ -64,7 +64,7 @@ function commit() {
     git add .
   fi
 
-  # Create a temporary file for the git diff
+  # Create a temporaryfile for the git diff
   local diff_file=$(mktemp)
   # Get the git diff and save it to the temporary file
   git --no-pager diff --cached > "$diff_file"
