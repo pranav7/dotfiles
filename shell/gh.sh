@@ -1,7 +1,8 @@
 #!/bin/false
 
 function commit() {
-  local model="llama3.2"
+  # local model="llama3.2"
+  local model="devstral:24b"
   local commit_msg=""
   local debug=false
   local has_explicit_message=false

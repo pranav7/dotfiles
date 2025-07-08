@@ -43,5 +43,6 @@ keybind = ctrl+j=goto_split:down
 keybind = ctrl+k=goto_split:up
 
 # theme
-# theme = catppuccin-mocha
-theme = Adwaita
+theme = catppuccin-mocha
+# theme = Adwaita
+keybind = shift+enter=text:\n
