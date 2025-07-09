@@ -1,11 +1,11 @@
 #!/bin/false
 
 function commit() {
-  # local model="llama3.2"
-  local model="devstral:24b"
+  local model="llama3.2"
   local commit_msg=""
   local debug=false
   local has_explicit_message=false
+  local only_commit=false
   local positional_args=()
 
   # Process arguments
@@ -13,6 +13,10 @@ function commit() {
     case "$1" in
       --debug)
         debug=true
+        shift
+        ;;
+      --only-commit|--oc)
+        only_commit=true
         shift
         ;;
       --model)
@@ -37,7 +41,7 @@ function commit() {
       -*)
         # Unknown flag
         echo "Error: Unknown flag $1"
-        echo "Usage: commit [--debug] [--model MODEL_NAME] [--message|-m \"COMMIT_MESSAGE\"] [\"COMMIT_MESSAGE\"]"
+        echo "Usage: commit [--debug] [--only-commit|--oc] [--model MODEL_NAME] [--message|-m \"COMMIT_MESSAGE\"] [\"COMMIT_MESSAGE\"]"
         return 1
         ;;
       *)
@@ -120,16 +124,24 @@ function commit() {
   echo "---------------------------------\n"
   git commit -m "$commit_msg"
 
-  local branch=$(git symbolic-ref --short HEAD)
-  # Confirm the commit was made
-  echo "\n✓ Commit created"
-  echo "⬆️ Pushing changes to $branch"
-  echo "---------------------------------\n"
+  # Check if we should only commit (skip push)
+  if [ "$only_commit" = true ]; then
+    echo "\n✓ Commit created"
+    echo "⏸️ Skipping push (--only-commit flag used)"
+    echo "\n---------------------------------"
+    echo "✅ Commit completed"
+  else
+    local branch=$(git symbolic-ref --short HEAD)
+    # Confirm the commit was made
+    echo "\n✓ Commit created"
+    echo "⬆️ Pushing changes to $branch"
+    echo "---------------------------------\n"
 
-  git push origin $branch
+    git push origin $branch
 
-  echo "\n---------------------------------"
-  echo "✅ All done"
+    echo "\n---------------------------------"
+    echo "✅ All done"
+  fi
 }
 
 function pr() {
