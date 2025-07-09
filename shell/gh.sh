@@ -5,7 +5,7 @@ function commit() {
   local commit_msg=""
   local debug=false
   local has_explicit_message=false
-  local only_commit=false
+  local push=false
   local positional_args=()
 
   # Process arguments
@@ -15,8 +15,8 @@ function commit() {
         debug=true
         shift
         ;;
-      --only-commit|--oc)
-        only_commit=true
+      --push|--p)
+        push=true
         shift
         ;;
       --model)
@@ -41,7 +41,7 @@ function commit() {
       -*)
         # Unknown flag
         echo "Error: Unknown flag $1"
-        echo "Usage: commit [--debug] [--only-commit|--oc] [--model MODEL_NAME] [--message|-m \"COMMIT_MESSAGE\"] [\"COMMIT_MESSAGE\"]"
+        echo "Usage: commit [--debug] [--push|--p] [--model MODEL_NAME] [--message|-m \"COMMIT_MESSAGE\"] [\"COMMIT_MESSAGE\"]"
         return 1
         ;;
       *)
@@ -124,13 +124,8 @@ function commit() {
   echo "---------------------------------\n"
   git commit -m "$commit_msg"
 
-  # Check if we should only commit (skip push)
-  if [ "$only_commit" = true ]; then
-    echo "\n✓ Commit created"
-    echo "⏸️ Skipping push (--only-commit flag used)"
-    echo "\n---------------------------------"
-    echo "✅ Commit completed"
-  else
+  # Check if we should push
+  if [ "$push" = true ]; then
     local branch=$(git symbolic-ref --short HEAD)
     # Confirm the commit was made
     echo "\n✓ Commit created"
@@ -141,6 +136,10 @@ function commit() {
 
     echo "\n---------------------------------"
     echo "✅ All done"
+  else
+    echo "\n✓ Commit created"
+    echo "\n---------------------------------"
+    echo "✅ Commit completed"
   fi
 }
 
