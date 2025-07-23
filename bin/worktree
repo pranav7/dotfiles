@@ -87,7 +87,8 @@ worktrees_dir="$(dirname "$PWD")/worktrees"
 
 usage() {
   print_header "Git Worktree Manager"
-  printf "${BOLD}Usage:${NC} worktree ${CYAN}<command>${NC} ${DIM}[options] [name]${NC}\n\n"
+  printf "${BOLD}Usage:${NC} worktree ${CYAN}<command>${NC} ${DIM}[options] [name]${NC}\n"
+  printf "${DIM}Alias:${NC} wt ${CYAN}<command>${NC} ${DIM}[options] [name]${NC}\n\n"
 
   printf "${BOLD}Commands:${NC}\n"
   printf "  ${BOLD_GREEN}start${NC} ${CYAN}<name>${NC}                Create a new worktree and branch\n"
