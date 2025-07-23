@@ -92,13 +92,15 @@ usage() {
   printf "${BOLD}Commands:${NC}\n"
   printf "  ${BOLD_GREEN}start${NC} ${CYAN}<name>${NC}                Create a new worktree and branch\n"
   printf "                              ${DIM}Remembers current branch as base for PR${NC}\n"
+  printf "                              ${DIM}Auto-creates tmux session with Claude if available${NC}\n"
   printf "  ${BOLD_RED}stop${NC} ${CYAN}<name>${NC}                 Remove an existing worktree\n"
+  printf "                              ${DIM}Cleans up tmux sessions automatically${NC}\n"
   printf "  ${BOLD_BLUE}submit${NC} ${DIM}[options]${NC}             Create PR and optionally clean up current worktree\n"
   printf "                              ${DIM}--title <title>: PR title (default: use commit messages)${NC}\n"
   printf "                              ${DIM}--base-branch <branch>: target branch (default: remembered base)${NC}\n"
   printf "                              ${DIM}--no-verify: bypass git hooks when pushing${NC}\n"
   printf "                              ${DIM}--no-pr: only push, don't create pull request${NC}\n"
-  printf "  ${BOLD_YELLOW}list${NC}, ${BOLD_YELLOW}ls${NC}                    Show all existing worktrees\n"
+  printf "  ${BOLD_YELLOW}list${NC}, ${BOLD_YELLOW}ls${NC}                    Show all existing worktrees and tmux sessions\n"
   exit 1
 }
 
@@ -154,10 +156,23 @@ start_worktree() {
     # Store the base branch for this worktree
     git config "worktree.$name.base" "$current_base_branch"
     print_success "Worktree created successfully"
-    printf "Changing directory to: $(print_path "$worktrees_dir/$name")\n"
-    cd "$worktrees_dir/$name"
-    # Start a new shell in the worktree directory
-    exec "$SHELL"
+
+    # Check if tmux and claude are available for enhanced workflow
+    if check_tmux_claude; then
+      print_info "Both tmux and claude detected - creating integrated development environment"
+      create_tmux_session "$name" "$worktrees_dir/$name"
+    else
+      printf "Changing directory to: $(print_path "$worktrees_dir/$name")\n"
+      if ! command -v tmux >/dev/null 2>&1; then
+        print_warning "tmux not found - falling back to standard shell"
+      fi
+      if ! command -v claude >/dev/null 2>&1; then
+        print_warning "claude not found - falling back to standard shell"
+      fi
+      cd "$worktrees_dir/$name"
+      # Start a new shell in the worktree directory
+      exec "$SHELL"
+    fi
   else
     print_error "Failed to create worktree"
     exit 1
@@ -176,7 +191,11 @@ stop_worktree() {
     exit 1
   fi
 
-  print_header "Removing Worktree"
+    print_header "Removing Worktree"
+
+  # Clean up tmux session first
+  cleanup_tmux_session "$name"
+
   printf "Removing worktree $(print_branch "$name")\n"
   git worktree remove "$worktrees_dir/$name"
 
@@ -209,14 +228,32 @@ list_worktrees() {
 
   print_header "Remembered Base Branches"
   # Get all worktree configs
-  if git config --get-regexp "^worktree\." >/dev/null 2>&1; then
-    git config --get-regexp "^worktree\." | while read -r key value; do
+  if git config --get-regexp "^worktree\..*\.base$" >/dev/null 2>&1; then
+    git config --get-regexp "^worktree\..*\.base$" | while read -r key value; do
       # Extract worktree name from key like "worktree.feature-auth.base"
       worktree_name=$(echo "$key" | sed 's/worktree\.\(.*\)\.base/\1/')
       printf "  $(print_branch "$worktree_name") ${DIM}→${NC} $(print_branch "$value")\n"
     done
   else
     printf "${DIM}  No remembered base branches${NC}\n"
+  fi
+
+  print_header "Active Tmux Sessions"
+  # Get all tmux session configs
+  if git config --get-regexp "^worktree\..*\.tmux-session$" >/dev/null 2>&1; then
+    git config --get-regexp "^worktree\..*\.tmux-session$" | while read -r key value; do
+      # Extract worktree name from key like "worktree.feature-auth.tmux-session"
+      worktree_name=$(echo "$key" | sed 's/worktree\.\(.*\)\.tmux-session/\1/')
+
+      # Check if session is actually running
+      if tmux has-session -t "$value" 2>/dev/null; then
+        printf "  $(print_branch "$worktree_name") ${DIM}→${NC} ${BOLD_CYAN}$value${NC} ${GREEN}(active)${NC}\n"
+      else
+        printf "  $(print_branch "$worktree_name") ${DIM}→${NC} ${DIM}$value (dead)${NC}\n"
+      fi
+    done
+  else
+    printf "${DIM}  No tmux sessions${NC}\n"
   fi
 }
 
@@ -255,6 +292,65 @@ get_stored_base_branch() {
   else
     # Try from current location
     git config --get "worktree.$branch_name.base" 2>/dev/null
+  fi
+}
+
+check_tmux_claude() {
+  command -v tmux >/dev/null 2>&1 && command -v claude >/dev/null 2>&1
+}
+
+create_tmux_session() {
+  worktree_name="$1"
+  worktree_path="$2"
+  session_name="worktree-$worktree_name"
+
+  print_info "Creating tmux session with Claude integration"
+
+  # Create new tmux session in detached mode
+  tmux new-session -d -s "$session_name" -c "$worktree_path"
+
+  # Split window vertically (creates left and right panes)
+  tmux split-window -h -t "$session_name" -c "$worktree_path"
+
+  # Left pane: Start Claude
+  tmux send-keys -t "$session_name:0.0" "claude" Enter
+
+  # Right pane: Just the shell (already in the right directory)
+  tmux send-keys -t "$session_name:0.1" "clear" Enter
+
+  # Focus on the right pane (terminal)
+  tmux select-pane -t "$session_name:0.1"
+
+  # Store session name for cleanup
+  git config "worktree.$worktree_name.tmux-session" "$session_name"
+
+  # Attach to the session
+  print_success "Tmux session created: $(print_branch "$session_name")"
+  printf "Left pane: ${BOLD_CYAN}Claude${NC} | Right pane: ${BOLD_GREEN}Terminal${NC}\n"
+  tmux attach-session -t "$session_name"
+}
+
+cleanup_tmux_session() {
+  worktree_name="$1"
+  main_repo="$(get_main_repo_dir)"
+
+  # Get stored session name
+  if [ -n "$main_repo" ] && [ -d "$main_repo" ]; then
+    session_name=$(cd "$main_repo" && git config --get "worktree.$worktree_name.tmux-session" 2>/dev/null)
+  else
+    session_name=$(git config --get "worktree.$worktree_name.tmux-session" 2>/dev/null)
+  fi
+
+  if [ -n "$session_name" ] && tmux has-session -t "$session_name" 2>/dev/null; then
+    print_info "Cleaning up tmux session: $(print_branch "$session_name")"
+    tmux kill-session -t "$session_name"
+
+    # Remove session config
+    if [ -n "$main_repo" ] && [ -d "$main_repo" ]; then
+      (cd "$main_repo" && git config --unset "worktree.$worktree_name.tmux-session" 2>/dev/null)
+    else
+      git config --unset "worktree.$worktree_name.tmux-session" 2>/dev/null
+    fi
   fi
 }
 
@@ -371,7 +467,11 @@ submit_worktree() {
       current_worktree="$(pwd)"
       worktree_name="$(basename "$current_worktree")"
 
-      print_header "Cleaning Up"
+            print_header "Cleaning Up"
+
+      # Clean up tmux session first
+      cleanup_tmux_session "$current_branch"
+
       printf "Changing to main repository: $(print_path "$main_repo")\n"
       cd "$main_repo" || exit 1
 
@@ -421,12 +521,16 @@ submit_worktree() {
     printf "\n${BOLD_YELLOW}Do you want to remove this worktree?${NC} ${DIM}(y/N)${NC} "
     read -r response
 
-    if [ "$response" = "y" ] || [ "$response" = "Y" ]; then
+        if [ "$response" = "y" ] || [ "$response" = "Y" ]; then
       main_repo="$(get_main_repo_dir)"
       current_worktree="$(pwd)"
       worktree_name="$(basename "$current_worktree")"
 
       print_header "Cleaning Up"
+
+      # Clean up tmux session first
+      cleanup_tmux_session "$current_branch"
+
       printf "Changing to main repository: $(print_path "$main_repo")\n"
       cd "$main_repo" || exit 1
 
