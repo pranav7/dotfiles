@@ -6,7 +6,7 @@
 
 # ghostty +list-fonts
 
-font-size = 11
+font-size = 13
 
 # monospace
 font-family = "Cascadia Code NF Regular Regular"
