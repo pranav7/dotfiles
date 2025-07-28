@@ -41,10 +41,11 @@ Plug 'ap/vim-css-color'
 Plug 'thoughtbot/vim-rspec'
 Plug 'jgdavey/tslime.vim'
 
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'
 
 Plug 'rainglow/vim'
+
+Plug 'catppuccin/vim', { 'as': 'catppuccin' }
 
 call plug#end()
 
@@ -58,7 +59,7 @@ if has("gui_running")
   set ruler
   :hi Normal ctermbg=black
 else
-  color dracula
+  color catppuccin_mocha
 endif
 
 hi Normal guibg=NONE ctermbg=NONE
@@ -200,3 +201,14 @@ let g:ale_fix_on_save = 1
 let g:ale_javascript_prettier_use_local_config = 1
 let g:ale_sign_column_always = 1
 let g:ale_sign_error = '=>'
+
+let g:lightline = {
+      \ 'colorscheme': 'catppuccin_mocha',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'FugitiveHead'
+      \ },
+      \ }
