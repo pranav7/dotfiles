@@ -10,9 +10,9 @@ safe_source ~/dotfiles/shell/local.sh
 
 export DISABLE_SPRING=true
 export TERM="xterm-256color"
-export BUNDLER_EDITOR=vim
-export EDITOR=vim
-export GIT_EDITOR=vim
+export BUNDLER_EDITOR=nvim
+export EDITOR=nvim
+export GIT_EDITOR=nvim
 export ZSH=$HOME/.oh-my-zsh
 export ZSH_THEME="af-magic"
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
