@@ -200,6 +200,3 @@ highlight_damage = false
 
 # Prefer EGL over GLX (Linux/BSD only)
 prefer_egl = false
-
-# Force renderer fallback
-force_fallback_renderer = false
