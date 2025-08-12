@@ -108,3 +108,24 @@ fancy_dir () {
   echo -en "%F{cyan}%-55<…<%~%<<%f"
   return
 }
+
+# Kill processes running on a specific port
+killport() {
+  if [[ $# -eq 0 ]]; then
+    echo "Usage: killport <port_number>"
+    echo "Example: killport 3000"
+    return 1
+  fi
+
+  local port=$1
+  local pids=$(lsof -ti:$port)
+
+  if [[ -z $pids ]]; then
+    echo "No processes found running on port $port"
+    return 0
+  fi
+
+  echo "Killing processes on port $port: $pids"
+  echo $pids | xargs kill -9
+  echo "Processes killed successfully"
+}

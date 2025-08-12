@@ -32,15 +32,15 @@ working-directory = home
 
 # keymaps
 keybind = global:cmd+`=toggle_quick_terminal
-keybind = shift+cmd+left_bracket=previous_tab
-keybind = shift+cmd+right_bracket=next_tab
-keybind = shift+cmd+,=move_tab:-1
-keybind = shift+cmd+.=move_tab:+1
+keybind = ctrl+cmd+left_bracket=previous_tab
+keybind = ctrl+cmd+right_bracket=next_tab
+keybind = ctrl+cmd+,=move_tab:-1
+keybind = ctrl+cmd+.=move_tab:+1
 
-keybind = cmd+left=goto_split:left
-keybind = cmd+right=goto_split:right
-keybind = cmd+down=goto_split:down
-keybind = cmd+up=goto_split:up
+keybind = ctrl+cmd+h=goto_split:left
+keybind = ctrl+cmd+l=goto_split:right
+keybind = ctrl+cmd+j=goto_split:down
+keybind = ctrl+cmd+k=goto_split:up
 
 # theme
 theme = catppuccin-mocha
