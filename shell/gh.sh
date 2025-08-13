@@ -87,19 +87,58 @@ function commit() {
 
     # Create the prompt
     local prompt="
-    You are a helpful assistant that looks at git diffs and creates a commit message.
+    You are a senior engineer writing Git commit messages that are clear, concise, and useful for code review and changelog generation.
+    Follow the Conventional Commits 1.0.0 specification strictly.
+    Always use the imperative mood and keep the first line ≤72 characters.
+    Output only the commit message, nothing else.
 
-    - Make sure your response is ONLY the commit message WITHOUT any additional explanations
-    - Keep the commit message short, and concise and less than 50 characters
-    - Do not use quotes for the commit message, simply output the commit message
-    - Do not use prefixes like 'feat', 'feature', 'changes'
-    - Do not use any punctuations
-    - Do not use backticks for code blocks
-    - Do not use any other formatting
-    - Do not use any other characters
+    Given the full staged diff, write a single commit message that:
+    - Uses Conventional Commits format: <type>(optional scope): <description>.
+    - Chooses the best type from: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert. Use ! or a BREAKING CHANGE footer for breaking changes.
+    - First line is an imperative, concise summary of all changes across files (≤72 chars).
+    - Add a blank line, then a short body explaining rationale, context, and notable tradeoffs in 2–5 lines; prefer bullets for multiple points.
+    - Reference issues/PRs in footers when present (e.g., Closes #123).
+    - Do not include code blocks or quotes; output only the commit message.
 
-    create a commit message for the following changes strictly following the above instructions:
+    Heuristics for type/scope:
+    - feat: new user-visible behavior, API, CLI, config, or flag.
+    - fix: bug fix or regression repair.
+    - refactor: structural change without behavior change.
+    - perf: measurable performance improvement.
+    - docs/style/test/build/ci/chore: as commonly defined.
+    - Use scope from the dominant directory or component in the diff (e.g., api, auth, ci, build, ui).
+
+    Multi-file diffs:
+    - Summarize the primary intent across all files, not just the first hunk.
+    - If multiple unrelated intents are present, prioritize the most impactful and mention the rest in the body.
+
+    Style rules:
+    - Imperative mood: “add”, “fix”, “update”, “remove”, “refactor”, “rename”.
+    - No trailing period on the subject line. Keep ≤72 chars.
+    - Body lines ≤100 chars; use concise bullets when listing.
+
+    Input:
     $(cat "$diff_file")
+
+    Output format:
+    <type>(optional-scope): <concise subject ≤72 chars>
+    - Why and what changed at a high level.
+    - Key details, constraints, or side-effects.
+    - Note tests/docs/build updates if relevant.
+
+    Example outputs:
+    feat(auth): add OAuth2 login with Google
+    - Implement OAuth2 flow and token refresh.
+    - Persist sessions with secure cookies.
+    - Refs: #482
+
+    fix(worker): resolve memory leak in connection pool
+    - Close idle connections and add timeout.
+    - Add regression test for idle cleanup.
+
+    refactor(api): extract pagination helper
+    - Centralize page/limit parsing and validation.
+    - Replace duplicated logic across 4 handlers.
     "
 
     # Print the prompt if debug is enabled
