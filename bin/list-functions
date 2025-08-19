@@ -1,0 +1,198 @@
+#!/bin/bash
+
+# List all available terminal functions from dotfiles
+# This script scans shell configuration files and bin directory for functions
+#
+# Usage:
+#   ./bin/list-functions    # Run directly
+#   listfunc               # If aliased (alias listfunc='list-functions')
+#
+# Features:
+#   - Lists all shell functions from shell/*.sh files
+#   - Lists all aliases from shell/aliases.sh
+#   - Lists all custom scripts in bin/ directory
+#   - Shows function availability in current shell
+#   - Color-coded output for easy reading
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+BLUE='\033[0;34m'
+MAGENTA='\033[0;35m'
+CYAN='\033[0;36m'
+WHITE='\033[0;37m'
+BOLD='\033[1m'
+NC='\033[0m' # No Color
+
+# Get the dotfiles directory (assuming this script is in bin/)
+DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+print_header() {
+    echo -e "\n${BOLD}${CYAN}$1${NC}"
+    echo -e "${CYAN}$(printf '%*s' ${#1} '' | tr ' ' '─')${NC}"
+}
+
+print_section() {
+    echo -e "\n${BOLD}${YELLOW}$1${NC}"
+}
+
+print_function() {
+    local name="$1"
+    local description="$2"
+    local file="$3"
+    echo -e "  ${GREEN}$name${NC}${description:+ - $description}"
+    if [[ -n "$file" ]]; then
+        echo -e "    ${DIM}Defined in: $file${NC}"
+    fi
+}
+
+print_script() {
+    local name="$1"
+    local description="$2"
+    local file="$3"
+    echo -e "  ${MAGENTA}$name${NC}${description:+ - $description}"
+    if [[ -n "$file" ]]; then
+        echo -e "    ${DIM}Script: $file${NC}"
+    fi
+}
+
+print_alias() {
+    local name="$1"
+    local value="$2"
+    echo -e "  ${BLUE}$name${NC} → $value"
+}
+
+# Function to extract function definitions from shell files
+extract_functions() {
+    local file="$1"
+    local file_type="$2"
+
+    if [[ ! -f "$file" ]]; then
+        return
+    fi
+
+    case "$file_type" in
+        "functions")
+            # Extract function definitions from shell files (both formats: func() and function func())
+            grep -E '^[[:space:]]*(function[[:space:]]+)?[a-zA-Z_][a-zA-Z0-9_]*[[:space:]]*\(\)[[:space:]]*\{?' "$file" | \
+            sed 's/^[[:space:]]*function[[:space:]]*//' | sed 's/^[[:space:]]*\([a-zA-Z_][a-zA-Z0-9_]*\)[[:space:]]*().*/\1/' | \
+            sort -u | while read -r func; do
+                print_function "$func" "" "$file"
+            done
+            ;;
+        "aliases")
+            # Extract alias definitions
+            grep -E '^[[:space:]]*alias[[:space:]]+[a-zA-Z_][a-zA-Z0-9_]*=' "$file" | \
+            sed 's/^[[:space:]]*alias[[:space:]]*\([a-zA-Z_][a-zA-Z0-9_]*\)=.*/\1/' | \
+            sort -u | while read -r alias; do
+                # Get the full alias definition
+                local alias_def=$(grep -E "^[[:space:]]*alias[[:space:]]*$alias=" "$file" | head -1)
+                local alias_value=$(echo "$alias_def" | sed 's/^[[:space:]]*alias[[:space:]]*[^=]*=//')
+                print_alias "$alias" "$alias_value"
+            done
+            ;;
+    esac
+}
+
+# Function to extract function definitions from zsh files
+extract_zsh_functions() {
+    local file="$1"
+
+    if [[ ! -f "$file" ]]; then
+        return
+    fi
+
+    # Extract function definitions from zsh files (both formats: func() and function func())
+    grep -E '^[[:space:]]*(function[[:space:]]+)?[a-zA-Z_][a-zA-Z0-9_]*[[:space:]]*\(\)[[:space:]]*\{?' "$file" | \
+    sed 's/^[[:space:]]*function[[:space:]]*//' | sed 's/^[[:space:]]*\([a-zA-Z_][a-zA-Z0-9_]*\)[[:space:]]*().*/\1/' | \
+    sort -u | while read -r func; do
+        print_function "$func" "" "$file"
+    done
+}
+
+# Function to analyze custom scripts in bin directory
+analyze_bin_scripts() {
+    local bin_dir="$DOTFILES_DIR/bin"
+
+    if [[ ! -d "$bin_dir" ]]; then
+        return
+    fi
+
+    for script in "$bin_dir"/*; do
+        if [[ -f "$script" && -x "$script" ]]; then
+            local script_name=$(basename "$script")
+            local description=""
+
+            # Try to extract description from comments
+            local first_line=$(head -1 "$script" 2>/dev/null)
+            if [[ "$first_line" =~ ^#.* ]]; then
+                description=$(echo "$first_line" | sed 's/^#[[:space:]]*//')
+            fi
+
+            print_script "$script_name" "$description" "$script"
+        fi
+    done
+}
+
+# Function to check if a function is available in current shell
+check_function_availability() {
+    local func_name="$1"
+    if command -v "$func_name" >/dev/null 2>&1; then
+        echo -e "  ${GREEN}✓${NC} Available"
+    else
+        echo -e "  ${RED}✗${NC} Not loaded"
+    fi
+}
+
+# Main execution
+main() {
+    echo -e "${BOLD}${WHITE}Available Terminal Functions from Dotfiles${NC}"
+    echo -e "${DIM}Scanning: $DOTFILES_DIR${NC}"
+
+    # Shell Functions
+    print_header "Shell Functions"
+
+    print_section "Bash Functions (shell/functions.sh)"
+    extract_functions "$DOTFILES_DIR/shell/functions.sh" "functions"
+
+    print_section "Zsh Functions (shell/zsh/functions.zsh)"
+    extract_zsh_functions "$DOTFILES_DIR/shell/zsh/functions.zsh"
+
+    print_section "GitHub Functions (shell/gh.sh)"
+    extract_functions "$DOTFILES_DIR/shell/gh.sh" "functions"
+
+    # Aliases
+    print_header "Shell Aliases"
+
+    print_section "Aliases (shell/aliases.sh)"
+    extract_functions "$DOTFILES_DIR/shell/aliases.sh" "aliases"
+
+    # Custom Scripts
+    print_header "Custom Scripts (bin/)"
+    analyze_bin_scripts
+
+    # Function availability check
+    print_header "Function Availability Check"
+    echo -e "${DIM}Note: Functions may not be loaded in current shell session${NC}"
+
+    # Check some key functions
+    local key_functions=("branch" "remove_local_branches" "cecho" "killport" "commit" "chevrons" "git_check" "git_status")
+
+    for func in "${key_functions[@]}"; do
+        echo -n "$func: "
+        check_function_availability "$func"
+    done
+
+    echo -e "\n${BOLD}${GREEN}Total functions found:${NC}"
+    echo -e "  Shell functions: $(grep -r -E '^[[:space:]]*(function[[:space:]]+)?[a-zA-Z_][a-zA-Z0-9_]*[[:space:]]*\(\)[[:space:]]*\{?' "$DOTFILES_DIR/shell" | grep -c '^' || echo "0")"
+    echo -e "  Aliases: $(grep -r -E '^[[:space:]]*alias[[:space:]]+[a-zA-Z_][a-zA-Z0-9_]*=' "$DOTFILES_DIR/shell" | grep -c '^' || echo "0")"
+    echo -e "  Custom scripts: $(find "$DOTFILES_DIR/bin" -type f -executable 2>/dev/null | wc -l || echo "0")"
+
+    echo -e "\n${DIM}To load all functions, source your shell configuration:${NC}"
+    echo -e "  ${CYAN}source ~/.zshrc${NC} (for zsh)"
+    echo -e "  ${CYAN}source ~/.bashrc${NC} (for bash)"
+}
+
+# Run main function
+main "$@"
