@@ -81,64 +81,61 @@ function commit() {
     return 1
   fi
 
+  # Collect context to help generate a better commit message
+  local repo_name
+  repo_name=$(basename "$(git rev-parse --show-toplevel 2>/dev/null)" 2>/dev/null)
+  local branch_name
+  branch_name=$(git symbolic-ref --short HEAD 2>/dev/null)
+  local staged_files
+  staged_files=$(git --no-pager diff --cached --name-only)
+  local staged_count
+  staged_count=$(printf "%s\n" "$staged_files" | sed '/^$/d' | wc -l | tr -d ' ')
+  local staged_name_status
+  staged_name_status=$(git --no-pager diff --cached --name-status)
+  local recent_subjects
+  recent_subjects=$(git --no-pager log -n 10 --pretty=format:'- %s' 2>/dev/null)
+
   # If no commit message was provided, generate one using ollama
   if [ -z "$commit_msg" ]; then
     echo "✓ Generating commit message using model: $model"
 
     # Create the prompt
     local prompt="
-    You are a senior engineer writing Git commit messages that are clear, concise, and useful for code review and changelog generation.
-    Follow the Conventional Commits 1.0.0 specification strictly.
-    Always use the imperative mood and keep the first line ≤72 characters.
-    Output only the commit message, nothing else.
+    ROLE
+    You generate a single Conventional Commits message from a staged Git diff. Be concise, precise, and useful for code review and changelogs.
 
-    Given the full staged diff, write a single commit message that:
-    - Uses Conventional Commits format: <type>(optional scope): <description>.
-    - Chooses the best type from: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert. Use ! or a BREAKING CHANGE footer for breaking changes.
-    - First line is an imperative, concise summary of all changes across files (≤72 chars).
-    - Add a blank line, then a short body explaining rationale, context, and notable tradeoffs in 2–5 lines; prefer bullets for multiple points.
-    - Reference issues/PRs in footers when present (e.g., Closes #123).
-    - Do not include code blocks or quotes; output only the commit message.
+    OUTPUT CONTRACT
+    - Output ONLY the commit message text. No backticks, no quotes, no preamble, no explanations.
+    - Subject (line 1) ≤ 72 chars, imperative mood, no trailing period.
+    - Body: 1–4 short lines or bullets covering rationale and notable impacts.
+    - Include footers (e.g., Closes #123, Refs: ABC-123) when signals are present in the diff or branch name.
 
-    Heuristics for type/scope:
-    - feat: new user-visible behavior, API, CLI, config, or flag.
-    - fix: bug fix or regression repair.
-    - refactor: structural change without behavior change.
-    - perf: measurable performance improvement.
-    - docs/style/test/build/ci/chore: as commonly defined.
-    - Use scope from the dominant directory or component in the diff (e.g., api, auth, ci, build, ui).
+    CONVENTIONAL COMMITS
+    - Type: feat | fix | docs | style | refactor | perf | test | build | ci | chore | revert. Use ! or BREAKING CHANGE footer for breaking changes.
+    - Scope: infer from the dominant directory or component (e.g., api, auth, build, ui, ci).
+    - Prefer style for formatting-only or lints; chore for repo plumbing; ci for workflows; build for tooling/deps.
 
-    Multi-file diffs:
-    - Summarize the primary intent across all files, not just the first hunk.
-    - If multiple unrelated intents are present, prioritize the most impactful and mention the rest in the body.
+    HEURISTICS
+    - Summarize the primary intent across files; mention secondary touches in body.
+    - Prefer concrete user-facing intent over low-level refactors.
+    - If tests/docs updated only, use test or docs.
+    - Do NOT invent details not present in the diff.
 
-    Style rules:
-    - Imperative mood: “add”, “fix”, “update”, “remove”, “refactor”, “rename”.
-    - No trailing period on the subject line. Keep ≤72 chars.
-    - Body lines ≤100 chars; use concise bullets when listing.
+    PROJECT SIGNALS
+    - Repository: ${repo_name}
+    - Branch: ${branch_name}
+    - Staged files (${staged_count}):
+      $(printf "%s\n" "$staged_files" | sed 's/^/      - /')
+    - Staged changes (name-status):
+      $(printf "%s\n" "$staged_name_status" | sed 's/^/      - /')
+    - Recent commit subjects (style reference):
+      $(printf "%s\n" "$recent_subjects" | sed 's/^/      /')
 
-    Input:
+    FULL STAGED DIFF
     $(cat "$diff_file")
 
-    Output format:
-    <type>(optional-scope): <concise subject ≤72 chars>
-    - Why and what changed at a high level.
-    - Key details, constraints, or side-effects.
-    - Note tests/docs/build updates if relevant.
-
-    Example outputs:
-    feat(auth): add OAuth2 login with Google
-    - Implement OAuth2 flow and token refresh.
-    - Persist sessions with secure cookies.
-    - Refs: #482
-
-    fix(worker): resolve memory leak in connection pool
-    - Close idle connections and add timeout.
-    - Add regression test for idle cleanup.
-
-    refactor(api): extract pagination helper
-    - Centralize page/limit parsing and validation.
-    - Replace duplicated logic across 4 handlers.
+    TASK
+    Write a single, best-effort Conventional Commits message that fits the contract above.
     "
 
     # Print the prompt if debug is enabled
