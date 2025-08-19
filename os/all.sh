@@ -47,3 +47,8 @@ defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false
 
 echo "Creating Ghostty config"
 ln -s "$HOME/dotfiles/ghostty/config" "$HOME/Library/Application Support/com.mitchellh.ghostty/config"
+
+### Neovim config
+
+echo "Creating Neovim config symlink"
+ln -sf "$HOME/dotfiles/nvim" "$HOME/.config/nvim"

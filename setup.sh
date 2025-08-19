@@ -11,8 +11,9 @@ setup () {
   # Determine which OS we are in and follow the corresponding script
   case $OSTYPE in
     darwin*) . "${DIR}/os/macos.sh" ;;
-      msys*) . "${DIR}/os/windows.sh" ;;
-          *) exit ;;
+    msys*) . "${DIR}/os/windows.sh" ;;
+    linux*) . "${DIR}/os/linux.sh" ;;
+    *) exit ;;
   esac
 }
 
