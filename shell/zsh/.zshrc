@@ -26,3 +26,5 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 source ~/.zprofile
 alias claude="/Users/pranav/.claude/local/claude"
 export PATH="$HOME/.local/bin:$PATH"
+
+eval "$(starship init zsh)"

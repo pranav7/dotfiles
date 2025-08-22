@@ -10,3 +10,4 @@ defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false
 echo "Creating Ghostty config"
 mkdir -p "$HOME/Library/Application Support/com.mitchellh.ghostty"
 ln -sf "$HOME/dotfiles/ghostty/config" "$HOME/Library/Application Support/com.mitchellh.ghostty/config"
+
