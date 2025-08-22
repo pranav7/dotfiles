@@ -1,4 +1,36 @@
-#!/bin/false
+#!/bin/bash
+
+# Color definitions for output
+CYAN='\033[0;36m'
+BOLD='\033[1m'
+NC='\033[0m' # No Color
+
+# Print a header with a line underneath
+print_header() {
+    echo -e "\n${BOLD}${CYAN}$1${NC}"
+    echo -e "${CYAN}$(printf '%*s' ${#1} '' | tr ' ' '─')${NC}"
+}
+
+# Create a symlink from dotfiles to home directory
+symlink_to_home() {
+    local source="$1"
+    local target="$HOME/$(basename "$source")"
+    
+    # Expand ~ to actual home directory
+    source="${source/#\~/$HOME}"
+    
+    if [[ -L "$target" ]]; then
+        echo "Symlink already exists: $target"
+    elif [[ -f "$target" ]] || [[ -d "$target" ]]; then
+        echo "Backing up existing file/directory: $target"
+        mv "$target" "$target.backup.$(date +%Y%m%d_%H%M%S)"
+        ln -s "$source" "$target"
+        echo "Created symlink: $target → $source"
+    else
+        ln -s "$source" "$target"
+        echo "Created symlink: $target → $source"
+    fi
+}
 
 branch() {
   current_date=$(date +'%d.%m.%y')

@@ -7,6 +7,7 @@ alias tmux-detect="tmux-theme detect"
 alias zshrc="vim ~/.zshrc"
 alias vimrc="vim ~/.vimrc"
 alias srczsh="source ~/.zshrc"
+alias srcbash="source ~/.bashrc"
 alias gitlg="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
 alias lsf="find $(pwd)"
 alias main="git checkout main"
@@ -18,3 +19,4 @@ alias vim='nvim'
 alias listfunc='list-functions'
 alias ls='lsd -l'
 alias tree='lsd --tree'
+alias gs='git status'

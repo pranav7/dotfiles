@@ -1,4 +1,4 @@
-#!/bin/false
+#!/bin/bash
 
 print_header "creating symlinks"
 
@@ -23,6 +23,8 @@ make_executable ~/dotfiles/bin/worktree
 make_executable ~/dotfiles/bin/wt
 
 ### applications
+# Note: VSCode key press settings are platform-specific
+# For Linux, this would need to be configured differently
 
 print_header "setting up applications"
 
@@ -30,3 +32,13 @@ print_header "setting up applications"
 echo "Creating Neovim config symlink"
 mkdir -p "$HOME/.config"
 ln -sf "$HOME/dotfiles/nvim" "$HOME/.config/nvim"
+
+echo "Creating Ghostty config"
+# Linux Ghostty config location
+if [[ -d "$HOME/.config" ]]; then
+    mkdir -p "$HOME/.config/ghostty"
+    ln -sf "$HOME/dotfiles/ghostty/config" "$HOME/.config/ghostty/config"
+    echo "Ghostty config linked successfully"
+else
+    echo "Warning: ~/.config directory not found, Ghostty config not linked"
+fi

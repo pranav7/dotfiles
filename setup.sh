@@ -10,14 +10,24 @@ setup () {
 
   # Determine which OS we are in and follow the corresponding script
   case $OSTYPE in
-    darwin*) . "${DIR}/os/macos.sh" ;;
-      msys*) . "${DIR}/os/windows.sh" ;;
-     linux*) . "${DIR}/os/linux.sh" ;;
-          *) 
-            echo "Unsupported OS: $OSTYPE"
-            echo "Supported: darwin (macOS), linux, msys (Windows)" 
-            exit 1
-            ;;
+    darwin*) 
+      print_header "Detected macOS"
+      . "${DIR}/os/macos.sh" 
+      ;;
+    msys*|cygwin*) 
+      print_header "Detected Windows"
+      . "${DIR}/os/windows.sh" 
+      ;;
+    linux*) 
+      print_header "Detected Linux"
+      . "${DIR}/os/linux.sh" 
+      ;;
+    *) 
+      print_header "Unknown OS: $OSTYPE"
+      echo "Unsupported operating system: $OSTYPE"
+      echo "Supported: darwin (macOS), linux, msys/cygwin (Windows)" 
+      exit 1
+      ;;
   esac
 }
 

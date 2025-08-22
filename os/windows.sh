@@ -1,4 +1,4 @@
-#!/bin/false
+#!/bin/bash
 
 print_header "setting up Windows"
 
