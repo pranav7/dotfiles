@@ -56,3 +56,34 @@ make_executable () {
     chmod +x "$file"
   fi
 }
+
+# Print a colored header for setup sections
+print_header () {
+  declare message=${1:-""}
+  echo
+  cecho "=== $message ===" "cyan"
+  echo
+}
+
+# Create a symlink from dotfiles to home directory
+symlink_to_home () {
+  declare source_file=$1
+  declare target_file="${HOME}/$(basename "$source_file")"
+  
+  # Expand the ~ in source_file to full path
+  source_file="${source_file/#\~/$HOME}"
+  
+  if [[ -f $source_file ]] || [[ -d $source_file ]]; then
+    echo "Linking $(basename "$source_file")"
+    
+    # Remove existing file/symlink if it exists
+    [[ -L "$target_file" ]] && rm "$target_file"
+    [[ -f "$target_file" ]] && mv "$target_file" "${target_file}.backup"
+    [[ -d "$target_file" ]] && mv "$target_file" "${target_file}.backup"
+    
+    # Create the symlink
+    ln -s "$source_file" "$target_file"
+  else
+    echo "Warning: Source file $source_file does not exist"
+  fi
+}

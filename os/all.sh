@@ -1,54 +1,32 @@
 #!/bin/false
 
-## Symlinks
-
 print_header "creating symlinks"
 
-### git
-
-# symlink_to_home ~/dotfiles/git/.gitconfig
-# symlink_to_home ~/dotfiles/git/.gitignore_global
-
-### shell
-
-# symlink_to_home ~/dotfiles/shell/.inputrc
-
-#### bash
-
-# symlink_to_home ~/dotfiles/shell/bash/.bash_profile
-# symlink_to_home ~/dotfiles/shell/bash/.bashrc
-
-#### zsh
-
+### Shell configuration
+echo "Setting up shell configuration"
 symlink_to_home ~/dotfiles/shell/zsh/.zprofile
 symlink_to_home ~/dotfiles/shell/zsh/.zshrc
 
-### ruby
-
-# symlink_to_home ~/dotfiles/ruby/.ruby-version
-# symlink_to_home ~/dotfiles/ruby/.rubocop.yml
-
-### editors
-
-# symlink_to_home ~/dotfiles/editor/.editorconfig
+### Editor configuration  
+echo "Setting up editor configuration"
 symlink_to_home ~/dotfiles/vim/.vimrc
 
-### tmux
-
+### Terminal multiplexer
+echo "Setting up tmux"
 symlink_to_home ~/dotfiles/tmux/.tmux.conf
 make_executable ~/dotfiles/bin/tat
 
-### other setup
+### Scripts
+echo "Making scripts executable"
+make_executable ~/dotfiles/bin/list-functions
+make_executable ~/dotfiles/bin/worktree
+make_executable ~/dotfiles/bin/wt
 
-echo "Enabling VSCode to key presses"
-defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false
+### applications
 
-### Ghostty config
+print_header "setting up applications"
 
-echo "Creating Ghostty config"
-ln -s "$HOME/dotfiles/ghostty/config" "$HOME/Library/Application Support/com.mitchellh.ghostty/config"
-
-### Neovim config
-
+# Neovim config (cross-platform)
 echo "Creating Neovim config symlink"
+mkdir -p "$HOME/.config"
 ln -sf "$HOME/dotfiles/nvim" "$HOME/.config/nvim"
