@@ -1,6 +1,9 @@
 #!/bin/false
 
 alias tmuxconf="vim ~/.tmux.conf"
+alias tmux-dark="tmux-theme dark"
+alias tmux-light="tmux-theme light"
+alias tmux-detect="tmux-theme detect"
 alias zshrc="vim ~/.zshrc"
 alias vimrc="vim ~/.vimrc"
 alias srczsh="source ~/.zshrc"

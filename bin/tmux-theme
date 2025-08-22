@@ -4,14 +4,16 @@
 
 case "$1" in
     "dark")
+        echo "dark" > "$HOME/.tmux-theme-preference"
         tmux set-option -g @theme-variant dark
         tmux source-file ~/.tmux.conf
-        echo "Switched to dark theme"
+        echo "Switched to dark theme (saved preference)"
         ;;
     "light")
+        echo "light" > "$HOME/.tmux-theme-preference"
         tmux set-option -g @theme-variant light
         tmux source-file ~/.tmux.conf
-        echo "Switched to light theme"
+        echo "Switched to light theme (saved preference)"
         ;;
     "detect")
         # Re-run the detection logic
@@ -22,8 +24,19 @@ case "$1" in
     "status")
         current_theme=$(tmux show-option -gv @theme-variant 2>/dev/null || echo "unknown")
         colorfgbg=$(tmux show-environment COLORFGBG 2>/dev/null | cut -d= -f2 | cut -d\; -f2)
+        term_program=$(tmux show-environment TERM_PROGRAM 2>/dev/null | cut -d= -f2)
+        iterm_profile=$(tmux show-environment ITERM_PROFILE 2>/dev/null | cut -d= -f2)
+        macos_appearance=$(defaults read -g AppleInterfaceStyle 2>/dev/null)
+
+        preference_file=$(cat "$HOME/.tmux-theme-preference" 2>/dev/null)
+
         echo "Current theme: $current_theme"
-        echo "COLORFGBG background value: $colorfgbg"
+        echo "Preference file: ${preference_file:-'(not set)'}"
+        echo "Detection methods:"
+        echo "  COLORFGBG background: ${colorfgbg:-'(not set)'}"
+        echo "  TERM_PROGRAM: ${term_program:-'(not set)'}"
+        echo "  ITERM_PROFILE: ${iterm_profile:-'(not set)'}"
+        echo "  macOS appearance: ${macos_appearance:-'Light (default)'}"
         ;;
     *)
         echo "Usage: tmux-theme {dark|light|detect|status}"
@@ -35,4 +48,3 @@ case "$1" in
         echo "  status  - Show current theme and detection info"
         ;;
 esac
-
