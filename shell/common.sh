@@ -1,7 +1,6 @@
 #!/bin/false
 
 source ~/dotfiles/shell/functions.sh
-source ~/dotfiles/shell/aliases.sh
 source ~/dotfiles/shell/nvm.sh
 source ~/dotfiles/shell/gh.sh
 source ~/dotfiles/shell/zsh/functions.zsh
@@ -39,3 +38,4 @@ else
 fi
 
 source $HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/dotfiles/shell/aliases.sh

@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+# tmux-theme - Helper script to manage tmux theme mode
+
+case "$1" in
+    "dark")
+        tmux set-option -g @theme-variant dark
+        tmux source-file ~/.tmux.conf
+        echo "Switched to dark theme"
+        ;;
+    "light")
+        tmux set-option -g @theme-variant light
+        tmux source-file ~/.tmux.conf
+        echo "Switched to light theme"
+        ;;
+    "detect")
+        # Re-run the detection logic
+        tmux source-file ~/.tmux.conf
+        current_theme=$(tmux show-option -gv @theme-variant 2>/dev/null || echo "unknown")
+        echo "Detected theme: $current_theme"
+        ;;
+    "status")
+        current_theme=$(tmux show-option -gv @theme-variant 2>/dev/null || echo "unknown")
+        colorfgbg=$(tmux show-environment COLORFGBG 2>/dev/null | cut -d= -f2 | cut -d\; -f2)
+        echo "Current theme: $current_theme"
+        echo "COLORFGBG background value: $colorfgbg"
+        ;;
+    *)
+        echo "Usage: tmux-theme {dark|light|detect|status}"
+        echo ""
+        echo "Commands:"
+        echo "  dark    - Force dark theme"
+        echo "  light   - Force light theme"
+        echo "  detect  - Re-detect theme from terminal"
+        echo "  status  - Show current theme and detection info"
+        ;;
+esac
+
