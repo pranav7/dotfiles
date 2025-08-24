@@ -102,52 +102,33 @@ function commit() {
 
     # Create the prompt
     local prompt="
-    ROLE
-    You are an expert at writing clear, descriptive Git commit messages that help developers understand what changed and why. Generate a single commit message from the staged Git diff provided.
+    Write a Git commit message for the changes shown below.
 
-    OUTPUT FORMAT
-    - Output ONLY the commit message text - no backticks, quotes, preamble, or explanations
-    - Subject line (first line): ≤ 72 characters, imperative mood, no trailing period
-    - Blank line after subject (if body is included)
-    - Body (optional): 2-5 lines explaining the WHY behind the changes when not obvious from the diff
-    - Each body line ≤ 72 characters
-    - Use bullet points in body for multiple related changes
+    IMPORTANT RULES:
+    - Output ONLY the commit message
+    - NO prefixes like feat:, fix:, docs:, style:, refactor:, test:, chore:
+    - NO type tags or conventional commit format
+    - Start with a verb: Add, Update, Fix, Remove, Improve, Refactor, etc.
+    - First line max 72 characters
+    - Be specific and descriptive
 
-    COMMIT MESSAGE BEST PRACTICES
-    - Subject: Start with imperative verb (Add, Update, Fix, Remove, Refactor, Improve, etc.)
-    - Be specific about WHAT changed (e.g., \"Update database connection timeout to 30s\" not \"Update config\")
-    - Include the WHY in the body if the reason isn't obvious from the code
-    - Mention side effects or important considerations
-    - Reference issue/ticket numbers if present in branch name or diff comments
-    - For breaking changes: Note \"BREAKING CHANGE:\" in the body
-    - Group related changes logically in the message
+    EXAMPLE GOOD COMMIT MESSAGES:
+    - Update commit message prompt to remove type prefixes
+    - Add validation for user input in login form
+    - Fix memory leak in database connection handler
+    - Improve performance of search algorithm by 40%
+    - Remove deprecated API endpoints from v1
 
-    CONTEXT ANALYSIS GUIDELINES
-    - Identify the primary purpose of the changes
-    - Look for patterns across multiple files (refactoring, feature addition, bug fix)
-    - Note any configuration changes and their implications
-    - Identify test additions/modifications and what they validate
-    - Recognize dependency updates and version changes
-    - Detect API changes or interface modifications
-    - Notice documentation updates that accompany code changes
+    PROJECT INFO:
+    Repository: ${repo_name}
+    Branch: ${branch_name}
+    Files changed (${staged_count}):
+$(printf "%s\n" "$staged_files" | sed 's/^/    /')
 
-    PROJECT CONTEXT
-    - Repository: ${repo_name}
-    - Current branch: ${branch_name}
-    - Files modified (${staged_count} total):
-$(printf "%s\n" "$staged_files" | sed 's/^/      /')
-    
-    - Change summary (A=Added, M=Modified, D=Deleted, R=Renamed):
-$(printf "%s\n" "$staged_name_status" | sed 's/^/      /')
-    
-    - Recent commit history (for style consistency):
-$(printf "%s\n" "$recent_subjects" | sed 's/^/      /')
-
-    FULL DIFF TO ANALYZE
+    CHANGES:
     $(cat "$diff_file")
 
-    YOUR TASK
-    Analyze the diff above and write a clear, informative commit message following the best practices outlined. Focus on clarity and usefulness for future developers reviewing this change.
+    Write the commit message now:
     "
 
     # Print the prompt if debug is enabled
