@@ -1,8 +1,8 @@
 #!/bin/false
 
 function commit() {
-  # local model="llama3.2"
-  local model="gpt-oss"
+  local model="llama3.2"
+  # local model="gpt-oss"
   local commit_msg=""
   local debug=false
   local has_explicit_message=false
@@ -103,40 +103,51 @@ function commit() {
     # Create the prompt
     local prompt="
     ROLE
-    You generate a single Conventional Commits message from a staged Git diff. Be concise, precise, and useful for code review and changelogs.
+    You are an expert at writing clear, descriptive Git commit messages that help developers understand what changed and why. Generate a single commit message from the staged Git diff provided.
 
-    OUTPUT CONTRACT
-    - Output ONLY the commit message text. No backticks, no quotes, no preamble, no explanations.
-    - Subject (line 1) ≤ 72 chars, imperative mood, no trailing period.
-    - Body: 1–4 short lines or bullets covering rationale and notable impacts.
-    - Include footers (e.g., Closes #123, Refs: ABC-123) when signals are present in the diff or branch name.
+    OUTPUT FORMAT
+    - Output ONLY the commit message text - no backticks, quotes, preamble, or explanations
+    - Subject line (first line): ≤ 72 characters, imperative mood, no trailing period
+    - Blank line after subject (if body is included)
+    - Body (optional): 2-5 lines explaining the WHY behind the changes when not obvious from the diff
+    - Each body line ≤ 72 characters
+    - Use bullet points in body for multiple related changes
 
-    CONVENTIONAL COMMITS
-    - Type: feat | fix | docs | style | refactor | perf | test | build | ci | chore | revert. Use ! or BREAKING CHANGE footer for breaking changes.
-    - Scope: infer from the dominant directory or component (e.g., api, auth, build, ui, ci).
-    - Prefer style for formatting-only or lints; chore for repo plumbing; ci for workflows; build for tooling/deps.
+    COMMIT MESSAGE BEST PRACTICES
+    - Subject: Start with imperative verb (Add, Update, Fix, Remove, Refactor, Improve, etc.)
+    - Be specific about WHAT changed (e.g., \"Update database connection timeout to 30s\" not \"Update config\")
+    - Include the WHY in the body if the reason isn't obvious from the code
+    - Mention side effects or important considerations
+    - Reference issue/ticket numbers if present in branch name or diff comments
+    - For breaking changes: Note \"BREAKING CHANGE:\" in the body
+    - Group related changes logically in the message
 
-    HEURISTICS
-    - Summarize the primary intent across files; mention secondary touches in body.
-    - Prefer concrete user-facing intent over low-level refactors.
-    - If tests/docs updated only, use test or docs.
-    - Do NOT invent details not present in the diff.
+    CONTEXT ANALYSIS GUIDELINES
+    - Identify the primary purpose of the changes
+    - Look for patterns across multiple files (refactoring, feature addition, bug fix)
+    - Note any configuration changes and their implications
+    - Identify test additions/modifications and what they validate
+    - Recognize dependency updates and version changes
+    - Detect API changes or interface modifications
+    - Notice documentation updates that accompany code changes
 
-    PROJECT SIGNALS
+    PROJECT CONTEXT
     - Repository: ${repo_name}
-    - Branch: ${branch_name}
-    - Staged files (${staged_count}):
-      $(printf "%s\n" "$staged_files" | sed 's/^/      - /')
-    - Staged changes (name-status):
-      $(printf "%s\n" "$staged_name_status" | sed 's/^/      - /')
-    - Recent commit subjects (style reference):
-      $(printf "%s\n" "$recent_subjects" | sed 's/^/      /')
+    - Current branch: ${branch_name}
+    - Files modified (${staged_count} total):
+$(printf "%s\n" "$staged_files" | sed 's/^/      /')
+    
+    - Change summary (A=Added, M=Modified, D=Deleted, R=Renamed):
+$(printf "%s\n" "$staged_name_status" | sed 's/^/      /')
+    
+    - Recent commit history (for style consistency):
+$(printf "%s\n" "$recent_subjects" | sed 's/^/      /')
 
-    FULL STAGED DIFF
+    FULL DIFF TO ANALYZE
     $(cat "$diff_file")
 
-    TASK
-    Write a single, best-effort Conventional Commits message that fits the contract above.
+    YOUR TASK
+    Analyze the diff above and write a clear, informative commit message following the best practices outlined. Focus on clarity and usefulness for future developers reviewing this change.
     "
 
     # Print the prompt if debug is enabled
@@ -179,4 +190,3 @@ function commit() {
     echo "✅ Commit completed"
   fi
 }
-
