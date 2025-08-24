@@ -1,7 +1,8 @@
 #!/bin/false
 
 function commit() {
-  local model="llama3.2"
+  # local model="llama3.2"
+  local model="gpt-oss"
   local commit_msg=""
   local debug=false
   local has_explicit_message=false
@@ -11,44 +12,44 @@ function commit() {
   # Process arguments
   while [[ $# -gt 0 ]]; do
     case "$1" in
-      --debug)
-        debug=true
-        shift
-        ;;
-      --push|--p)
-        push=true
-        shift
-        ;;
-      --model)
-        if [[ $# -gt 1 ]]; then
-          model="$2"
-          shift 2
-        else
-          echo "Error: --model requires a model name"
-          return 1
-        fi
-        ;;
-      --message|-m)
-        if [[ $# -gt 1 ]]; then
-          commit_msg="$2"
-          has_explicit_message=true
-          shift 2
-        else
-          echo "Error: --message requires a commit message"
-          return 1
-        fi
-        ;;
-      -*)
-        # Unknown flag
-        echo "Error: Unknown flag $1"
-        echo "Usage: commit [--debug] [--push|--p] [--model MODEL_NAME] [--message|-m \"COMMIT_MESSAGE\"] [\"COMMIT_MESSAGE\"]"
+    --debug)
+      debug=true
+      shift
+      ;;
+    --push | --p)
+      push=true
+      shift
+      ;;
+    --model)
+      if [[ $# -gt 1 ]]; then
+        model="$2"
+        shift 2
+      else
+        echo "Error: --model requires a model name"
         return 1
-        ;;
-      *)
-        # Store positional arguments for later processing
-        positional_args+=("$1")
-        shift
-        ;;
+      fi
+      ;;
+    --message | -m)
+      if [[ $# -gt 1 ]]; then
+        commit_msg="$2"
+        has_explicit_message=true
+        shift 2
+      else
+        echo "Error: --message requires a commit message"
+        return 1
+      fi
+      ;;
+    -*)
+      # Unknown flag
+      echo "Error: Unknown flag $1"
+      echo "Usage: commit [--debug] [--push|--p] [--model MODEL_NAME] [--message|-m \"COMMIT_MESSAGE\"] [\"COMMIT_MESSAGE\"]"
+      return 1
+      ;;
+    *)
+      # Store positional arguments for later processing
+      positional_args+=("$1")
+      shift
+      ;;
     esac
   done
 
@@ -72,7 +73,7 @@ function commit() {
   # Create a temporaryfile for the git diff
   local diff_file=$(mktemp)
   # Get the git diff and save it to the temporary file
-  git --no-pager diff --cached > "$diff_file"
+  git --no-pager diff --cached >"$diff_file"
 
   # Check if there are changes to commit
   if [ ! -s "$diff_file" ]; then
@@ -178,3 +179,4 @@ function commit() {
     echo "✅ Commit completed"
   fi
 }
+

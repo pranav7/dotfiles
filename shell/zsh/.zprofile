@@ -8,6 +8,8 @@ compinit
 
 source ~/dotfiles/shell/common.sh
 # source ~/dotfiles/shell/zsh/prompt.zsh  # Disabled - using Starship instead
+source ~/dotfiles/shell/zsh/aliases.sh
+source ~/dotfiles/shell/zsh/prompt.zsh
 
 zstyle :compinstallfilename '/Users/pranavsingh/.zshrc'
 
