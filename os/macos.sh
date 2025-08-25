@@ -76,15 +76,7 @@ fi
 # Install Nerd Fonts
 echo "Installing Nerd Fonts"
 if command -v brew &> /dev/null; then
-    # Add the homebrew-cask-fonts tap if not already added
-    if ! brew tap | grep -q "homebrew/cask-fonts"; then
-        echo "Adding homebrew/cask-fonts tap..."
-        brew tap homebrew/cask-fonts
-    else
-        echo "homebrew/cask-fonts tap already added"
-    fi
-    
-    # Install CaskaydiaCove Nerd Font
+    # Install CaskaydiaCove Nerd Font directly (no tap needed since fonts migrated to homebrew/cask)
     if ! brew list --cask font-caskaydia-cove-nerd-font &> /dev/null 2>&1; then
         echo "Installing CaskaydiaCove Nerd Font..."
         brew install --cask font-caskaydia-cove-nerd-font

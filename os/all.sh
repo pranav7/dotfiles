@@ -46,10 +46,24 @@ make_executable ~/dotfiles/bin/wt
 
 print_header "setting up applications"
 
-# Neovim config (cross-platform)
-echo "Creating Neovim config symlink"
+# Neovim LazyVim config (cross-platform)
+echo "Setting up Neovim with LazyVim"
 mkdir -p "$HOME/.config"
+
+# Backup existing Neovim config if it exists and isn't a symlink
+if [[ -d "$HOME/.config/nvim" && ! -L "$HOME/.config/nvim" ]]; then
+    echo "Backing up existing Neovim config"
+    mv "$HOME/.config/nvim" "$HOME/.config/nvim.backup.$(date +%Y%m%d_%H%M%S)"
+fi
+
+# Create symlink to LazyVim config
 ln -sf "$HOME/dotfiles/nvim" "$HOME/.config/nvim"
+echo "LazyVim config linked successfully"
+
+# Create backup directories for Neovim state/cache if they don't exist
+mkdir -p "$HOME/.local/share/nvim"
+mkdir -p "$HOME/.local/state/nvim"
+mkdir -p "$HOME/.cache/nvim"
 
 # Cursor config (cross-platform)
 echo "Creating Cursor config symlinks"
