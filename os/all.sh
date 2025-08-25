@@ -11,7 +11,12 @@ symlink_to_home ~/dotfiles/shell/zsh/.zshrc
 echo "Setting up starship prompt"
 if ! command -v starship &> /dev/null; then
     echo "Installing starship..."
-    curl -sS https://starship.rs/install.sh | sh -s -- --yes
+    mkdir -p "$HOME/.local/bin"
+    curl -sS https://starship.rs/install.sh | sh -s -- --yes --bin-dir "$HOME/.local/bin"
+    echo "Adding ~/.local/bin to PATH if not already present"
+    if [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
+        echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$HOME/.zprofile"
+    fi
 else
     echo "Starship already installed"
 fi

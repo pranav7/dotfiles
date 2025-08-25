@@ -2,6 +2,15 @@
 
 print_header "setting up macOS"
 
+# Install packages with Homebrew
+echo "Installing packages with Homebrew"
+if command -v brew &> /dev/null; then
+    echo "Installing lsd..."
+    brew install lsd
+else
+    echo "Homebrew not found. Please install Homebrew first: https://brew.sh"
+fi
+
 # Enable VSCode key repeat
 echo "Enabling VSCode key repeat"
 defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false
