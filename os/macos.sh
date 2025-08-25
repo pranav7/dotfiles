@@ -25,6 +25,25 @@ else
     echo "Created .zshrc symlink"
 fi
 
+# Install nvm (Node Version Manager)
+echo "Setting up nvm"
+if [ ! -d "$HOME/.nvm" ]; then
+    echo "Installing nvm..."
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+else
+    echo "nvm already installed"
+fi
+
+# Install fzf (fuzzy finder)
+echo "Setting up fzf"
+if [ ! -d "$HOME/.fzf" ]; then
+    echo "Installing fzf..."
+    git clone --depth 1 https://github.com/junegunn/fzf.git "$HOME/.fzf"
+    "$HOME/.fzf/install" --all
+else
+    echo "fzf already installed"
+fi
+
 # Install z.sh for directory jumping
 echo "Setting up z.sh"
 if [ ! -d "$HOME/z" ]; then
