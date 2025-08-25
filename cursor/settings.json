@@ -1,0 +1,241 @@
+{
+    "vim.easymotion": true,
+    "vim.sneak": true,
+    "vim.incsearch": true,
+    "vim.useSystemClipboard": true,
+    "vim.useCtrlKeys": true,
+    "vim.hlsearch": true,
+    "vim.insertModeKeyBindings": [
+        {
+            "before": [
+                "j",
+                "j"
+            ],
+            "after": [
+                "<Esc>"
+            ]
+        }
+    ],
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "<leader>",
+                "d"
+            ],
+            "after": [
+                "d",
+                "d"
+            ]
+        },
+        {
+            "before": [
+                "<c-c>"
+            ],
+            "commands": [
+                ":nohl"
+            ]
+        },
+        {
+            "before": [
+                "<C-h>"
+            ],
+            "after": [
+                "<C-w>",
+                "h"
+            ]
+        },
+        {
+            "before": [
+                "<C-l>"
+            ],
+            "after": [
+                "<C-w>",
+                "l"
+            ]
+        }
+    ],
+    "vim.leader": "<space>",
+    "vim.handleKeys": {
+        "<C-a>": false,
+        "<C-f>": false
+    },
+    "prettier.requireConfig": true,
+    "editor.formatOnSave": true,
+    "workbench.fontAliasing": "auto",
+    "git.autofetch": true,
+    "remote.SSH.configFile": "~/.ssh/workspace",
+    "remote.SSH.showLoginTerminal": true,
+    "css.validate": false,
+    "less.validate": false,
+    "scss.validate": false,
+    "stylelint.validate": [
+        "css",
+        "html",
+        "less",
+        "markdown",
+        "postcss",
+        "sass",
+        "scss",
+        "source.css.styled",
+        "source.markdown.math",
+        "styled-css",
+        "sugarss",
+        "svelte",
+        "vue",
+        "vue-html",
+        "vue-postcss",
+        "xml",
+        "xsl"
+    ],
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true
+    },
+    "[typescript]": {
+        "editor.formatOnSave": true
+    },
+    "[scss]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[handlebars]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[ruby]": {
+        "editor.defaultFormatter": "misogi.ruby-rubocop", // Use the Ruby LSP as the default formatter
+        "editor.formatOnSave": true, // Format files automatically when saving
+        "editor.tabSize": 2, // Use 2 spaces for indentation
+        "editor.insertSpaces": true, // Use spaces and not tabs for indentation
+        "editor.semanticHighlighting.enabled": true, // Enable semantic highlighting
+        "editor.formatOnType": true, // Enable formatting while typing
+    },
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.formatOnSave": true
+    },
+    "editor.minimap.enabled": false,
+    "js/ts.implicitProjectConfig.experimentalDecorators": true,
+    "editor.cursorStyle": "line",
+    "editor.wordSeparators": "/\\()\"':,.;<>~!@#$%^&*|+=[]{}`?-",
+    "editor.wordWrap": "off",
+    "vim.smartRelativeLine": true,
+    "editor.stickyTabStops": true,
+    "terminal.integrated.fontWeight": 600,
+    "editor.fontLigatures": "'calt', 'ss01'",
+    "editor.fontWeight": 500,
+    "editor.fontFamily": "CaskaydiaCove Nerd Font, Cascadia Code NF, Fira Code Retina, Fira Code IScript, JetBrains Mono NL, Menlo, Monaco, 'Courier New', monospace",
+    "editor.suggestSelection": "first",
+    "editor.lineNumbers": "relative",
+    "editor.tabSize": 2,
+    "editor.inlineSuggest.enabled": true,
+    "editor.bracketPairColorization.enabled": true,
+    "editor.guides.bracketPairs": "active",
+    "workbench.commandPalette.preserveInput": true,
+    "window.title": "${activeEditorMedium}${separator}${rootName}",
+    "search.exclude": {
+        "**/node_modules": true,
+        "**/bower_components": true,
+        "**/dist": true,
+        "**/tmp": true,
+        "**/.git": true,
+        "**/.gitignore": true,
+        "**/*.log": true
+    },
+    "files.watcherExclude": {
+        "**/.git/objects/**": true,
+        "**/.git/subtree-cache/**": true,
+        "**/node_modules/**": true,
+        "**/bower_components/**": true,
+        "**/tmp/**": true
+    },
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/tmp": true,
+        "**/node_modules": true
+    },
+    "files.trimTrailingWhitespace": true,
+    "files.trimFinalNewlines": true,
+    "[glimmer-js]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.foldingStrategy": "indentation"
+    },
+    "[glimmer-ts]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.foldingStrategy": "indentation"
+    },
+    "prettier.documentSelectors": [
+        "**/*.gts",
+        "**/*.gjs"
+    ],
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "githubPullRequests.pullBranch": "never",
+    "rubyLsp.rubyVersionManager": {
+        "identifier": "asdf"
+    },
+    // "terminal.integrated.enableMultiLinePasteWarning": false,
+    "cursor.cpp.disabledLanguages": [
+        "markdown",
+        "scminput"
+    ],
+    "editor.tokenColorCustomizations": {
+        "textMateRules": [
+          {
+            "scope": [
+              "comment",
+              "keyword",
+              "storage.modifier",
+              "storage.type.class.js",
+              "storage.type.class.tsx",
+              "storage.type.js",
+              "storage.type.tsx",
+              "entity.other.inherited-class.ruby",
+            ],
+            "settings": {
+              "fontStyle": "italic"
+            }
+          },
+          {
+            "scope": [
+              "keyword.control.conditional",
+              "keyword.operator",
+              "keyword.other.DML.sql",
+              "keyword.control.module.ruby",
+              "keyword.control.class.ruby",
+            ],
+            "settings": {
+              "fontStyle": ""
+            }
+          }
+        ]
+    },
+    "ruby.format": "rubocop",
+    "terminal.integrated.enableMultiLinePasteWarning": false,
+    "gitlens.launchpad.indicator.enabled": false,
+    "cursor.cpp.enablePartialAccepts": true,
+    "cursor.chat.smoothStreaming": true,
+    "cursor.cmdk.useThemedDiffBackground": true,
+    "cursor.diffs.useCharacterLevelDiffs": true,
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "cursor.composer.renderPillsInsteadOfBlocks": true,
+    "eslint.validate": [
+        "html",
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact",
+        "glimmer-ts",
+        "glimmer-js"
+    ],
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "update.releaseTrack": "prerelease",
+    "cursor.composer.shouldAllowCustomModes": true,
+    "workbench.iconTheme": "ayu",
+    "editor.fontSize": 11,
+    "workbench.colorTheme": "Catppuccin Mocha",
+    "cursor.terminal.usePreviewBox": true,
+}

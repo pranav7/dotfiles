@@ -1,0 +1,267 @@
+// Place your key bindings in this file to override the defaultsauto[]
+[
+    {
+        "key": "cmd+\\",
+        "command": "workbench.action.splitEditor"
+    },
+    {
+        "key": "cmd+\\",
+        "command": "-workbench.action.splitEditor"
+    },
+    {
+        "key": "cmd+k \\",
+        "command": "workbench.action.splitEditorRight"
+    },
+    {
+        "key": "cmd+k cmd+\\",
+        "command": "-workbench.action.splitEditorOrthogonal"
+    },
+    {
+        "key": "cmd+[",
+        "command": "workbench.action.navigateBack"
+    },
+    {
+        "key": "ctrl+-",
+        "command": "-workbench.action.navigateBack"
+    },
+    {
+        "key": "cmd+]",
+        "command": "workbench.action.navigateForward"
+    },
+    {
+        "key": "ctrl+shift+-",
+        "command": "-workbench.action.navigateForward"
+    },
+    {
+        "key": "shift+tab",
+        "command": "tabout",
+        "when": "editorTextFocus && !editorHasMultipleSelections && !inSnippetMode && !suggestWidgetVisible"
+    },
+    {
+        "key": "tab",
+        "command": "-tabout",
+        "when": "editorTextFocus && !editorHasMultipleSelections && !inSnippetMode && !suggestWidgetVisible"
+    },
+    {
+        "key": "ctrl+]",
+        "command": "workbench.action.nextEditor"
+    },
+    {
+        "key": "shift+cmd+]",
+        "command": "-workbench.action.nextEditor"
+    },
+    {
+        "key": "ctrl+[",
+        "command": "workbench.action.previousEditor"
+    },
+    {
+        "key": "shift+cmd+[",
+        "command": "-workbench.action.previousEditor"
+    },
+    {
+        "key": "cmd+k -",
+        "command": "workbench.action.splitEditorDown"
+    },
+    {
+        "key": "alt+cmd+t",
+        "command": "extension.goToSpec",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "shift+cmd+t",
+        "command": "-extension.goToSpec",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "ctrl+k",
+        "command": "workbench.action.navigateUp"
+    },
+    {
+        "key": "ctrl+j",
+        "command": "workbench.action.navigateDown"
+    },
+    {
+        "key": "ctrl+h",
+        "command": "workbench.action.navigateLeft"
+    },
+    {
+        "key": "ctrl+l",
+        "command": "workbench.action.navigateRight"
+    },
+    {
+        "key": "cmd+k cmd+w",
+        "command": "workbench.action.closeAllEditors"
+    },
+    {
+        "key": "cmd+r cmd+w",
+        "command": "-workbench.action.closeAllEditors"
+    },
+    {
+        "key": "cmd+k w",
+        "command": "workbench.action.closeEditorsInGroup"
+    },
+    {
+        "key": "cmd+r w",
+        "command": "-workbench.action.closeEditorsInGroup"
+    },
+    {
+        "key": "alt+cmd+k",
+        "command": "editor.action.insertCursorAbove",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "alt+cmd+up",
+        "command": "-editor.action.insertCursorAbove",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "alt+cmd+j",
+        "command": "editor.action.insertCursorBelow",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "alt+cmd+down",
+        "command": "-editor.action.insertCursorBelow",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "ctrl+shift+r",
+        "command": "workbench.action.tasks.runTask",
+        "args": "Run file"
+    },
+    {
+        "key": "ctrl+shift+l",
+        "command": "workbench.action.tasks.runTask",
+        "args": "Run line"
+    },
+    {
+        "key": "ctrl+k",
+        "command": "cursorai.action.generateInTerminal",
+        "when": "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported"
+    },
+    {
+        "key": "cmd+k",
+        "command": "-cursorai.action.generateInTerminal",
+        "when": "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported"
+    },
+    {
+        "key": "ctrl+h",
+        "command": "workbench.action.terminal.focusPreviousPane",
+        "when": "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported"
+    },
+    {
+        "key": "ctrl+l",
+        "command": "workbench.action.terminal.focusNextPane",
+        "when": "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported"
+    },
+    {
+        "key": "cmd+k",
+        "command": "workbench.action.terminal.clear",
+        "when": "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported"
+    },
+    {
+        "key": "cmd+k cmd+0",
+        "command": "editor.foldAll",
+        "when": "editorTextFocus && foldingEnabled"
+    },
+    {
+        "key": "cmd+r cmd+0",
+        "command": "-editor.foldAll",
+        "when": "editorTextFocus && foldingEnabled"
+    },
+    {
+        "key": "cmd+k cmd+j",
+        "command": "editor.unfoldAll",
+        "when": "editorTextFocus && foldingEnabled"
+    },
+    {
+        "key": "cmd+r cmd+j",
+        "command": "-editor.unfoldAll",
+        "when": "editorTextFocus && foldingEnabled"
+    },
+    {
+        "key": "cmd+k cmd+-",
+        "command": "editor.foldAllExcept",
+        "when": "editorTextFocus && foldingEnabled"
+    },
+    {
+        "key": "cmd+r cmd+-",
+        "command": "-editor.foldAllExcept",
+        "when": "editorTextFocus && foldingEnabled"
+    },
+    {
+        "key": "cmd+k cmd+9",
+        "command": "editor.unfoldAllMarkerRegions",
+        "when": "editorTextFocus && foldingEnabled"
+    },
+    {
+        "key": "cmd+r cmd+9",
+        "command": "-editor.unfoldAllMarkerRegions",
+        "when": "editorTextFocus && foldingEnabled"
+    },
+    {
+        "key": "cmd+k cmd+=",
+        "command": "editor.unfoldAllExcept",
+        "when": "editorTextFocus && foldingEnabled"
+    },
+    {
+        "key": "cmd+r cmd+=",
+        "command": "-editor.unfoldAllExcept",
+        "when": "editorTextFocus && foldingEnabled"
+    },
+    {
+        "key": "cmd+k cmd+8",
+        "command": "editor.foldAllMarkerRegions",
+        "when": "editorTextFocus && foldingEnabled"
+    },
+    {
+        "key": "cmd+r cmd+8",
+        "command": "-editor.foldAllMarkerRegions",
+        "when": "editorTextFocus && foldingEnabled"
+    },
+    {
+        "key": "cmd+k cmd+/",
+        "command": "editor.foldAllBlockComments",
+        "when": "editorTextFocus && foldingEnabled"
+    },
+    {
+        "key": "cmd+r cmd+/",
+        "command": "-editor.foldAllBlockComments",
+        "when": "editorTextFocus && foldingEnabled"
+    },
+    {
+      "key": "cmd+i",
+      "command": "composerMode.agent"
+    },
+    {
+      "key": "cmd+m",
+      "command": "cursor.generateGitCommitMessage"
+    },
+    {
+        "key": "shift+cmd+t",
+        "command": "-workbench.action.reopenClosedEditor"
+    },
+    {
+        "key": "shift+cmd+t",
+        "command": "workbench.action.reopenClosedEditor"
+    },
+    {
+        "key": "shift+cmd+x",
+        "command": "-workbench.view.extensions",
+        "when": "viewContainer.workbench.view.extensions.enabled"
+    },
+    {
+        "key": "shift+cmd+x",
+        "command": "markdown.extension.editing.toggleStrikethrough",
+        "when": "editorTextFocus && !editorReadonly && editorLangId =~ /^markdown$|^rmd$|^quarto$/"
+    },
+    {
+        "key": "alt+s",
+        "command": "-markdown.extension.editing.toggleStrikethrough",
+        "when": "false"
+    },
+    {
+        "key": "cmd+e",
+        "command": "composerMode.background"
+    }
+]

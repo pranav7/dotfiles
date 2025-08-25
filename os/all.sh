@@ -51,6 +51,13 @@ echo "Creating Neovim config symlink"
 mkdir -p "$HOME/.config"
 ln -sf "$HOME/dotfiles/nvim" "$HOME/.config/nvim"
 
+# Cursor config (cross-platform)
+echo "Creating Cursor config symlinks"
+mkdir -p "$HOME/Library/Application Support/Cursor/User"
+ln -sf "$HOME/dotfiles/cursor/settings.json" "$HOME/Library/Application Support/Cursor/User/settings.json"
+ln -sf "$HOME/dotfiles/cursor/keybindings.json" "$HOME/Library/Application Support/Cursor/User/keybindings.json"
+echo "Cursor config linked successfully"
+
 echo "Creating Ghostty config"
 # Linux Ghostty config location
 if [[ -d "$HOME/.config" ]]; then
