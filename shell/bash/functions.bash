@@ -130,3 +130,8 @@ killport() {
   echo "Processes killed successfully"
 }
 
+# Get the current git branch name
+git_current_branch() {
+  git symbolic-ref --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null
+}
+
