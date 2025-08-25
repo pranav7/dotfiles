@@ -7,7 +7,7 @@ autoload -Uz compinit
 compinit
 
 source ~/dotfiles/shell/common.sh
-source ~/dotfiles/shell/zsh/prompt.zsh
+# source ~/dotfiles/shell/zsh/prompt.zsh  # Disabled - using Starship instead
 
 zstyle :compinstallfilename '/Users/pranavsingh/.zshrc'
 

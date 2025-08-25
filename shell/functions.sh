@@ -53,29 +53,28 @@ cecho () {
   declare message=${1:-""}
   declare   color=${2:-"default"}
 
-  declare -A colors
-  colors=(
-          [default]="\e[39m"
-            [black]="\e[30m"
-              [red]="\e[31m"
-            [green]="\e[32m"
-           [yellow]="\e[33m"
-             [blue]="\e[34m"
-          [magenta]="\e[35m"
-             [cyan]="\e[36m"
-             [gray]="\e[37m"
-        [light-red]="\e[91m"
-      [light-green]="\e[92m"
-     [light-yellow]="\e[93m"
-       [light-blue]="\e[94m"
-    [light-magenta]="\e[95m"
-       [light-cyan]="\e[96m"
-       [light-gray]="\e[97m"
-  )
+  # Use case statement instead of associative array for bash 3.2 compatibility
+  case "$color" in
+    "default")      color_code="\e[39m" ;;
+    "black")        color_code="\e[30m" ;;
+    "red")          color_code="\e[31m" ;;
+    "green")        color_code="\e[32m" ;;
+    "yellow")       color_code="\e[33m" ;;
+    "blue")         color_code="\e[34m" ;;
+    "magenta")      color_code="\e[35m" ;;
+    "cyan")         color_code="\e[36m" ;;
+    "gray")         color_code="\e[37m" ;;
+    "light-red")    color_code="\e[91m" ;;
+    "light-green")  color_code="\e[92m" ;;
+    "light-yellow") color_code="\e[93m" ;;
+    "light-blue")   color_code="\e[94m" ;;
+    "light-magenta") color_code="\e[95m" ;;
+    "light-cyan")   color_code="\e[96m" ;;
+    "light-gray")   color_code="\e[97m" ;;
+    *)              color_code="\e[39m" ;;
+  esac
 
-  color=${colors[$color]}
-
-  echo -e "\x01${color}\x02${message}\x01\e[m\x02"
+  echo -e "\x01${color_code}\x02${message}\x01\e[m\x02"
 }
 
 # Given a file path, make it executable
