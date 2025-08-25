@@ -56,6 +56,20 @@ fi
 # Install packages with Homebrew
 echo "Installing packages with Homebrew"
 if command -v brew &> /dev/null; then
+    if ! command -v neovim &> /dev/null; then
+        echo "Installing neovim..."
+        brew install neovim
+    else
+        echo "neovim already installed"
+    fi
+    
+    if ! command -v tmux &> /dev/null; then
+        echo "Installing tmux..."
+        brew install tmux
+    else
+        echo "tmux already installed"
+    fi
+    
     if ! command -v lsd &> /dev/null; then
         echo "Installing lsd..."
         brew install lsd
