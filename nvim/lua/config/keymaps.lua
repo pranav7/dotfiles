@@ -29,3 +29,10 @@ vim.api.nvim_create_user_command("CopyRelPath", function()
 end, {})
 
 vim.keymap.set("n", "<leader>cf", ":CopyRelPath<CR>", { desc = "Copy relative file path" })
+
+-- Tab navigation shortcuts
+for i = 1, 9 do
+  vim.keymap.set("n", "<leader>" .. i, function()
+    vim.cmd("tabnext " .. i)
+  end, { desc = "Go to tab " .. i })
+end
