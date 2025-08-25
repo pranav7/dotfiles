@@ -7,6 +7,18 @@ echo "Setting up shell configuration"
 symlink_to_home ~/dotfiles/shell/zsh/.zprofile
 symlink_to_home ~/dotfiles/shell/zsh/.zshrc
 
+### Starship prompt
+echo "Setting up starship prompt"
+if ! command -v starship &> /dev/null; then
+    echo "Installing starship..."
+    curl -sS https://starship.rs/install.sh | sh -s -- --yes
+else
+    echo "Starship already installed"
+fi
+mkdir -p "$HOME/.config"
+ln -sf "$HOME/dotfiles/starship/starship.toml" "$HOME/.config/starship.toml"
+echo "Starship config linked successfully"
+
 ### Editor configuration  
 echo "Setting up editor configuration"
 symlink_to_home ~/dotfiles/vim/.vimrc
