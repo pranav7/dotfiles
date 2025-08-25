@@ -108,35 +108,21 @@ function commit() {
     echo "✓ Generating commit message using model: $model"
 
     # Create the prompt
-    local prompt="
-    Write a Git commit message for the changes shown below.
+    local prompt="Write a git commit message for these changes. You can think through the process, but end your response with the commit message in this exact format:
 
-    IMPORTANT RULES:
-    - Output ONLY the commit message
-    - NO prefixes like feat:, fix:, docs:, style:, refactor:, test:, chore:
-    - NO type tags or conventional commit format
-    - Start with a verb: Add, Update, Fix, Remove, Improve, Refactor, etc.
-    - First line max 72 characters
-    - Be specific and descriptive
+COMMIT_MESSAGE: [your commit message here]
 
-    EXAMPLE GOOD COMMIT MESSAGES:
-    - Update commit message prompt to remove type prefixes
-    - Add validation for user input in login form
-    - Fix memory leak in database connection handler
-    - Improve performance of search algorithm by 40%
-    - Remove deprecated API endpoints from v1
+Files changed: $(printf "%s" "$staged_files" | tr '\n' ' ')
 
-    PROJECT INFO:
-    Repository: ${repo_name}
-    Branch: ${branch_name}
-    Files changed (${staged_count}):
-$(printf "%s\n" "$staged_files" | sed 's/^/    /')
+Changes:
+$(cat "$diff_file")
 
-    CHANGES:
-    $(cat "$diff_file")
+Requirements:
+- Maximum 72 characters
+- Imperative mood (Add, Fix, Update, etc.)
+- Be specific about what changed
 
-    Write the commit message now:
-    "
+Remember to end with: COMMIT_MESSAGE: [your message]"
 
     # Print the prompt if debug is enabled
     if [ "$debug" = true ]; then
@@ -146,7 +132,10 @@ $(printf "%s\n" "$staged_files" | sed 's/^/    /')
       echo "---------- PROMPT END ----------"
     fi
 
-    commit_msg=$(ollama run "$model" "$prompt" 2>/dev/null)
+    full_response=$(ollama run "$model" "$prompt" 2>/dev/null)
+    
+    # Extract commit message from the COMMIT_MESSAGE: format
+    commit_msg=$(echo "$full_response" | grep "^COMMIT_MESSAGE:" | sed 's/^COMMIT_MESSAGE: //')
 
     echo "✓ Commit message generated: $commit_msg"
   else
