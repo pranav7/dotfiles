@@ -11,6 +11,20 @@ else
     echo "oh-my-zsh already installed"
 fi
 
+# Now create .zshrc symlink after oh-my-zsh installation to restore our custom config
+echo "Restoring custom .zshrc configuration"
+if [[ -L "$HOME/.zshrc" ]]; then
+    echo ".zshrc symlink already exists"
+elif [[ -f "$HOME/.zshrc" ]]; then
+    echo "Backing up existing .zshrc"
+    mv "$HOME/.zshrc" "$HOME/.zshrc.backup.$(date +%Y%m%d_%H%M%S)"
+    ln -s "$HOME/dotfiles/shell/zsh/.zshrc" "$HOME/.zshrc"
+    echo "Created .zshrc symlink"
+else
+    ln -s "$HOME/dotfiles/shell/zsh/.zshrc" "$HOME/.zshrc"
+    echo "Created .zshrc symlink"
+fi
+
 # Install z.sh for directory jumping
 echo "Setting up z.sh"
 if [ ! -d "$HOME/z" ]; then
@@ -23,10 +37,19 @@ fi
 # Install packages with Homebrew
 echo "Installing packages with Homebrew"
 if command -v brew &> /dev/null; then
-    echo "Installing lsd..."
-    brew install lsd
-    echo "Installing zsh-syntax-highlighting..."
-    brew install zsh-syntax-highlighting
+    if ! command -v lsd &> /dev/null; then
+        echo "Installing lsd..."
+        brew install lsd
+    else
+        echo "lsd already installed"
+    fi
+    
+    if ! brew list zsh-syntax-highlighting &> /dev/null 2>&1; then
+        echo "Installing zsh-syntax-highlighting..."
+        brew install zsh-syntax-highlighting
+    else
+        echo "zsh-syntax-highlighting already installed"
+    fi
 else
     echo "Homebrew not found. Please install Homebrew first: https://brew.sh"
 fi

@@ -5,7 +5,8 @@ print_header "creating symlinks"
 ### Shell configuration
 echo "Setting up shell configuration"
 symlink_to_home ~/dotfiles/shell/zsh/.zprofile
-symlink_to_home ~/dotfiles/shell/zsh/.zshrc
+
+# Note: .zshrc symlink will be created after oh-my-zsh installation to avoid conflicts
 
 ### Starship prompt
 echo "Setting up starship prompt"
