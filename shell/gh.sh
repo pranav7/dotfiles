@@ -133,7 +133,7 @@ Remember to end with: COMMIT_MESSAGE: [your message]"
     fi
 
     full_response=$(ollama run "$model" "$prompt" 2>/dev/null)
-    
+
     # Extract commit message from the COMMIT_MESSAGE: format
     commit_msg=$(echo "$full_response" | grep "^COMMIT_MESSAGE:" | sed 's/^COMMIT_MESSAGE: //')
 
