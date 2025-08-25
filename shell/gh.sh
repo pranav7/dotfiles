@@ -1,8 +1,15 @@
 #!/bin/false
 
 function commit() {
+  # Check for local .model file first, fallback to default
   local model="llama3.2"
   # local model="gpt-oss"
+  if [[ -f ".model" ]]; then
+    model=$(cat ".model" | tr -d '\n\r' | xargs)
+    if [[ -z "$model" ]]; then
+      model="llama3.2"
+    fi
+  fi
   local commit_msg=""
   local debug=false
   local has_explicit_message=false

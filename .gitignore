@@ -5,3 +5,4 @@ shell/local.sh
 .aider.tags.cache.v3/
 *.swp
 *.DS_STORE
+.model
