@@ -236,6 +236,6 @@
     "cursor.composer.shouldAllowCustomModes": true,
     "workbench.iconTheme": "ayu",
     "editor.fontSize": 11,
-    "workbench.colorTheme": "Catppuccin Mocha",
     "cursor.terminal.usePreviewBox": true,
+    "terminal.integrated.fontSize": 11,
 }

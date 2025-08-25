@@ -73,6 +73,28 @@ else
     echo "Homebrew not found. Please install Homebrew first: https://brew.sh"
 fi
 
+# Install Nerd Fonts
+echo "Installing Nerd Fonts"
+if command -v brew &> /dev/null; then
+    # Add the homebrew-cask-fonts tap if not already added
+    if ! brew tap | grep -q "homebrew/cask-fonts"; then
+        echo "Adding homebrew/cask-fonts tap..."
+        brew tap homebrew/cask-fonts
+    else
+        echo "homebrew/cask-fonts tap already added"
+    fi
+    
+    # Install CaskaydiaCove Nerd Font
+    if ! brew list --cask font-caskaydia-cove-nerd-font &> /dev/null 2>&1; then
+        echo "Installing CaskaydiaCove Nerd Font..."
+        brew install --cask font-caskaydia-cove-nerd-font
+    else
+        echo "CaskaydiaCove Nerd Font already installed"
+    fi
+else
+    echo "Homebrew not found. Cannot install Nerd Fonts without Homebrew."
+fi
+
 # Enable VSCode key repeat
 echo "Enabling VSCode key repeat"
 defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false
