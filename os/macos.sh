@@ -101,9 +101,15 @@ else
     echo "Homebrew not found. Cannot install Nerd Fonts without Homebrew."
 fi
 
-# Enable VSCode key repeat
+# Enable key repeat system-wide and for specific apps
+echo "Enabling key repeat system-wide"
+defaults write -g ApplePressAndHoldEnabled -bool false
+
 echo "Enabling VSCode key repeat"
 defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false
+
+echo "Enabling Cursor key repeat"
+defaults write com.todesktop.230313mzl4w4u92 ApplePressAndHoldEnabled -bool false
 
 # Ghostty config (macOS specific path)
 echo "Creating Ghostty config"

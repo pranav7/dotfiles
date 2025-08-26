@@ -102,35 +102,56 @@
         "editor.formatOnSave": true,
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
-    "[ruby]": {
-        "editor.defaultFormatter": "misogi.ruby-rubocop", // Use the Ruby LSP as the default formatter
-        "editor.formatOnSave": true, // Format files automatically when saving
-        "editor.tabSize": 2, // Use 2 spaces for indentation
-        "editor.insertSpaces": true, // Use spaces and not tabs for indentation
-        "editor.semanticHighlighting.enabled": true, // Enable semantic highlighting
-        "editor.formatOnType": true, // Enable formatting while typing
+    "ruby.lint": {
+        "rubocop": {
+            "useBundler": true
+        }
     },
-    "[python]": {
-        "editor.defaultFormatter": "ms-python.black-formatter",
+    "ruby.format": "rubocop",
+    "ruby.useLanguageServer": true,
+    "[ruby]": {
         "editor.formatOnSave": true
+    },
+    "editor.tokenColorCustomizations": {
+        "textMateRules": [
+            {
+                "scope": [
+                    "comment",
+                    "entity.name.type.class",
+                    "entity.other.attribute-name",
+                    "keyword",
+                    "constant",
+                    "storage.modifier",
+                    "storage.type.class.js"
+                ],
+                "settings": {
+                    "fontStyle": "italic"
+                }
+            }
+        ]
     },
     "editor.minimap.enabled": false,
     "js/ts.implicitProjectConfig.experimentalDecorators": true,
+    "workbench.iconTheme": "file-icons",
     "editor.cursorStyle": "line",
     "editor.wordSeparators": "/\\()\"':,.;<>~!@#$%^&*|+=[]{}`?-",
     "editor.wordWrap": "off",
     "vim.smartRelativeLine": true,
     "editor.stickyTabStops": true,
-    "terminal.integrated.fontWeight": 600,
-    "editor.fontLigatures": "'calt', 'ss01'",
-    "editor.fontWeight": 500,
-    "editor.fontFamily": "CaskaydiaCove Nerd Font, Cascadia Code NF, Fira Code Retina, Fira Code IScript, JetBrains Mono NL, Menlo, Monaco, 'Courier New', monospace",
+    "terminal.integrated.fontFamily": "JetBrains Mono NL, Cascadia Code, Fira Code, Menlo, Monaco, 'Courier New', monospace",
+    "terminal.integrated.fontWeight": "600",
+    "editor.fontLigatures": true,
+    "editor.fontWeight": "normal",
+    "editor.fontFamily": "CaskaydiaCove Nerd Font, Cascadia Code, JetBrains Mono NL, Fira Code, Menlo, Monaco, 'Courier New', monospace",
     "editor.suggestSelection": "first",
     "editor.lineNumbers": "relative",
     "editor.tabSize": 2,
     "editor.inlineSuggest.enabled": true,
     "editor.bracketPairColorization.enabled": true,
     "editor.guides.bracketPairs": "active",
+    "gitlens.hovers.currentLine.over": "line",
+    "gitlens.currentLine.enabled": false,
+    "gitlens.codeLens.enabled": false,
     "workbench.commandPalette.preserveInput": true,
     "window.title": "${activeEditorMedium}${separator}${rootName}",
     "search.exclude": {
@@ -159,6 +180,51 @@
         "**/node_modules": true
     },
     "files.trimTrailingWhitespace": true,
+    "github.copilot.enable": {
+        "*": true,
+        "yaml": true,
+        "plaintext": true,
+        "markdown": false
+    },
+    "terminal.integrated.minimumContrastRatio": 1,
+    "peacock.favoriteColors": [
+        {
+            "name": "Angular Red",
+            "value": "#dd0531"
+        },
+        {
+            "name": "Azure Blue",
+            "value": "#007fff"
+        },
+        {
+            "name": "JavaScript Yellow",
+            "value": "#f9e64f"
+        },
+        {
+            "name": "Mandalorian Blue",
+            "value": "#1857a4"
+        },
+        {
+            "name": "Node Green",
+            "value": "#215732"
+        },
+        {
+            "name": "React Blue",
+            "value": "#61dafb"
+        },
+        {
+            "name": "Something Different",
+            "value": "#832561"
+        },
+        {
+            "name": "Svelte Orange",
+            "value": "#ff3d00"
+        },
+        {
+            "name": "Vue Green",
+            "value": "#42b883"
+        }
+    ],
     "files.trimFinalNewlines": true,
     "[glimmer-js]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode",
@@ -168,75 +234,29 @@
         "editor.defaultFormatter": "esbenp.prettier-vscode",
         "editor.foldingStrategy": "indentation"
     },
+    "eslint.validate": [
+        "glimmer-ts",
+        "glimmer-js"
+    ],
+    "eslint.rules.customizations": [
+        {
+            "rule": "*",
+            "severity": "warn"
+        }
+    ],
     "prettier.documentSelectors": [
         "**/*.gts",
         "**/*.gjs"
     ],
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "githubPullRequests.pullBranch": "never",
+    "github.copilot.editor.enableAutoCompletions": true,
     "rubyLsp.rubyVersionManager": {
-        "identifier": "asdf"
+        "identifier": "auto"
     },
-    // "terminal.integrated.enableMultiLinePasteWarning": false,
-    "cursor.cpp.disabledLanguages": [
-        "markdown",
-        "scminput"
-    ],
-    "editor.tokenColorCustomizations": {
-        "textMateRules": [
-          {
-            "scope": [
-              "comment",
-              "keyword",
-              "storage.modifier",
-              "storage.type.class.js",
-              "storage.type.class.tsx",
-              "storage.type.js",
-              "storage.type.tsx",
-              "entity.other.inherited-class.ruby",
-            ],
-            "settings": {
-              "fontStyle": "italic"
-            }
-          },
-          {
-            "scope": [
-              "keyword.control.conditional",
-              "keyword.operator",
-              "keyword.other.DML.sql",
-              "keyword.control.module.ruby",
-              "keyword.control.class.ruby",
-            ],
-            "settings": {
-              "fontStyle": ""
-            }
-          }
-        ]
-    },
-    "ruby.format": "rubocop",
     "terminal.integrated.enableMultiLinePasteWarning": false,
-    "gitlens.launchpad.indicator.enabled": false,
-    "cursor.cpp.enablePartialAccepts": true,
-    "cursor.chat.smoothStreaming": true,
-    "cursor.cmdk.useThemedDiffBackground": true,
-    "cursor.diffs.useCharacterLevelDiffs": true,
-    "javascript.updateImportsOnFileMove.enabled": "always",
-    "cursor.composer.renderPillsInsteadOfBlocks": true,
-    "eslint.validate": [
-        "html",
-        "javascript",
-        "javascriptreact",
-        "typescript",
-        "typescriptreact",
-        "glimmer-ts",
-        "glimmer-js"
+    "cursor.cpp.disabledLanguages": [
+        "markdown"
     ],
-    "typescript.updateImportsOnFileMove.enabled": "always",
-    "update.releaseTrack": "prerelease",
-    "cursor.composer.shouldAllowCustomModes": true,
-    "workbench.iconTheme": "ayu",
-    "editor.fontSize": 11,
-    "cursor.terminal.usePreviewBox": true,
-    "terminal.integrated.sendKeybindingsToShell": true,
-    "workbench.colorTheme": "Catppuccin Mocha",
+    "workbench.colorTheme": "Catppuccin Frappé"
 }

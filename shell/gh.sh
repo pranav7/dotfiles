@@ -1,11 +1,11 @@
 #!/bin/false
 
 function commit() {
-  # Check for local .model file first, fallback to default
+  # Check for global .gh-model file in home directory
   local model="llama3.2"
-  # local model="gpt-oss"
-  if [[ -f ".model" ]]; then
-    model=$(cat ".model" | tr -d '\n\r' | xargs)
+  
+  if [[ -f "$HOME/.gh-model" ]]; then
+    model=$(cat "$HOME/.gh-model" | tr -d '\n\r' | xargs)
     if [[ -z "$model" ]]; then
       model="llama3.2"
     fi
