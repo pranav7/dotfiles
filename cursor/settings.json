@@ -237,6 +237,6 @@
     "workbench.iconTheme": "ayu",
     "editor.fontSize": 11,
     "cursor.terminal.usePreviewBox": true,
-    "terminal.integrated.fontSize": 11,
     "terminal.integrated.sendKeybindingsToShell": true,
+    "workbench.colorTheme": "Catppuccin Mocha",
 }
