@@ -21,7 +21,8 @@ window-title-font-family = "Cascadia Code NF Regular SemiBold"
 
 alpha-blending = linear-corrected
 
-macos-titlebar-style = tabs
+# macos-titlebar-style = tabs
+macos-titlebar-style = transparent
 macos-titlebar-proxy-icon = hidden
 macos-option-as-alt = true
 

@@ -138,7 +138,7 @@
     "editor.wordWrap": "off",
     "vim.smartRelativeLine": true,
     "editor.stickyTabStops": true,
-    "terminal.integrated.fontFamily": "JetBrains Mono NL, Cascadia Code, Fira Code, Menlo, Monaco, 'Courier New', monospace",
+    "terminal.integrated.fontFamily": "CaskaydiaCove Nerd Font, Cascadia Code, JetBrains Mono NL, Fira Code, Menlo, Monaco, 'Courier New', monospace",
     "terminal.integrated.fontWeight": "600",
     "editor.fontLigatures": true,
     "editor.fontWeight": "normal",
@@ -234,10 +234,6 @@
         "editor.defaultFormatter": "esbenp.prettier-vscode",
         "editor.foldingStrategy": "indentation"
     },
-    "eslint.validate": [
-        "glimmer-ts",
-        "glimmer-js"
-    ],
     "eslint.rules.customizations": [
         {
             "rule": "*",
@@ -258,5 +254,7 @@
     "cursor.cpp.disabledLanguages": [
         "markdown"
     ],
-    "workbench.colorTheme": "Catppuccin Frappé"
+    "editor.fontSize": 11,
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "typescript.updateImportsOnFileMove.enabled": "always"
 }

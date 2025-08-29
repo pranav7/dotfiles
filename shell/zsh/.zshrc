@@ -53,3 +53,5 @@ fi
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 eval "$(starship init zsh)"
+
+alias claude="/Users/pranav/.claude/local/claude"
