@@ -47,3 +47,7 @@ keybind = ctrl+cmd+k=goto_split:up
 theme = catppuccin-mocha
 # theme = Adwaita
 keybind = shift+enter=text:\n
+
+# Enable clipboard and image support
+clipboard = system
+image-protocol = kitty

@@ -254,7 +254,7 @@
     "cursor.cpp.disabledLanguages": [
         "markdown"
     ],
-    "editor.fontSize": 11,
     "javascript.updateImportsOnFileMove.enabled": "always",
-    "typescript.updateImportsOnFileMove.enabled": "always"
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "workbench.colorTheme": "Catppuccin Mocha"
 }
