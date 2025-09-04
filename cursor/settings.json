@@ -140,9 +140,12 @@
     "editor.stickyTabStops": true,
     "terminal.integrated.fontFamily": "CaskaydiaCove Nerd Font, Cascadia Code, JetBrains Mono NL, Fira Code, Menlo, Monaco, 'Courier New', monospace",
     "terminal.integrated.fontWeight": "600",
+    "terminal.integrated.fontSize": 12,
+    "terminal.integrated.fontLigatures.enabled": true,
     "editor.fontLigatures": true,
     "editor.fontWeight": "normal",
     "editor.fontFamily": "CaskaydiaCove Nerd Font, Cascadia Code, JetBrains Mono NL, Fira Code, Menlo, Monaco, 'Courier New', monospace",
+    "editor.fontSize": 12,
     "editor.suggestSelection": "first",
     "editor.lineNumbers": "relative",
     "editor.tabSize": 2,
@@ -180,12 +183,6 @@
         "**/node_modules": true
     },
     "files.trimTrailingWhitespace": true,
-    "github.copilot.enable": {
-        "*": true,
-        "yaml": true,
-        "plaintext": true,
-        "markdown": false
-    },
     "terminal.integrated.minimumContrastRatio": 1,
     "peacock.favoriteColors": [
         {
@@ -246,7 +243,6 @@
     ],
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "githubPullRequests.pullBranch": "never",
-    "github.copilot.editor.enableAutoCompletions": true,
     "rubyLsp.rubyVersionManager": {
         "identifier": "auto"
     },
@@ -256,5 +252,6 @@
     ],
     "javascript.updateImportsOnFileMove.enabled": "always",
     "typescript.updateImportsOnFileMove.enabled": "always",
-    "workbench.colorTheme": "Catppuccin Mocha"
+    "workbench.colorTheme": "Catppuccin Mocha",
+    "window.zoomLevel": 0
 }
